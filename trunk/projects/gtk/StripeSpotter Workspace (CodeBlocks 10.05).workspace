@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="StripeSpotter: GUI, library, and benchmarking tools">
+		<Project filename="StripeSpotterGUI/StripeSpotterGUI.cbp">
+			<Depends filename="libstripespotter/libstripespotter.cbp" />
+		</Project>
+		<Project filename="libstripespotter/libstripespotter.cbp" />
+		<Project filename="DataCompiler/DataCompiler.cbp">
+			<Depends filename="libstripespotter/libstripespotter.cbp" />
+		</Project>
+		<Project filename="Benchmarker/Benchmarker.cbp" active="1">
+			<Depends filename="libstripespotter/libstripespotter.cbp" />
+		</Project>
+	</Workspace>
+</CodeBlocks_workspace_file>

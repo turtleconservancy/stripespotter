@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../../src/core/FloatImage.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="15750" topLine="50" />
+	</File>
+	<File name="../../../src/core/MultiScaleHistogram.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="5484" topLine="117" />
+	</File>
+	<File name="../../../src/core/StripeCode.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="6038" topLine="50" />
+	</File>
+	<File name="../../../src/core/StripeCode.h" open="1" top="0" tabpos="2">
+		<Cursor position="2892" topLine="0" />
+	</File>
+	<File name="../../../src/core/wxImageUtils.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="221" topLine="0" />
+	</File>
+	<File name="../../../src/core/wxImageUtils.h" open="1" top="0" tabpos="4">
+		<Cursor position="89" topLine="0" />
+	</File>
+</CodeBlocks_layout_file>
