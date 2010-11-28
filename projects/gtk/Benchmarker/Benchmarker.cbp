@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Benchmarker" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Benchmarker" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option external_deps="../libstripespotter/libstripespotter.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="`wx-config --cxxflags --cflags --debug=yes --version=2.8`" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --cxxflags --libs --debug=yes --version=2.8`" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Benchmarker" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option external_deps="../libstripespotter/libstripespotter.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="`wx-config --cxxflags --cflags --debug=no --version=2.8`" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`wx-config --cxxflags  --libs --debug=no --version=2.8`" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wextra" />
+			<Add option="-Wall" />
+			<Add option="-DLINUX" />
+			<Add option="-Dlinux" />
+			<Add option="-Dunix" />
+			<Add directory="../../../src/core" />
+		</Compiler>
+		<Linker>
+			<Add library="stripespotter" />
+			<Add directory="../../../src/core" />
+			<Add directory="../libstripespotter" />
+		</Linker>
+		<Unit filename="../../../src/utils/benchmarker.cpp" />
+		<Unit filename="../../../src/utils/mt19937ar.cpp" />
+		<Unit filename="../../../src/utils/mt19937ar.h" />
+		<Unit filename="../../../src/utils/pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="../../../src/utils/utils.cpp" />
+		<Unit filename="../../../src/utils/utils.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

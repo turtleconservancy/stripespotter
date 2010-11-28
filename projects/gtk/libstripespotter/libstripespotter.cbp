@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="libstripespotter" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="libstripespotter" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="`wx-config --debug=yes --cxxflags --version=2.8 --cflags`" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --debug=yes --unicode=yes --libs --version=2.8`" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="libstripespotter" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-march=athlon64" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
+					<Add option="-Wall" />
+					<Add option="`wx-config --debug=no --cxxflags --cflags --version=2.8`" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`wx-config --debug=no --static=yes --unicode=yes --linkdeps --libs --version=2.8`" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../../../src/core/FloatImage.cpp" />
+		<Unit filename="../../../src/core/FloatImage.h" />
+		<Unit filename="../../../src/core/MultiScaleHistogram.cpp" />
+		<Unit filename="../../../src/core/StripeCode.cpp" />
+		<Unit filename="../../../src/core/StripeCode.h" />
+		<Unit filename="../../../src/core/wxImageUtils.cpp" />
+		<Unit filename="../../../src/core/wxImageUtils.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DataCompiler" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/DataCompiler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option external_deps="../libstripespotter/libstripespotter.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="`wx-config --cflags --version=2.8 --cxxflags --debug=yes`" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --cxxflags --version=2.8 --libs --debug=yes`" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/DataCompiler" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option external_deps="../libstripespotter/libstripespotter.a;" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="`wx-config --cflags  --version=2.8 --cxxflags --debug=no`" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`wx-config --cxxflags  --version=2.8 --libs --debug=no`" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-Winvalid-pch" />
+			<Add option="-DLINUX" />
+			<Add option="-Dunix" />
+			<Add option="-Dlinux" />
+			<Add directory="../../../src/core" />
+		</Compiler>
+		<Linker>
+			<Add library="../libstripespotter/libstripespotter.a" />
+			<Add directory="../libstripespotter" />
+		</Linker>
+		<Unit filename="../../../src/utils/compiler.cpp" />
+		<Unit filename="../../../src/utils/pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="../../../src/utils/utils.cpp" />
+		<Unit filename="../../../src/utils/utils.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

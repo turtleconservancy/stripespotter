@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="StripeSpotterGUI" />
+		<Option pch_mode="0" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/StripeSpotterGUI" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add option="`wx-config --debug=yes --cxxflags --cflags --version=2.8`" />
+				</Compiler>
+				<Linker>
+					<Add option="`wx-config --cxxflags  --debug=yes --libs --version=2.8`" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/StripeSpotterGUI" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Option projectLinkerOptionsRelation="2" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="`wx-config --debug=no --cxxflags --cflags --version=2.8`" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="`wx-config --cxxflags  --debug=no --libs --linkdeps --version=2.8`" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-Winvalid-pch" />
+			<Add option="-DWX_PRECOMP" />
+			<Add directory="../../../src/gui" />
+			<Add directory="../../../src/exif" />
+			<Add directory="../../../src/db" />
+		</Compiler>
+		<Unit filename="../../../src/db/db.cpp" />
+		<Unit filename="../../../src/db/db.h" />
+		<Unit filename="../../../src/exif/exif.cpp" />
+		<Unit filename="../../../src/exif/exif.h" />
+		<Unit filename="../../../src/gui/AddPicturesDialog.cpp" />
+		<Unit filename="../../../src/gui/AddPicturesDialog.h" />
+		<Unit filename="../../../src/gui/GUIFrame.cpp" />
+		<Unit filename="../../../src/gui/GUIFrame.h" />
+		<Unit filename="../../../src/gui/ImageFrame.cpp" />
+		<Unit filename="../../../src/gui/ImageFrame.h" />
+		<Unit filename="../../../src/gui/SavePictureDialog.cpp" />
+		<Unit filename="../../../src/gui/SavePictureDialog.h" />
+		<Unit filename="../../../src/gui/StripeSpotterApp.cpp" />
+		<Unit filename="../../../src/gui/StripeSpotterApp.h" />
+		<Unit filename="../../../src/gui/StripeSpotterMain.cpp" />
+		<Unit filename="../../../src/gui/StripeSpotterMain.h" />
+		<Unit filename="../../../src/gui/WxWizFrame.fbp" />
+		<Unit filename="../../../src/gui/parameters.h" />
+		<Unit filename="../../../src/gui/wx_pch.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
+		<Unit filename="../../../src/sqlite3/sqlite3.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../../../src/sqlite3/sqlite3.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

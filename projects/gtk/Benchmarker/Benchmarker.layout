@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Release" />
+	<File name="../../../src/utils/benchmarker.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="3165" topLine="60" />
+	</File>
+	<File name="../../../src/utils/mt19937ar.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2132" topLine="0" />
+	</File>
+	<File name="../../../src/utils/mt19937ar.h" open="0" top="0" tabpos="0">
+		<Cursor position="2318" topLine="16" />
+	</File>
+	<File name="../../../src/utils/pch.h" open="0" top="0" tabpos="0">
+		<Cursor position="135" topLine="0" />
+	</File>
+	<File name="../../../src/utils/utils.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="13" />
+	</File>
+</CodeBlocks_layout_file>
