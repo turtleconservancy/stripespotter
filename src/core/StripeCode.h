@@ -19,7 +19,7 @@ typedef struct {
 	float abslen;
 	float ratio;
 } Stripe;
-typedef struct vector<Stripe> StripeString;
+typedef vector<Stripe> StripeString;
 
 // dynamic programming matrix
 class DPMatrix {
@@ -43,7 +43,7 @@ class DPMatrix {
 // a high-level image feature set (can plug various algorithms in here)
 class ImageFeatures {
     public:
-		virtual bool read(const wxImage *img, int imgTag) = 0;              // read from image
+		virtual bool read(const wxImage *img) = 0;              // read from image
 		virtual bool read(FILE *fp) = 0;                                    // read serialized version from file
         virtual double compare(ImageFeatures *img2, void *arg) = 0;
         virtual string toString() = 0;
@@ -54,7 +54,7 @@ class ImageFeatures {
 class MultiScaleHistogram : public ImageFeatures {
     public:
 		// inherited from image feature interface 'ImageFeatures'
-		bool read(const wxImage *img, int imgTag);              // read from image
+		bool read(const wxImage *img);              // read from image
 		bool read(FILE *fp);                                    // read serialized version from file
 		string toString();                                      // serialize this object
 		double compare(ImageFeatures *img2, void *arg);   // distance function
@@ -69,7 +69,7 @@ class MultiScaleHistogram : public ImageFeatures {
 class StripeCode : public ImageFeatures {
 	public:
 		// inherited from image feature interface 'ImageFeatures'
-		bool read(const wxImage *img, int imgTag);              // read from image
+		bool read(const wxImage *img);              // read from image
 		bool read(FILE *fp);                                    // read serialized version from file
 		string toString();                                      // serialize this object
 		double compare(ImageFeatures *img2, void *arg);   // distance function

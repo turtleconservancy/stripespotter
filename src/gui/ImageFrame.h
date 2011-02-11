@@ -40,6 +40,7 @@ class ImageFrame : public wxPanel  {
 class InteractiveImageFrame : public ImageFrame {
     public:
         InteractiveImageFrame(wxWindow *parent);
+        ~InteractiveImageFrame() { if(img) delete img; img = NULL; }
         bool loadImage(const wxString &path) { if(ImageFrame::loadImage(path)) {resetView(); return true; } else return false; };
         void resetView();
         void render(wxDC &dc);
@@ -50,6 +51,7 @@ class InteractiveImageFrame : public ImageFrame {
         void img2scr(int x, int y, int&, int&);
 
         wxImage *extractViewportImage();
+		wxImage *extractSelectionImage();	// cuts out and deep-copies the selection box
         wxRect *getSelectionBox();
 
         void zoomIn();

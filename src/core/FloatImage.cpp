@@ -1,9 +1,14 @@
+#define GLOBALS
 #include "FloatImage.h"
 #include <float.h>
 #include <math.h>
 #include <vector>
 #include <algorithm>
 using namespace std;
+#ifdef WIN32
+#define isnan(x) _isnan(x)
+#define isinf(x) (!_finite(x))
+#endif
 
 //
 // CONSTRUCTORS AND DESTRUCTORS
@@ -143,7 +148,7 @@ void FloatImage::blur(int gauss_x, int gauss_y)    {
     double sigX = gauss_x/(2*2.169);
     double sigY = gauss_y/(2*2.169);
     for(int x = 0; x < gauss_x; x++)
-        sum += (filtX[x] = 1.0/(sqrt(2*M_PI)*sigX)*exp(-pow(x-gauss_x/2,2)/(2*sigX*sigX))  );
+        sum += (filtX[x] = 1.0/(sqrt(2*M_PI)*sigX)*exp(-pow((double)x-gauss_x/2,2)/(2*sigX*sigX))  );
     printf("x-filter: ");
     for(int x = 0; x < gauss_x; x++) {
         filtX[x] /= sum;
@@ -152,7 +157,7 @@ void FloatImage::blur(int gauss_x, int gauss_y)    {
     printf("\n");
     sum = 0;
     for(int x = 0; x < gauss_y; x++)
-        sum += (filtY[x] = 1.0/(sqrt(2*M_PI)*sigY)*exp(-pow(x-gauss_y/2,2)/(2*sigY*sigY))  );
+        sum += (filtY[x] = 1.0/(sqrt(2*M_PI)*sigY)*exp(-pow((double)x-gauss_y/2,2)/(2*sigY*sigY))  );
     printf("y-filter: ");
     for(int x = 0; x < gauss_y; x++) {
         filtY[x] /= sum;
@@ -326,6 +331,7 @@ void FloatImage::convolveX(double *filter, int halfwin) {
 
 void FloatImage::convolveY(double *filter, int halfwin) {
     FloatImage *convolved = new FloatImage(this);
+	assert(halfwin >= 1);
 
     for(int r = 0; r < height; r++)
         for(int c = 0; c < width; c++)  {

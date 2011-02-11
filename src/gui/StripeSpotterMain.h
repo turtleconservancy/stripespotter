@@ -10,7 +10,7 @@
 #define STRIPESPOTTERMAIN_H
 #include "StripeSpotterApp.h"
 #include "GUIFrame.h"
-#include "db.h"
+#include "db-csv.h"
 #include <map>
 using namespace std;
 
@@ -28,7 +28,6 @@ class StripeSpotterFrame: public GUIFrame {
         virtual void OnListItemSelected( wxListEvent& event );
         virtual void OnFileSaveCSV(wxCommandEvent& event);
 
-        PhotoDatabase db;
         wxImageList *imgList;
         map<wxString, wxImage*> animalThumbs;
         vector<wxString> animalNameOrder;

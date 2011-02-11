@@ -17,11 +17,13 @@ ImageFrame::ImageFrame(wxWindow *parent) : wxPanel(parent, wxID_ANY, wxDefaultPo
     img = NULL;
     ar = 1;
     imgW = imgH = 1;
+    boxW = boxH = 0;
 }
 
 ImageFrame::~ImageFrame() {
     if(img)
         delete img;
+    img = NULL;
 }
 
 //
@@ -29,22 +31,24 @@ ImageFrame::~ImageFrame() {
 //
 bool ImageFrame::loadImage(const wxString &path) {
     // Load the image
-    if(!img)
-        delete img;
+    if(img) {
+     //   delete img;
+       // img = NULL;
+    }
     img = new wxImage(path);
-    if(!img->IsOk()) {
+    if(img!=NULL && !img->IsOk()) {
         delete img;
         img = NULL;
         return false;
     }
+    assert(img!=NULL && img->IsOk());
     return loadImage(img);
 }
 
 bool ImageFrame::loadImage(wxImage *p_img) {
-    if(!p_img)
-        return false;
+    assert(p_img);
 
-    // Display the goddamn image
+    // Display the image
     img     = p_img;
     imgW    = img->GetWidth();
     imgH    = img->GetHeight();
@@ -166,6 +170,14 @@ wxRect *InteractiveImageFrame::getSelectionBox() {
 }
 
 void ImageFrame::reset() {
+	if(img) {
+		delete img;
+		img = NULL;
+	}
+    ar = 1;
+    imgW = imgH = 1;
+    boxW = boxH = 0;
+	Refresh(true);
 }
 
 wxImage *ImageFrame::CloneImage(wxImage *src)   {
@@ -278,6 +290,15 @@ wxImage* ImageFrame::ExtractRectangle(wxImage *srcimg, int x, int y, int w, int 
 }
 
 //
+// Returns the current selection box as an independent, deep-copied image
+//
+wxImage *InteractiveImageFrame::extractSelectionImage() {
+	if(!img || (boxW < 1 || boxH < 1))
+		return NULL;
+	return ExtractRectangle(img, boxX, boxY, boxW, boxH);
+}
+
+//
 // Returns the current viewport as an independent, deep-copied image
 //
 wxImage *InteractiveImageFrame::extractViewportImage() {
@@ -287,6 +308,7 @@ wxImage *InteractiveImageFrame::extractViewportImage() {
 }
 
 InteractiveImageFrame::InteractiveImageFrame(wxWindow *parent) : ImageFrame(parent) {
+    img = NULL;
     resetView();
 }
 
@@ -349,12 +371,4 @@ END_EVENT_TABLE()
 BEGIN_EVENT_TABLE(InteractiveImageFrame, wxPanel)
 EVT_LEFT_UP(InteractiveImageFrame::OnMouseUp)
 EVT_PAINT(InteractiveImageFrame::OnPaintEvent)
-/* EVT_RIGHT_DOWN(BasicDrawPane::rightClick)
- EVT_MOTION(InteractiveImageFrame::OnMouseMove)
- EVT_LEFT_DOWN(InteractiveImageFrame::OnMouseDown)
- EVT_LEAVE_WINDOW(InteractiveImageFrame::OnMouseLeftWindow)
- EVT_KEY_DOWN(BasicDrawPane::keyPressed)
- EVT_KEY_UP(BasicDrawPane::keyReleased)
- EVT_MOUSEWHEEL(BasicDrawPane::mouseWheelMoved)
- */
 END_EVENT_TABLE()

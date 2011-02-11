@@ -15,6 +15,17 @@ wxImage *Image::CloneImage(wxImage *src) {
     return ret;
 }
 
+wxImage *Image::ExtractRect(wxImage *src, int x, int y, int w, int h) {
+    wxImage *dst = new wxImage(w, h);
+    int srcw = src->GetWidth();
+    unsigned char *srcdat = src->GetData();
+    unsigned char *dstdat = dst->GetData();
+
+    for(int r = 0; r < h; r++)
+        memcpy(dstdat+3*r*w, srcdat+3*((r+y)*srcw+x), 3*w);
+    return dst;
+}
+
 void Image::DrawBox(wxImage *src, int x, int y, int w, int h, unsigned char R, unsigned char G, unsigned char B, bool filled=false) {
     int img_w = src->GetWidth();
     unsigned char *dat = src->GetData();

@@ -7,29 +7,64 @@
  * License:
  **************************************************************/
 #include "wx_pch.h"
+#include "StripeCode.h"
 #include "SavePictureDialog.h"
-#include "db.h"
+#include "db-csv.h"
 #include "parameters.h"
 
 // GLOBAL database reference
-extern PhotoDatabase *globalDB;
-wxString DLGSavePicture::lastAnimalID = wxEmptyString;
-wxString DLGSavePicture::lastSighting = wxEmptyString;
-int DLGSavePicture::lastFlank = 0;
-int DLGSavePicture::lastPhotoQuality = 0;
+extern PhotoDatabase db;
+wxString DLGSavePicture::lastAnimalID	= wxEmptyString;
+wxString DLGSavePicture::lastSighting	= wxEmptyString;
+wxString DLGSavePicture::lastNotes		= wxEmptyString;
+wxString DLGSavePicture::lastGPSLat		= wxEmptyString;
+wxString DLGSavePicture::lastGPSLon		= wxEmptyString;
+int DLGSavePicture::lastGroupSize	= 0;
+wxString DLGSavePicture::lastSightingLocation = wxEmptyString;
+FLANK DLGSavePicture::lastFlank = FL_LEFT;
+QUALITY DLGSavePicture::lastPhotoQuality = PQ_OK;
+SEX DLGSavePicture::lastSex = UNKNOWN;
+wxString DLGSavePicture::lastReproductive = wxEmptyString;
+wxString DLGSavePicture::lastAge = wxEmptyString;
 
-DLGSavePicture::DLGSavePicture(wxWindow* parent, wxImage *img, const wxRect *select, const wxString &filePath) : SaveImageDialog(parent) {
-    ifFinalPreview->loadImage(img);
+DLGSavePicture::DLGSavePicture(wxWindow* parent, wxImage *img, const wxRect *select, const wxString &filePath, StripeCode &sc, MultiScaleHistogram &mrh, bool newAnimal) : SaveImageDialog(parent) {
+	// NOTE: the image frame owns the image, and will destroy it when done
+    ifFinalPreview->reset();
+	ifFinalPreview->loadImage(img);
 
     originalPath = filePath;
+	stripeCode = sc;
+	MRHisto = mrh;
     if (select) {
         ifFinalPreview->setSelectionBox(select);
-        sprintf(roi, "%d,%d,%d,%d", select->GetLeft(), select->GetTop(), select->GetWidth(), select->GetHeight());
+        sprintf(roi, "%d %d %d %d", select->GetLeft(), select->GetTop(), select->GetWidth(), select->GetHeight());
     } else
         roi[0] = 0;
     txtAnimalID->SetFocus();
-    txtAnimalID->SetValue(DLGSavePicture::lastAnimalID);
-    txtSightingLocation->SetValue(DLGSavePicture::lastSighting);
+	if(!newAnimal) {
+		txtAnimalID->SetValue(DLGSavePicture::lastAnimalID);
+		txtAge->SetValue(DLGSavePicture::lastAge);
+		txtReproductive->SetValue(DLGSavePicture::lastReproductive);
+		switch(DLGSavePicture::lastSex) {
+			case MALE:
+				rbSexMale->SetValue(true);
+				break;
+			case FEMALE:
+				rbSexFemale->SetValue(true);
+				break;
+			default:
+				rbSexUnknown->SetValue(true);
+				break;
+		}
+	}
+    txtSightingID->SetValue(DLGSavePicture::lastSighting);
+	txtSightingLocation->SetValue(DLGSavePicture::lastSightingLocation);
+	txtGPSLat->SetValue(DLGSavePicture::lastGPSLat);
+	txtGPSLon->SetValue(DLGSavePicture::lastGPSLon);
+	wxString tmp;
+	tmp.Printf(_("%d"), DLGSavePicture::lastGroupSize);
+	txtGroupSize->SetValue(tmp);
+	txtSightingNotes->SetValue(DLGSavePicture::lastNotes);
     switch (lastFlank) {
     case 0:
         rbFlankLeft->SetValue(true);
@@ -76,7 +111,7 @@ DLGSavePicture::DLGSavePicture(wxWindow* parent, wxImage *img, const wxRect *sel
 
     // Set the date/time information for this image
     if (exif.year) {
-        wxDateTime tstamp;
+		wxDateTime tstamp = wxDateTime::Now();
         switch (exif.month) {
         case 1:
             tstamp.SetMonth(wxDateTime::Jan);
@@ -120,9 +155,8 @@ DLGSavePicture::DLGSavePicture(wxWindow* parent, wxImage *img, const wxRect *sel
         calSightDate->SetDate(tstamp);
 
         // set the time
-        spinHour->SetValue(exif.hour > 12 ? exif.hour-12 : exif.hour);
+        spinHour->SetValue(exif.hour);
         spinMin->SetValue(exif.min);
-        choiceAMPM->SetSelection(exif.hour > 12 ? 1 : 0);
 
         // save values
         sprintf(sightdate, "%4d-%02d-%02d", exif.year, exif.month, exif.day);
@@ -149,7 +183,7 @@ void DLGSavePicture::OnAnimalIDFocused(wxFocusEvent& event) {
 }
 
 //
-// User doesn't want to save the image after all
+// Fickle user doesn't want to save the image after all
 //
 void DLGSavePicture::OnBtnCancel(wxCommandEvent& event) {
     Close();
@@ -161,7 +195,7 @@ void DLGSavePicture::OnBtnCancel(wxCommandEvent& event) {
 void DLGSavePicture::OnAnimalIDChanged( wxCommandEvent& event ) {
     wxString query = txtAnimalID->GetValue();
     wxString label;
-    if (globalDB->queryAnimalName(query.ToAscii())) {
+    if (db.queryAnimalName(query.ToAscii())) {
         label = query + _(": FOUND IN DATABASE!");
         txtAnimalSearchResult->SetForegroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHT));
     } else {
@@ -172,53 +206,102 @@ void DLGSavePicture::OnAnimalIDChanged( wxCommandEvent& event ) {
 }
 
 //
+//
+//
+void DLGSavePicture::OnSightingIDChanged( wxCommandEvent& event ) {
+	string query = (const char*) (txtSightingID->GetValue().mb_str(wxConvUTF8));
+	if(db.sighting_to_photo.find(query)!=db.sighting_to_photo.end()) {
+		PhotoInfo *pi = db.sighting_to_photo[query];
+		lastGPSLat = wxString::FromAscii(pi->gps_lat.c_str());
+		lastGPSLon = wxString::FromAscii(pi->gps_lon.c_str());
+		lastSightingLocation = wxString::FromAscii(pi->sighting_location.c_str());
+		lastGroupSize = pi->group_size;
+	} else {
+		lastGPSLat = wxEmptyString;
+		lastGPSLon = wxEmptyString;
+		lastSightingLocation = wxEmptyString;
+		lastGroupSize = 0;
+	}
+	txtGPSLat->SetValue(lastGPSLat);
+	txtGPSLon->SetValue(lastGPSLon);
+	wxString tmp;
+	tmp.Printf(_("%d"), lastGroupSize);
+	txtGroupSize->SetValue(tmp);
+	txtSightingLocation->SetValue(lastSightingLocation);
+}
+
+//
 // Saves an image to the database
 // i18n NOTE: UTF-8 is used, but only ascii characters are pulled.
 //
 void DLGSavePicture::OnBtnSave(wxCommandEvent& event) {
     // Grab information from dialog box
     lastAnimalID = txtAnimalID->GetValue();
-    lastSighting = txtSightingLocation->GetValue();
-    lastPhotoQuality = 0;
+	lastSighting = txtSightingID->GetValue();
+	lastPhotoQuality = PQ_BAD;
     if (rbPicOK->GetValue())
-        lastPhotoQuality = 1;
+        lastPhotoQuality = PQ_OK;
     if (rbPicGood->GetValue())
-        lastPhotoQuality  = 2;
+        lastPhotoQuality  = PQ_GOOD;
     if (rbPicBest->GetValue())
-        lastPhotoQuality = 3;
-    lastFlank = 0;          // 0 = left, 1 = right, 2 = front, 3 = back
+		lastPhotoQuality = PQ_BEST;
+    lastFlank = FL_LEFT;
     if (rbFlankRight->GetValue())
-        lastFlank = 1;
+		lastFlank = FL_RIGHT;
     if (rbFlankFront->GetValue())
-        lastFlank = 2;
+        lastFlank = FL_FRONT;
     if (rbFlankRear->GetValue())
-        lastFlank = 3;
-    wxString notes = txtSightingNotes->GetValue();
+        lastFlank = FL_REAR;
+    lastNotes = txtSightingNotes->GetValue();
+	lastSightingLocation = txtSightingLocation->GetValue();
+	lastGPSLat = txtGPSLat->GetValue();
+	lastGPSLon = txtGPSLon->GetValue();
+	lastGroupSize = atoi(txtGroupSize->GetValue().ToAscii());
+	if(lastGroupSize < 1)
+		lastGroupSize = 0;
+	wxString age = txtAge->GetValue();
+	SEX sex = MALE;
+	if(rbSexFemale->GetValue())
+		sex = FEMALE;
+	if(rbSexUnknown->GetValue())
+		sex = UNKNOWN;
+
+	// Create a photo structure
+	// Build a PhotoInfo structure
+	PhotoInfo *pi = new PhotoInfo;
+	pi->animal_name = lastAnimalID.ToAscii();
+	pi->aperture	= aperture;
+	pi->camera_info = makemodel;
+	pi->date		= sightdate;
+	pi->flank		= lastFlank;
+	pi->focal_length= focallen;
+	pi->notes		= lastNotes.ToAscii();
+	pi->original_filename = originalPath.ToAscii();
+	pi->photo_exposure = exposure;
+	pi->quality		= lastPhotoQuality;
+	pi->roi			= roi;
+	pi->sighting_id	= lastSighting.ToAscii();
+	pi->time		= sighttime;
+	pi->age			= age.ToAscii();
+	pi->gps_lat		= lastGPSLat.ToAscii();
+	pi->gps_lon		= lastGPSLon.ToAscii();
+	pi->group_size	= lastGroupSize;
+	pi->reproductive= txtReproductive->GetValue().ToAscii();
+	pi->sighting_location = lastSightingLocation.ToAscii();
+	pi->sex			= sex;
 
     // Insert image into database, obtain image ID
     //const char *animalName, int imgQuality, int flank, const char *notes, const char *sighting
-    int animalID = globalDB->addPicture(lastAnimalID.ToAscii(),
-                                        lastPhotoQuality,
-                                        lastFlank,
-                                        notes.ToAscii(),
-                                        lastSighting.ToAscii(),
-                                        roi,
-                                        originalPath.ToAscii(),
-                                        sightdate,
-                                        sighttime,
-                                        exposure,
-                                        focallen,
-                                        aperture,
-                                        makemodel
-                                       );
-    if (animalID < 0) {
+    int photoID = db.addPicture(pi);
+    if (photoID < 1) {
+		delete pi;
         wxMessageBox(_("Database error, sorry."), _("Error"));
         return;
     }
 
     // Save the image to the data directory
     wxString fname;
-    fname.Printf(_("img-%07d.jpg"), animalID);
+    fname.Printf(_("img-%07d.jpg"), photoID );
     wxImage *img = ifFinalPreview->getImage();
     if (!img) {
         wxMessageBox(_("Unable to save the image to disk!"), _("Error"));
@@ -239,19 +322,20 @@ void DLGSavePicture::OnBtnSave(wxCommandEvent& event) {
         h = w / ar;
     }
     thumb->Rescale(w, h);
-    fname.Printf(_("thumb-%07d.jpg"), animalID);
+    fname.Printf(_("thumb-%07d.jpg"), photoID );
     thumb->SaveFile(fname, wxBITMAP_TYPE_JPEG);
     delete thumb;
 
-    // Save the ROI if one has been selected
-    // TODO: remove from production
-    wxRect *sel = NULL;
-    if ( (sel = ifFinalPreview->getSelectionBox()) ) {
-        wxImage *roi = ifFinalPreview->ExtractRectangle(img, sel->GetLeft(), sel->GetTop(), sel->GetWidth(), sel->GetHeight());
-        fname.Printf(_("roi-%07d.jpg"), animalID);
-        roi->SaveFile(fname, wxBITMAP_TYPE_JPEG);
-        delete roi;
-    }
+	// Save the StripeCode and multi-resolution histogram
+	db.stripeCodes[photoID] = stripeCode;
+	db.MRHistograms[photoID] = MRHisto;
+
+	// Write the database back
+	if(wxSetWorkingDirectory(_(".."))) {
+		if(!db.dumpDatabase())
+			wxMessageBox(_("The database file could not be opened for writing -- is it open in another program?"), _("WARNING"));
+		wxSetWorkingDirectory(_("images"));
+	}
 
     Close();
 }

@@ -20,45 +20,47 @@ typedef unsigned char BYTE;
 #define BACKTRACE_LEFT 3
 
 // defaults
-double StripeCode::INDELCOST = 0.6;
-bool StripeCode::RETMINCOST = true;
+double StripeCode::INDELCOST = 0.55;
+bool StripeCode::RETMINCOST = false;
 bool StripeCode::USERATIOS = true;
 bool StripeCode::NED = false;
 
 // inherited from image feature interface 'ImageFeatures'
-bool StripeCode::read(const wxImage *imgPar, int imgTag) {
+bool StripeCode::read(const wxImage *imgPar) {
     wxImage *copy = Image::CloneImage((wxImage*)imgPar);
     wxImage &img = *copy;
-    wxString fname;
 
     // delete old stripestrings
     stripes.clear();
 
     // save original image to plot difference
-    FloatImage orig(&img);
-
-    fname.Printf(_("processing/StripeCode-%07d-1.jpg"), imgTag);
-	img.SaveFile(fname, wxBITMAP_TYPE_JPEG);
+//    FloatImage orig(&img);
+#ifdef DEBUG
+   	img.SaveFile(_("processing-1.jpg"), wxBITMAP_TYPE_JPEG);
+#endif
 
     // filter image
     Image::filt_average(img);
-    fname.Printf(_("processing/StripeCode-%07d-2.jpg"), imgTag);
-    img.SaveFile(fname, wxBITMAP_TYPE_JPEG);
+#ifdef DEBUG
+    img.SaveFile(_("processing-2.jpg"), wxBITMAP_TYPE_JPEG);
+#endif
 
 	Image::filt_threshold(img);
-	fname.Printf(_("processing/StripeCode-%07d-3.jpg"), imgTag);
-    img.SaveFile(fname, wxBITMAP_TYPE_JPEG);
+#ifdef DEBUG
+    img.SaveFile(_("processing-3.jpg"), wxBITMAP_TYPE_JPEG);
+#endif
 
     // plot the difference from the original
-    FloatImage final(&img);
+/*    FloatImage final(&img);
     orig.subtract(&final);
     wxImage *diff = Image::CloneImage(copy);
     orig.blit(diff, 0, 0, true);
 	fname.Printf(_("processing/StripeCode-%07d-4.jpg"), imgTag);
     diff->SaveFile(fname, wxBITMAP_TYPE_JPEG);
     delete diff;
+*/
 
-    // read a set of stripestring
+    // read a set of stripestrings
     int chunkHt = ceil(Image::filt_average_rowchunk * img.GetHeight());
     for(int st = ceil(1.0/Image::filt_average_rowchunk); --st >= 0; )
         stripes.push_back(read(img, st*chunkHt));
@@ -72,14 +74,19 @@ double StripeCode::compare(ImageFeatures *par_img2, void *arg) {
     StripeCode &img2 = *((StripeCode*)par_img2);
     assert(stripes.size() == img2.stripes.size());
 
-    double mincost = DBL_MAX, avgcost = 0;
+	double mincost = DBL_MAX, avgcost = 0, maxcost = DBL_MIN;
     for(int i = (int)stripes.size(); --i >= 0; ) {
         double cost = compare(stripes[i], img2.stripes[i]);
         avgcost += cost;
         if(cost < mincost)
             mincost = cost;
+		if(cost > maxcost)
+			maxcost = cost;
     }
-    avgcost /= (float)stripes.size();
+	if(stripes.size() >= 2)
+		avgcost = (avgcost - maxcost) / (float) (stripes.size()-1.0);	// trimmed mean
+	else
+		avgcost /= (float)stripes.size();
 
     return RETMINCOST?mincost:avgcost;
 }
@@ -366,13 +373,13 @@ bool StripeCode::read(FILE *fp) {
 wxImage* StripeCode::plotComparison(StripeCode &sc2) {
     DPMatrix dpmat(1,1);
     int nStripes = (int) stripes.size();
-    assert(nStripes == sc2.stripes.size());
+    assert(nStripes == (int)sc2.stripes.size());
     wxImage *ret = new wxImage(640, 20*nStripes);
     printf("plotComp\n");
     memset(ret->GetData(), 0x40, 3*640*20*nStripes);
 
     for(int s = 0; s < nStripes; s++) {
-        double cost = compare(stripes[s], sc2.stripes[s], &dpmat);
+        //double cost = compare(stripes[s], sc2.stripes[s], &dpmat);
         //assert(cost == dpmat(dpmat.nrows-1, dpmat.ncols-1));
         StripeString recolored = stripes[s];
 
@@ -648,7 +655,7 @@ wxImage* StripeCode::plotEditPath(StripeString &s1, StripeString &s2, DPMatrix &
     // create image and clear it to a grayish color
     ret = new wxImage(imgW, imgH);
     memset(ret->GetData(), 0xDD, ret->GetWidth()*ret->GetHeight()*3);
-    unsigned char *dat = ret->GetData();
+//    unsigned char *dat = ret->GetData();
 
     // draw stripestring along left
     for(unsigned i = 0; i < s1.size(); i++) {
@@ -665,7 +672,7 @@ wxImage* StripeCode::plotEditPath(StripeString &s1, StripeString &s2, DPMatrix &
     // draw grid
     Image::DrawBox(ret, max1, EP_SCHT, imgW-max1-1, imgH-EP_SCHT-1, 255, 255, 255, true);
 
-    for(int r = 0; r <= s1.size(); r++)
+    for(int r = 0; r <= (int)s1.size(); r++)
         Image::DrawLine(ret, max1, EP_SCHT*(r+1), imgW-1, EP_SCHT*(r+1), 80, 80, 80);
     for(unsigned c=0, x=max1; c < s2.size(); x+=len2[c], c++)
         Image::DrawLine(ret, x, EP_SCHT, x, imgH-1, 80, 80, 80);
@@ -675,7 +682,7 @@ wxImage* StripeCode::plotEditPath(StripeString &s1, StripeString &s2, DPMatrix &
 
     // draw edit path
     int r = mat.nrows-1, c = mat.ncols-1;
-    assert(c == s2.size()-1 && r == s1.size()-1);
+    assert(c == (int)s2.size()-1 && r == (int)s1.size()-1);
 
     int y = imgH-1;
     int x = imgW-1;
