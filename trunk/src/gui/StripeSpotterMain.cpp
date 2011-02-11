@@ -7,100 +7,68 @@
  * License:
  **************************************************************/
 #include "wx_pch.h"
+#include "db-csv.h"
 #include "StripeSpotterMain.h"
 #include "AddPicturesDialog.h"
 #include "parameters.h"
 using namespace std;
 
 // GLOBAL database reference
-PhotoDatabase *globalDB;
+PhotoDatabase db;
 
 StripeSpotterFrame::StripeSpotterFrame(wxFrame *frame) : GUIFrame(frame) {
-    globalDB = &db;
+	imgList = NULL;
     statusBar->SetStatusText(_("StripeSpotter"), 0);
     statusBar->SetStatusText(_(""), 1);
+	wxProgressDialog wxPD(_("Loading"), _("Loading database, please wait..."), 100, this, wxPD_APP_MODAL);
+	wxPD.Pulse();
 
     // Try to see if the current working directory contains a photo database.
     // If one does, then open it.
     // If not, create a new, empty database after warning the user.
-    wxDir pdbDir(_("data"));
-    if(!pdbDir.IsOpened()) {
-        wxMessageBox(_("This is the first time you have run StripeSpotter. A new image database will now be created."), _("Setup"));
-        wxMkdir(_("data"));
-        if(!pdbDir.Open(_("data"))) {
+    if(!wxSetWorkingDirectory(_("data"))) {
+        wxMessageBox(_("This seems to be the first time you have run StripeSpotter. A new image database will now be created."), _("Setup"));
+		if(!wxMkdir(_("data"))) {
+			wxMessageBox(_("Cannot create a directory for the database. Please make sure you have write permissions on the folder."), _("Error"));
+			Destroy();
+			return;
+		}
+        if(!wxSetWorkingDirectory(_("data"))) {
             wxMessageBox(_("There was an error creating the 'data' directory for the image database."), _("Error"));
             Destroy();
             return;
         }
     }
-    if(!wxSetWorkingDirectory(_("data")) || !db.open()) {
-        wxMessageBox(_("Unable to open the image database."), _("Error"));
+    if(!db.open()) {
+		wxMessageBox(_("Unable to open the image database: data\\SightingData.csv."), _("Error"));
         Destroy();
         return;
     }
-    if(!pdbDir.Open(_("images")) && !wxMkdir(_("images"))) {
+	wxPD.Pulse();
+	if(!wxSetWorkingDirectory(_("images")) && (!wxMkdir(_("images")) || !wxSetWorkingDirectory(_("images"))) ) {
         wxMessageBox(_("There was an error accessing the 'data/images' directory for the image database."), _("Error"));
         Destroy();
         return;
     }
-    if(!wxSetWorkingDirectory(_("images"))) {
-        wxMessageBox(_("Unable to open the image database."), _("Error"));
-        Destroy();
-        return;
-    }
 
-    // Set status infomration
-    wxString status;
-    status.Printf(_("%d animals, %d photographs."), db.getNumAnimals(), db.getNumPhotos());
-    txtAnimalInfo->SetLabel(status);
-
-    // Populate the list with thumbnails of the animals
-    imgList = new wxImageList(THUMB_W, THUMB_H, false);
-    vector<pair<wxString,wxString> > bestImgInfo = db.getBestPhotoList();
-    for(unsigned i = 0; i < bestImgInfo.size(); i++) {
-        pair<wxString,wxString> &animal = bestImgInfo[i];
-        wxImage *img = new wxImage(animal.second);
-        if(img->IsOk()) {
-            animalThumbs[animal.first] = img;
-            wxBitmap bmp(*img);
-            imgList->Add(bmp);
-        }
-        animalNameOrder.push_back(animal.first);
-    }
-    lctrlMainDisplay->SetImageList(imgList, wxIMAGE_LIST_SMALL);
-    lctrlMainDisplay->InsertColumn(0, _("Best Image"));
-    lctrlMainDisplay->InsertColumn(1, _("Animal ID"));
-    for(int x = 0; x < imgList->GetImageCount(); x++) {
-        wxListItem li;
-        li.SetColumn(0);
-        li.SetImage(x);
-        li.m_mask = wxLIST_MASK_IMAGE;
-        lctrlMainDisplay->InsertItem(li);
-        li.SetColumn(1);
-        li.SetText(bestImgInfo[x].first);
-        li.m_mask = wxLIST_MASK_TEXT;
-        lctrlMainDisplay->SetItem(li);
-    }
-    lctrlMainDisplay->SetColumnWidth(0, THUMB_W+20);
-    lctrlMainDisplay->SetColumnWidth(1, wxLIST_AUTOSIZE);
+	imgList = new wxImageList(THUMB_W, THUMB_H, false, db.getNumAnimals());
+	wxPD.Pulse();
+	RefreshImageList();
+	wxPD.Pulse();
 }
 
 //
 // User clicked a zebra in the main window
 //
 void StripeSpotterFrame::OnListItemSelected( wxListEvent& event ) {
-    int idx = event.GetImage();
+/*    int idx = event.GetImage();
     wxString animalName = animalNameOrder[idx];
     statusBar->SetStatusText(db.getPhotoCountString(animalName.ToAscii()), 1);
-    statusBar->SetStatusText(animalName, 0);
+    statusBar->SetStatusText(animalName, 0); */
 }
 
 StripeSpotterFrame::~StripeSpotterFrame() {
-    if(imgList)
-        delete imgList;
-    for(map<wxString,wxImage*>::iterator it = animalThumbs.begin(); it != animalThumbs.end(); it++)
-        if(it->second)
-            delete it->second;
+	delete imgList;
 }
 
 void StripeSpotterFrame::OnClose(wxCloseEvent &event) {
@@ -113,7 +81,7 @@ void StripeSpotterFrame::OnClose(wxCloseEvent &event) {
 void StripeSpotterFrame::OnFileSaveCSV(wxCommandEvent& event) {
     if(!wxSetWorkingDirectory(_("..")))
         return;
-    if(db.dumpDatabase(_("SightingData.csv")))
+    if(db.dumpDatabase())
         wxMessageBox(_("Database information saved to 'SightingData.csv'\nYou can use Microsoft Excel to open the file."), _("Sighting data saved"));
     else
         wxMessageBox(_("Unable to save database information."), _("Error"));
@@ -124,12 +92,58 @@ void StripeSpotterFrame::OnFileSaveCSV(wxCommandEvent& event) {
 // Refreshes the image list (duh)
 //
 void StripeSpotterFrame::RefreshImageList() {
+    // Set status infomration
+    wxString status;
+    status.Printf(_("%d animals, %d photographs."), db.getNumAnimals(), db.getNumPhotos());
+    txtAnimalInfo->SetLabel(status);
 
+	// Clear out old list
+	lctrlMainDisplay->ClearAll();
+	imgList->RemoveAll();
+
+    // Create an image list of animal thumbnails.
+	vector<wxString> animal_name_order;
+	for(map<string,vector<PhotoInfo*> >::iterator it=db.animal_to_photos.begin();it!=db.animal_to_photos.end();it++) {
+		unsigned best = 0;
+		vector<PhotoInfo*> &photos = it->second;
+		for(unsigned i=1; i < photos.size(); i++)
+			if(photos[i]->quality >= photos[best]->quality)
+				best = i;
+		wxString fname;
+		fname.Printf(_("thumb-%07d.jpg"), photos[best]->photo_id);
+		wxImage *img = new wxImage(fname);
+        if(img->IsOk()) {
+            img->Rescale(THUMB_W, THUMB_H);
+            wxBitmap bmp(*img);
+            imgList->Add(bmp);
+			animal_name_order.push_back(wxString::FromAscii(photos[best]->animal_name.c_str()));
+        }
+		delete img;
+	}
+
+	// Populate the list box
+    lctrlMainDisplay->SetImageList(imgList, wxIMAGE_LIST_SMALL);
+    lctrlMainDisplay->InsertColumn(0, _("Best Image"));
+    lctrlMainDisplay->InsertColumn(1, _("Animal ID"));
+    for(int x = 0; x < imgList->GetImageCount(); x++) {
+        wxListItem li;
+        li.SetColumn(0);
+        li.SetImage(x);
+        li.m_mask = wxLIST_MASK_IMAGE;
+        lctrlMainDisplay->InsertItem(li);
+        li.SetColumn(1);
+        li.SetText(animal_name_order[x]);
+        li.m_mask = wxLIST_MASK_TEXT;
+        lctrlMainDisplay->SetItem(li);
+    }
+    lctrlMainDisplay->SetColumnWidth(0, THUMB_W+20);
+    lctrlMainDisplay->SetColumnWidth(1, 100);
 }
 
 void StripeSpotterFrame::OnAddPictures(wxCommandEvent &event) {
     DLGAddPictures *dlg = new DLGAddPictures(this);
-    dlg->Show();
+    dlg->ShowModal();
+	RefreshImageList();
 }
 
 void StripeSpotterFrame::OnQuit(wxCommandEvent &event) {
@@ -137,5 +151,7 @@ void StripeSpotterFrame::OnQuit(wxCommandEvent &event) {
 }
 
 void StripeSpotterFrame::OnAbout(wxCommandEvent &event) {
-    wxMessageBox(_("StripeSpotter Copyright (c) Mayank Lahiri, 2010"), _("StripeSpotter"));
+    char statusMsg[1024];
+	sprintf(statusMsg, "StripeSpotter Copyright (c) 2010 Mayank Lahiri\nmlahiri@gmail.com\nReleased under the terms of the GNU General Public License (GPL).\n\nDeveloped at the Laboratory for Computational Population Biology\nDepartment of Computer Science\nUniversity of Illinois at Chicago\n\nThis program is free software! If you paid for this program, ask for your money back!\n\nThis version was built on %s.", __DATE__);
+    wxMessageBox(wxString::FromAscii(statusMsg), _("StripeSpotter"));
 }

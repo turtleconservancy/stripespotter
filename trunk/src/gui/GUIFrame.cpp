@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec 21 2009)
+// C++ code generated with wxFormBuilder (version Oct  4 2010)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -36,14 +36,14 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	menuFileQuit = new wxMenuItem( fileMenu, idMenuQuit, wxString( wxT("&Quit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Quit the application"), wxITEM_NORMAL );
 	fileMenu->Append( menuFileQuit );
 	
-	mbar->Append( fileMenu, wxT("&File") );
+	mbar->Append( fileMenu, wxT("&File") ); 
 	
 	helpMenu = new wxMenu();
 	wxMenuItem* menuHelpAbout;
 	menuHelpAbout = new wxMenuItem( helpMenu, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
 	helpMenu->Append( menuHelpAbout );
 	
-	mbar->Append( helpMenu, wxT("&Help") );
+	mbar->Append( helpMenu, wxT("&Help") ); 
 	
 	this->SetMenuBar( mbar );
 	
@@ -68,44 +68,11 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText2->Wrap( -1 );
 	bSizer12->Add( m_staticText2, 0, wxALL, 5 );
 	
-	txtAnimalInfo = new wxStaticText( this, wxID_ANY, wxT("12 sightings.\n480 pictures."), wxDefaultPosition, wxDefaultSize, 0 );
+	txtAnimalInfo = new wxStaticText( this, wxID_ANY, wxT("StripeSpotter"), wxDefaultPosition, wxDefaultSize, 0 );
 	txtAnimalInfo->Wrap( -1 );
 	bSizer12->Add( txtAnimalInfo, 0, wxALL, 5 );
 	
 	bToolAreaSizer->Add( bSizer12, 1, wxEXPAND, 5 );
-	
-	wxBoxSizer* bSizer13;
-	bSizer13 = new wxBoxSizer( wxVERTICAL );
-	
-	wxBoxSizer* bSizer14;
-	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
-	
-	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Search"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	bSizer14->Add( m_staticText4, 0, wxALL, 7 );
-	
-	rbtnAnimalNames = new wxRadioButton( this, wxID_ANY, wxT("Animal names"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-	bSizer14->Add( rbtnAnimalNames, 0, wxALL, 5 );
-	
-	rbtnMetadata = new wxRadioButton( this, wxID_ANY, wxT("Metadata"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer14->Add( rbtnMetadata, 0, wxALL, 5 );
-	
-	bSizer13->Add( bSizer14, 1, wxALIGN_RIGHT, 5 );
-	
-	wxBoxSizer* bSizer15;
-	bSizer15 = new wxBoxSizer( wxHORIZONTAL );
-	
-	editSearchTerm = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	editSearchTerm->SetMinSize( wxSize( 200,-1 ) );
-	
-	bSizer15->Add( editSearchTerm, 0, wxALL, 5 );
-	
-	btnSearch = new wxButton( this, wxID_ANY, wxT("Search"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer15->Add( btnSearch, 0, wxALL, 5 );
-	
-	bSizer13->Add( bSizer15, 1, wxALIGN_RIGHT, 5 );
-	
-	bToolAreaSizer->Add( bSizer13, 1, wxALIGN_RIGHT, 5 );
 	
 	fgSizer2->Add( bToolAreaSizer, 1, wxALL|wxEXPAND, 2 );
 	
@@ -131,10 +98,11 @@ GUIFrame::~GUIFrame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnFileSaveCSV ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+	this->Disconnect( idMenuQuit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Disconnect( idMenuAbout, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	btnAddNewPictures->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::OnAddPictures ), NULL, this );
 	lctrlMainDisplay->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( GUIFrame::OnListItemSelected ), NULL, this );
+	
 }
 
 AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -163,63 +131,52 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	dirctrlImageDirectory = new wxDirPickerCtrl( this, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxDefaultSize, wxDIRP_DEFAULT_STYLE|wxDIRP_DIR_MUST_EXIST );
 	bSizer19->Add( dirctrlImageDirectory, 1, wxALL|wxEXPAND, 5 );
 	
-	btnScanDirectory = new wxButton( this, wxID_ANY, wxT("S&can"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer19->Add( btnScanDirectory, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
 	bSizer20->Add( bSizer19, 1, wxEXPAND|wxALIGN_RIGHT, 5 );
-	
-	wxBoxSizer* bSizer22;
-	bSizer22 = new wxBoxSizer( wxHORIZONTAL );
-	
-	progDirScan = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
-	bSizer22->Add( progDirScan, 1, wxALL|wxEXPAND, 5 );
-	
-	txtFilesFound = new wxStaticText( this, wxID_ANY, wxT("No photographs found."), wxDefaultPosition, wxDefaultSize, 0 );
-	txtFilesFound->Wrap( -1 );
-	bSizer22->Add( txtFilesFound, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	bSizer20->Add( bSizer22, 1, wxEXPAND|wxALIGN_RIGHT, 5 );
 	
 	leftPane->Add( bSizer20, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer23;
 	bSizer23 = new wxBoxSizer( wxHORIZONTAL );
 	
-	lctrlFileList = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES );
-	bSizer23->Add( lctrlFileList, 1, wxALL|wxEXPAND, 5 );
+	wxBoxSizer* bSizer2083;
+	bSizer2083 = new wxBoxSizer( wxVERTICAL );
+	
+	lctrlFileList = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_VRULES|wxWANTS_CHARS );
+	bSizer2083->Add( lctrlFileList, 1, wxALL|wxEXPAND, 5 );
+	
+	m_staticText24 = new wxStaticText( this, wxID_ANY, wxT("Instructions:\n1. Choose a directory by clicking \"Browse\"\n2. Zoom the image in to the ENTIRE zebra body\n3. Select the region to be used for identification\n4. Click \"Identify\" or \"Save\"\n"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText24->Wrap( 250 );
+	bSizer2083->Add( m_staticText24, 0, wxALL, 5 );
+	
+	bSizer23->Add( bSizer2083, 1, wxEXPAND, 5 );
 	
 	wxBoxSizer* bSizer24;
 	bSizer24 = new wxBoxSizer( wxVERTICAL );
 	
-	wxBoxSizer* bSizer25;
-	bSizer25 = new wxBoxSizer( wxHORIZONTAL );
+	wxBoxSizer* bSizer1912;
+	bSizer1912 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btnZoomIn = new wxButton( this, wxID_ANY, wxT("Zoom &In"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer25->Add( btnZoomIn, 1, wxALL, 5 );
+	rbAlgStripeCode = new wxRadioButton( this, wxID_ANY, wxT("StripeCode Algorithm"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+	bSizer1912->Add( rbAlgStripeCode, 1, wxALL|wxEXPAND, 5 );
 	
-	btnZoomOut = new wxButton( this, wxID_ANY, wxT("Zoom &Out"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer25->Add( btnZoomOut, 1, wxALL, 5 );
+	rbAlgCO1 = new wxRadioButton( this, wxID_ANY, wxT("CO-1 Algorithm"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer1912->Add( rbAlgCO1, 1, wxALL|wxEXPAND, 5 );
 	
-	bSizer24->Add( bSizer25, 0, wxEXPAND, 5 );
+	bSizer24->Add( bSizer1912, 0, 0, 5 );
+	
+	m_staticText25 = new wxStaticText( this, wxID_ANY, wxT("When using the CO-1 algorithm, ensure that only the animal's body is selected (i.e., no grass, etc.)"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText25->Wrap( 250 );
+	bSizer24->Add( m_staticText25, 0, wxALL, 5 );
 	
 	btnIdentifyAnimal = new wxButton( this, wxID_ANY, wxT("IDENTIFY &ANIMAL"), wxDefaultPosition, wxDefaultSize, 0 );
 	btnIdentifyAnimal->SetDefault(); 
-	btnIdentifyAnimal->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	btnIdentifyAnimal->SetFont( wxFont( 10, 70, 90, 92, false, wxEmptyString ) );
 	btnIdentifyAnimal->SetForegroundColour( wxColour( 255, 0, 0 ) );
 	
 	bSizer24->Add( btnIdentifyAnimal, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticText7 = new wxStaticText( this, wxID_ANY, wxT("Automatic identification results:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText7->Wrap( -1 );
-	bSizer24->Add( m_staticText7, 0, wxALL, 5 );
-	
-	lctrlIDResults = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_ICON|wxLC_NO_HEADER|wxLC_NO_SORT_HEADER|wxLC_REPORT );
+	lctrlIDResults = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_NO_SORT_HEADER|wxLC_REPORT );
 	bSizer24->Add( lctrlIDResults, 1, wxALL|wxEXPAND, 5 );
-	
-	btnSaveAsNewAnimal = new wxButton( this, wxID_ANY, wxT("&Save image to database"), wxDefaultPosition, wxDefaultSize, 0 );
-	btnSaveAsNewAnimal->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
-	
-	bSizer24->Add( btnSaveAsNewAnimal, 0, wxALL|wxEXPAND, 5 );
 	
 	bSizer23->Add( bSizer24, 1, wxEXPAND, 5 );
 	
@@ -230,12 +187,38 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	wxBoxSizer* rightPane;
 	rightPane = new wxBoxSizer( wxVERTICAL );
 	
+	wxBoxSizer* bSizer202;
+	bSizer202 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnZoomIn = new wxButton( this, wxID_ANY, wxT("Zoom &In"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer202->Add( btnZoomIn, 1, wxALL|wxEXPAND, 5 );
+	
+	btnZoomOut = new wxButton( this, wxID_ANY, wxT("Zoom &Out"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer202->Add( btnZoomOut, 1, wxALL|wxEXPAND, 5 );
+	
+	rightPane->Add( bSizer202, 0, wxEXPAND, 5 );
+	
 	iifImageSlicer = new InteractiveImageFrame(this);
 	rightPane->Add( iifImageSlicer, 1, wxALL|wxEXPAND, 5 );
 	
-	txtMatchInfo = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtMatchInfo = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
 	txtMatchInfo->Wrap( -1 );
-	rightPane->Add( txtMatchInfo, 0, wxALL, 5 );
+	txtMatchInfo->SetFont( wxFont( 14, 70, 90, 92, false, wxEmptyString ) );
+	
+	rightPane->Add( txtMatchInfo, 0, wxALL|wxEXPAND, 5 );
+	
+	wxBoxSizer* bSizer201;
+	bSizer201 = new wxBoxSizer( wxHORIZONTAL );
+	
+	btnSaveAsNewAnimal = new wxButton( this, wxID_ANY, wxT("&Save as new animal"), wxDefaultPosition, wxDefaultSize, 0 );
+	btnSaveAsNewAnimal->SetFont( wxFont( wxNORMAL_FONT->GetPointSize(), 70, 90, 92, false, wxEmptyString ) );
+	
+	bSizer201->Add( btnSaveAsNewAnimal, 1, wxALL|wxEXPAND, 5 );
+	
+	btnSaveAsOldAnimal = new wxButton( this, wxID_ANY, wxT("Accept match"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer201->Add( btnSaveAsOldAnimal, 1, wxALL|wxEXPAND, 5 );
+	
+	rightPane->Add( bSizer201, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	ifMatchDisplay = new ImageFrame(this);
 	rightPane->Add( ifMatchDisplay, 1, wxALL|wxEXPAND, 5 );
@@ -247,22 +230,27 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	
 	// Connect Events
 	dirctrlImageDirectory->Connect( wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler( AddPicturesDialog::OnDirChanged ), NULL, this );
-	btnScanDirectory->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnScan ), NULL, this );
 	lctrlFileList->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( AddPicturesDialog::OnListItemSelected ), NULL, this );
+	btnIdentifyAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnIdentifyAnimal ), NULL, this );
+	lctrlIDResults->Connect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( AddPicturesDialog::OnSearchResultSelected ), NULL, this );
 	btnZoomIn->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomIn ), NULL, this );
 	btnZoomOut->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
+	btnSaveAsOldAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
 }
 
 AddPicturesDialog::~AddPicturesDialog()
 {
 	// Disconnect Events
 	dirctrlImageDirectory->Disconnect( wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler( AddPicturesDialog::OnDirChanged ), NULL, this );
-	btnScanDirectory->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnScan ), NULL, this );
 	lctrlFileList->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( AddPicturesDialog::OnListItemSelected ), NULL, this );
+	btnIdentifyAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnIdentifyAnimal ), NULL, this );
+	lctrlIDResults->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( AddPicturesDialog::OnSearchResultSelected ), NULL, this );
 	btnZoomIn->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomIn ), NULL, this );
 	btnZoomOut->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
+	btnSaveAsOldAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
+	
 }
 
 SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -273,9 +261,9 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
 	
 	wxFlexGridSizer* fgSizer3;
-	fgSizer3 = new wxFlexGridSizer( 5, 2, 0, 0 );
+	fgSizer3 = new wxFlexGridSizer( 13, 2, 0, 0 );
 	fgSizer3->AddGrowableCol( 1 );
-	fgSizer3->AddGrowableRow( 4 );
+	fgSizer3->AddGrowableRow( 10 );
 	fgSizer3->SetFlexibleDirection( wxBOTH );
 	fgSizer3->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -296,12 +284,71 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	fgSizer3->Add( txtAnimalSearchResult, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Sighting"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Sighting ID"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText10->Wrap( -1 );
 	fgSizer3->Add( m_staticText10, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
+	txtSightingID = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer3->Add( txtSightingID, 1, wxALL|wxEXPAND, 5 );
+	
+	m_staticText23 = new wxStaticText( this, wxID_ANY, wxT("Location"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText23->Wrap( -1 );
+	fgSizer3->Add( m_staticText23, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
 	txtSightingLocation = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( txtSightingLocation, 1, wxALL|wxEXPAND, 5 );
+	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("GPS"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer3->Add( m_staticText26, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxBoxSizer* bSizer181;
+	bSizer181 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Lat"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	bSizer181->Add( m_staticText27, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtGPSLat = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer181->Add( txtGPSLat, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Lon"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	bSizer181->Add( m_staticText28, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtGPSLon = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer181->Add( txtGPSLon, 0, wxALL, 5 );
+	
+	fgSizer3->Add( bSizer181, 1, wxEXPAND, 5 );
+	
+	m_staticText31 = new wxStaticText( this, wxID_ANY, wxT("Group size"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText31->Wrap( -1 );
+	fgSizer3->Add( m_staticText31, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtGroupSize = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtGroupSize->SetMaxLength( 3 ); 
+	fgSizer3->Add( txtGroupSize, 0, wxALL, 5 );
+	
+	m_staticText25 = new wxStaticText( this, wxID_ANY, wxT("Reproductive status"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText25->Wrap( -1 );
+	fgSizer3->Add( m_staticText25, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	wxBoxSizer* bSizer199;
+	bSizer199 = new wxBoxSizer( wxHORIZONTAL );
+	
+	txtReproductive = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtReproductive->SetMaxLength( 32 ); 
+	bSizer199->Add( txtReproductive, 1, wxALL, 5 );
+	
+	m_staticText20 = new wxStaticText( this, wxID_ANY, wxT("Age"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	bSizer199->Add( m_staticText20, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtAge = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	txtAge->SetMaxLength( 32 ); 
+	bSizer199->Add( txtAge, 0, wxALL, 5 );
+	
+	fgSizer3->Add( bSizer199, 1, wxEXPAND, 5 );
 	
 	m_staticText11 = new wxStaticText( this, wxID_ANY, wxT("Flank"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText11->Wrap( -1 );
@@ -311,12 +358,12 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
 	
 	rbFlankLeft = new wxRadioButton( this, wxID_ANY, wxT("&Left"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
-	bSizer16->Add( rbFlankLeft, 0, wxALL, 5 );
+	bSizer16->Add( rbFlankLeft, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	rbFlankRight = new wxRadioButton( this, wxID_ANY, wxT("&Right"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer16->Add( rbFlankRight, 0, wxALL, 5 );
+	bSizer16->Add( rbFlankRight, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	rbFlankFront = new wxRadioButton( this, wxID_ANY, wxT("&Front"), wxDefaultPosition, wxDefaultSize, 0 );
+	rbFlankFront = new wxRadioButton( this, wxID_ANY, wxT("Fro&nt"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer16->Add( rbFlankFront, 0, wxALL, 5 );
 	
 	rbFlankRear = new wxRadioButton( this, wxID_ANY, wxT("&Back"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -324,12 +371,23 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	fgSizer3->Add( bSizer16, 1, wxEXPAND, 5 );
 	
-	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Notes"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText13->Wrap( -1 );
-	fgSizer3->Add( m_staticText13, 0, wxALL, 5 );
+	m_staticText171 = new wxStaticText( this, wxID_ANY, wxT("Sex"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText171->Wrap( -1 );
+	fgSizer3->Add( m_staticText171, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	txtSightingNotes = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
-	fgSizer3->Add( txtSightingNotes, 1, wxALL|wxEXPAND, 5 );
+	wxBoxSizer* bSizer161;
+	bSizer161 = new wxBoxSizer( wxHORIZONTAL );
+	
+	rbSexMale = new wxRadioButton( this, wxID_ANY, wxT("&Male"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP );
+	bSizer161->Add( rbSexMale, 0, wxALL, 5 );
+	
+	rbSexFemale = new wxRadioButton( this, wxID_ANY, wxT("&Female"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( rbSexFemale, 0, wxALL, 5 );
+	
+	rbSexUnknown = new wxRadioButton( this, wxID_ANY, wxT("&Unknown"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer161->Add( rbSexUnknown, 0, wxALL, 5 );
+	
+	fgSizer3->Add( bSizer161, 1, wxEXPAND, 5 );
 	
 	m_staticText15 = new wxStaticText( this, wxID_ANY, wxT("Photo quality"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText15->Wrap( -1 );
@@ -351,6 +409,20 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer18->Add( rbPicBest, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	fgSizer3->Add( bSizer18, 1, wxEXPAND, 5 );
+	
+	m_staticText13 = new wxStaticText( this, wxID_ANY, wxT("Notes"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText13->Wrap( -1 );
+	fgSizer3->Add( m_staticText13, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	txtSightingNotes = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE );
+	fgSizer3->Add( txtSightingNotes, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer3->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText231 = new wxStaticText( this, wxID_ANY, wxT("Tip: press the Alt key to see keyboard accelerators. Then, press Alt+the underlined letter to quickly make choices."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText231->Wrap( 250 );
+	fgSizer3->Add( m_staticText231, 0, wxALL, 5 );
 	
 	btnCancel = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer3->Add( btnCancel, 1, wxALL|wxEXPAND, 5 );
@@ -382,7 +454,7 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer4->Add( m_staticText9, 1, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	calSightDate = new wxCalendarCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxCAL_SHOW_HOLIDAYS|wxCAL_SHOW_SURROUNDING_WEEKS );
-	fgSizer4->Add( calSightDate, 1, wxALL|wxEXPAND|wxALIGN_BOTTOM, 5 );
+	fgSizer4->Add( calSightDate, 0, wxALL|wxALIGN_BOTTOM, 5 );
 	
 	m_staticText14 = new wxStaticText( this, wxID_ANY, wxT("Sighting time"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText14->Wrap( -1 );
@@ -395,7 +467,7 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_staticText16->Wrap( -1 );
 	bSizer19->Add( m_staticText16, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	spinHour = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), wxSP_ARROW_KEYS|wxSP_WRAP, 1, 12, 1 );
+	spinHour = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), wxSP_ARROW_KEYS|wxSP_WRAP, 0, 23, 0 );
 	bSizer19->Add( spinHour, 0, wxALL, 5 );
 	
 	m_staticText17 = new wxStaticText( this, wxID_ANY, wxT("Min"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -405,15 +477,9 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	spinMin = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 50,-1 ), wxSP_ARROW_KEYS|wxSP_WRAP, 0, 59, 0 );
 	bSizer19->Add( spinMin, 0, wxALL, 5 );
 	
-	wxString choiceAMPMChoices[] = { wxT("AM"), wxT("PM") };
-	int choiceAMPMNChoices = sizeof( choiceAMPMChoices ) / sizeof( wxString );
-	choiceAMPM = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, choiceAMPMNChoices, choiceAMPMChoices, 0 );
-	choiceAMPM->SetSelection( 0 );
-	bSizer19->Add( choiceAMPM, 0, wxALL, 5 );
-	
 	fgSizer4->Add( bSizer19, 1, wxEXPAND, 5 );
 	
-	bSizer17->Add( fgSizer4, 1, wxALL|wxEXPAND, 5 );
+	bSizer17->Add( fgSizer4, 0, wxALL|wxEXPAND, 5 );
 	
 	bSizer14->Add( bSizer17, 1, wxEXPAND, 5 );
 	
@@ -422,6 +488,7 @@ SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	// Connect Events
 	txtAnimalID->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( SaveImageDialog::OnAnimalIDChanged ), NULL, this );
+	txtSightingID->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( SaveImageDialog::OnSightingIDChanged ), NULL, this );
 	btnCancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SaveImageDialog::OnBtnCancel ), NULL, this );
 	btnSave->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SaveImageDialog::OnBtnSave ), NULL, this );
 }
@@ -430,6 +497,8 @@ SaveImageDialog::~SaveImageDialog()
 {
 	// Disconnect Events
 	txtAnimalID->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( SaveImageDialog::OnAnimalIDChanged ), NULL, this );
+	txtSightingID->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( SaveImageDialog::OnSightingIDChanged ), NULL, this );
 	btnCancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SaveImageDialog::OnBtnCancel ), NULL, this );
 	btnSave->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SaveImageDialog::OnBtnSave ), NULL, this );
+	
 }

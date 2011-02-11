@@ -10,10 +10,13 @@
 #include <wx/file.h>
 #include <wx/dir.h>
 #include <wx/imaglist.h>
+#include <wx/progdlg.h>
 
 // STL
 #include <vector>
 #include <map>
+#include <string>
+#include <algorithm>
 
 #ifndef WX_PRECOMP
 	#include <wx/wx.h>

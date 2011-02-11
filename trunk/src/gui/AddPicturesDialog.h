@@ -5,8 +5,11 @@ using namespace std;
 
 class DLGAddPictures : public AddPicturesDialog {
     private:
-        vector<string> imgNames;
         wxString selectedImageFilePath;
+		wxImageList *imgList;
+		vector<pair<double,int> > searchResults;
+		vector<wxString> sortKeys;
+		int searchResultPhoto;
 
 	protected:
         static int wxCALLBACK fileSorter(long i1, long i2, long sortData);
@@ -16,9 +19,13 @@ class DLGAddPictures : public AddPicturesDialog {
         virtual void OnZoomOut( wxCommandEvent& event );
         virtual void OnSaveImage( wxCommandEvent& event );
         virtual void OnDirChanged( wxFileDirPickerEvent& event );
+        virtual void OnIdentifyAnimal( wxCommandEvent& event );
+		virtual void OnSearchResultSelected( wxListEvent &event );
+		virtual void OnAcceptMatch(wxCommandEvent &event);
 
     public:
         DLGAddPictures(wxWindow* parent);
+        ~DLGAddPictures();
 
 };
 
