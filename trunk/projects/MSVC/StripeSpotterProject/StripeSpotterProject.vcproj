@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;C:\wxWidgets-2.8.11\include&quot;;C:\StripeSpotter\src\core;C:\StripeSpotter\src\db;C:\StripeSpotter\src\exif;C:\StripeSpotter\src\gui"
+				AdditionalIncludeDirectories="&quot;C:\wxWidgets-2.8.11\include\msvc&quot;;&quot;C:\wxWidgets-2.8.11\include&quot;;&quot;$(InputDir)..\..\src\core&quot;;&quot;$(InputDir)..\..\src\db&quot;;&quot;$(InputDir)..\..\src\exif&quot;;&quot;$(InputDir)..\..\src\gui&quot;"
 				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;wxUSE_GUI=1;_UNICODE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -116,7 +116,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;C:\wxWidgets-2.8.11\include\msvc&quot;;&quot;C:\wxWidgets-2.8.11\include&quot;;C:\StripeSpotter\src\core;C:\StripeSpotter\src\db;C:\StripeSpotter\src\exif;C:\StripeSpotter\src\gui"
+				AdditionalIncludeDirectories="&quot;C:\wxWidgets-2.8.11\include\msvc&quot;;&quot;C:\wxWidgets-2.8.11\include&quot;;&quot;$(InputDir)..\..\src\core&quot;;&quot;$(InputDir)..\..\src\db&quot;;&quot;$(InputDir)..\..\src\exif&quot;;&quot;$(InputDir)..\..\src\gui&quot;"
 				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;wxUSE_GUI=1;_UNICODE;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
