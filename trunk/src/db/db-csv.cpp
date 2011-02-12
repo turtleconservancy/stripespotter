@@ -6,6 +6,7 @@
 
 
 PhotoDatabase::PhotoDatabase() {
+	userCSVHeader = "#imgindex,original_filepath,roi,animal_name,sighting_id,flank,notes,photo_quality,sighting_date,sighting_time,exposure_time,focal_length,aperture_Fnumber,camera_info,sex,age,sighting_location,group_size,gps_lat,gps_lon,reproductive_status\n";
 }
 PhotoDatabase::~PhotoDatabase() {
 	for(map<int,PhotoInfo*>::iterator it=photo_to_info.begin(); it!=photo_to_info.end(); it++)
@@ -24,6 +25,7 @@ bool PhotoInfo::parse(char *buf, PhotoInfo &inf) {
 	char *line_end = buf+strlen(buf);	// points to the terminating \0 byte
 	int field = 0;
 	string tmp;
+	inf.other_info.clear();
 
 	do {
 		char *f_end = strchr(f_start, ',');
@@ -165,6 +167,7 @@ bool PhotoInfo::parse(char *buf, PhotoInfo &inf) {
                 inf.reproductive = f_start;
                 break;
 			default:
+				inf.other_info.push_back(f_start);
 				break;
 		}
 		field++;
@@ -187,6 +190,13 @@ bool PhotoDatabase::open(wxProgressDialog *wxPD) {
 	// Read and parse database, ensuring that all the associated image files exist
 	char buf[4096]; int line = 0;
 	while(fgets(buf, 4096, fp)) {
+		// if this is line #1 of the file, save it for when we re-write the
+		// database, in case the user has added extra CSV fields.
+		if(++line == 1) {
+			userCSVHeader = buf;
+			continue;
+		}
+
 	    if(wxPD)
             wxPD->Pulse();
 		PhotoInfo pi; line++;
@@ -248,7 +258,8 @@ bool PhotoDatabase::dumpDatabase() {
 	FILE *fp;
 	if(!(fp = fopen("SightingData.csv", "w+")))
 		return false;
-	fprintf(fp, "#imgindex,original_filepath,roi,animal_name,sighting_id,flank,notes,photo_quality,sighting_date,sighting_time,exposure_time,focal_length,aperture_Fnumber,camera_info,sex,age,sighting_location,group_size,gps_lat,gps_lon,reproductive_status\n");
+	fprintf(fp, userCSVHeader.c_str());
+//	fprintf(fp, "#imgindex,original_filepath,roi,animal_name,sighting_id,flank,notes,photo_quality,sighting_date,sighting_time,exposure_time,focal_length,aperture_Fnumber,camera_info,sex,age,sighting_location,group_size,gps_lat,gps_lon,reproductive_status\n");
 	for(map<int,PhotoInfo*>::iterator it=photo_to_info.begin();it!=photo_to_info.end();it++)
 		fprintf(fp, "%s\n", it->second->toString().c_str());
 	fclose(fp);
