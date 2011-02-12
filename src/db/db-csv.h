@@ -51,6 +51,7 @@ typedef struct _PhotoInfo {
     string gps_lon;
     string sighting_location;
     int group_size;
+	vector<string> other_info;
 
     _PhotoInfo() {
         sex = UNKNOWN;
@@ -86,7 +87,12 @@ typedef struct _PhotoInfo {
             << group_size << (char)1
             << gps_lat << (char)1
             << gps_lon << (char)1
-            << reproductive ;
+            << reproductive;
+
+		// dump user-generated CSV information as well
+		if(other_info.size()) 
+			for(unsigned j = 0; j < other_info.size(); j++)
+				ss << (char)1 << other_info[j];
 
         string st = ss.str();
         for(unsigned i = 0; i < st.size(); i++)
@@ -121,7 +127,8 @@ class PhotoDatabase {
         map<int,StripeCode> stripeCodes;
         map<int,MultiScaleHistogram> MRHistograms;
 
-
+	private:
+		string userCSVHeader;
 };
 
 #endif
