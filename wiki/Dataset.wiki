@@ -1,4 +1,4 @@
-# How to add the Dataset to the StripeSpotter Program
+How to add the Dataset to the StripeSpotter Program
 
 == Dataset Guide ==
 After the completion of the Download and Install Guide: DownloadAndInstall. 
