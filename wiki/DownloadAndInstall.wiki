@@ -6,24 +6,18 @@ Programs that must be installed prior:
 
 *Visual C++ 2008 Express Edition* installed: free to download from http://www.microsoft.com/express/
 
-*1.* Listed under downloads
-
-*2.* Then the third tab “Visual Studio 2008 Express”
-
-*3.* In the left column, select “Visual C++ 2008 Express Edition”
-
-*4.* Select a language and then select “Free Download”
-
-*5.* Run the downloaded install file
-
------
+  # Listed under downloads
+  # Then the third tab “Visual Studio 2008 Express”
+  # In the left column, select “Visual C++ 2008 Express Edition”
+  # Select a language and then select “Free Download”
+  # Run the downloaded install file
 
 *wxWidget 2.8.1* installed: downloaded from http://www.wxwidgets.org/downloads/ 
 file name:  wxMSW-2.8.11-Setup.exe or wxMSW-2.8.11-Setup.zip
+  # Run and install the Setup.exe
 
-*1.*	Run and install the Setup.exe
 
-
+-----
 = Details =
 
 Now with both Visual C++ 2008 Express Edition and wxWidget installed we can begin to construct the program directory.
