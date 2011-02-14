@@ -4,17 +4,17 @@
 
 Programs that must be installed prior:
 
-*Visual C++ 2008 Express Edition* installed: free to download from www.microsoft.com/express/
+*Visual C++ 2008 Express Edition* installed: free to download from http://www.microsoft.com/express/
 
-*1.*	Listed under downloads
+*1.* Listed under downloads
 
-*2.*	Then the third tab “Visual Studio 2008 Express”
+*2.* Then the third tab “Visual Studio 2008 Express”
 
-*3.*	In the left column, select “Visual C++ 2008 Express Edition”
+*3.* In the left column, select “Visual C++ 2008 Express Edition”
 
-*4.*	Select a language and then select “Free Download”
+*4.* Select a language and then select “Free Download”
 
-*5.*	Run the downloaded install file
+*5.* Run the downloaded install file
 
 -----
 
