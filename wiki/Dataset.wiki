@@ -1,6 +1,16 @@
 # How to add the Dataset to the StripeSpotter Program
 
-== Introduction ==
-After the completion of the Download and Install Guide DownloadAndInstall
-The program can be loaded the following Dataset.
+== Dataset Guide ==
+After the completion of the Download and Install Guide: DownloadAndInstall. 
 
+The program can now accept the Dataset located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*).
+
+*1.* Locate the directory that contains the *StirpeSpotterProgram.exe*, which in DownloadAndInstall guide the directory was located in ( projects\MSVC\StripeSpotterProject\Release ). 
+
+*2.* If there is already a folder named "data", the contents of that directory *might be modified or replaced*. Create a *backup* of this directory if necessary before continuing to further steps. 
+
+*3.* When all three zip files of the dataset are located in the same directory open the file *"data.zip"*.
+
+*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. From the DownloadAndInstall guide the directory was ( projects\MSVC\StripeSpotterProject\Release ). If there is a folder already named "data", you will be asked if it's okay to replace that folder with the downloaded dataset. See step *2.*.
+
+*5.* The dataset is now ready to be viewed in the StipeSpotter Program!
