@@ -1,8 +1,6 @@
 #summary How to download and install StripeSpotter
 
-= Introduction =
-
-Programs that must be installed prior:
+=Programs that must be installed prior:=
 
 ==Visual C++ 2008 Express Edition installed:==
 Free to download from http://www.microsoft.com/express/
