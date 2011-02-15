@@ -1,1 +1,3 @@
 #summary How to download and install StripeSpotter
+
+From the [Downloads] page, download the zip file located in [StripeSpotter (Windows, ZIP file)]
