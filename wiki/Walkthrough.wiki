@@ -1,7 +1,7 @@
 #summary Automatic animal ID walkthrough
 
 = Introduction =
-Now having completed the [DownloadAndInstall] guide, you are now ready to start using the StripeSpotter Program.
+Now having completed the [DownloadAndInstall] guide, you are now ready to start using the *StripeSpotter Program*.
 
 
 = Details =
