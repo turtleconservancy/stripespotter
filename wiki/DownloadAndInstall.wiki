@@ -16,6 +16,7 @@ Free to download from http://www.microsoft.com/express/
 *5.* Run the downloaded install file
 
 ==wxWidget 2.8.1 installed:==
-Downloaded from http://www.wxwidgets.org/downloads/ 
-file name:  wxMSW-2.8.11-Setup.exe or wxMSW-2.8.11-Setup.zip
+Downloaded from http://www.wxwidgets.org/downloads/
+
+The name of the file to download:  *wxMSW-2.8.11-Setup.exe* or *wxMSW-2.8.11-Setup.zip*
   # Run and install the Setup.exe
