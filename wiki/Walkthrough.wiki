@@ -6,3 +6,6 @@ Now having completed the [DownloadAndInstall] guide, you are now ready to start 
 
 = Details =
 *1.* To start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application). 
+
+
+[http://code.google.com/stripespotter.googlecode.com/svn/wiki/homescreen.png]
