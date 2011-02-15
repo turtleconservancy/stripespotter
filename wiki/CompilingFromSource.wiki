@@ -1,3 +1,5 @@
+#summary How to compile from source files
+
 =Programs that must be installed prior:=
 
 ==Visual C++ 2008 Express Edition installed:==
@@ -19,9 +21,7 @@ Downloaded from http://www.wxwidgets.org/downloads/
 The name of the file to download:  *wxMSW-2.8.11-Setup.exe* or *wxMSW-2.8.11-Setup.zip*
   # Run and install the Setup.exe
 
-
 -----
-
 
 = Details =
 
@@ -31,7 +31,8 @@ Now with both Visual C++ 2008 Express Edition and wxWidget installed we can begi
 
 *2.* Select “Open” from the main toolbar and then select “File...”
 
-*3.* From this browser Select your main hard drive (typically C:), there will be a folder located in this directory named “wxMSW-2.8.11” open this folder. There will then be folder named “build” open this folder, now open the folder “msw”. In the folder “msw” locate and open the file *“wx.dsw”* (file type: VC++ 6 Workspace). ( C:\wxWidgets-2.8.11\build\msw\wx.dsw )
+*3.* From this browser Select your main hard drive (typically C:), there will be a folder located in this directory named “wxMSW-2.8.11” open this folder. There will then be folder named “build” open this folder, now 
+open the folder “msw”. In the folder “msw” locate and open the file *“wx.dsw”* (file type: VC++ 6 Workspace). ( C:\wxWidgets-2.8.11\build\msw\wx.dsw )
 
 *4.* Under the main toolbar there is a green “Start” button and next to it a “Solution Configuration” drop-down list box, make certain that this box reads *“Unicode Release”*. 
 
