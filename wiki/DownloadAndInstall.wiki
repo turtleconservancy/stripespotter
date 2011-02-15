@@ -2,8 +2,11 @@
 
 *1.* From the Downloads page, download the zip file located in StripeSpotter (Windows, ZIP file).
 
+
 *2.* Locate and open the zip file *StripeSpotter-v2.0.zip*
 
+
 *3.* You can unzip the folder *"StripeSpotter"* either by "dragging and dropping" the folder to where you like or manually browse the location where you would like the folder unzipped.
+
 
 *4.* Now to start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application).
