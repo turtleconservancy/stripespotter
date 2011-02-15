@@ -46,4 +46,4 @@ open the folder “msw”. In the folder “msw” locate and open the file *“
 
 *9.* Select “Build” from the main toolbar and then “Build Solution”. After Build is complete proceed to next step.
 
-*10.* There will be a newly created folder now in ( projects\MSVC\StripeSpotterProject\) named “Release”, in this directory the program is ready to be ran using “StripeSpotterProject.exe”!
+*10.* There will be a newly created folder now in ( projects\MSVC\StripeSpotterProject\) named “Release”, in this directory the program is ready to be ran using “StripeSpotterProject.exe".
