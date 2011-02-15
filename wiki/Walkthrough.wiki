@@ -5,8 +5,4 @@ Now having completed the [DownloadAndInstall] guide, you are now ready to start 
 
 
 = Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+*1.* To start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application). 
