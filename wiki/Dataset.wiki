@@ -10,6 +10,6 @@ After completing the DownloadAndInstall guide the StripeSpotter program is now r
 
 *3.* Now open *"data.zip"* from the directory that has all three zip files (*data.zip, data.z01, data.z02*).
 
-*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. Again If there is a folder already named "data", See step *2.*.
+*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. If there is a folder already named "data", See step *2.*.
 
 *5.* The dataset is now ready to be viewed in the StripeSpotter Program!
