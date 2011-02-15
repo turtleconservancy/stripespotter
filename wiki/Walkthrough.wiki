@@ -1,11 +1,12 @@
 #summary Automatic animal ID walkthrough
 
 = Introduction =
-Now having completed the [DownloadAndInstall] guide, you are now ready to start using the *StripeSpotter Program*.
+Having completed the [DownloadAndInstall] guide, you are now ready to start using the *StripeSpotter Program*.
 
 
 = Details =
 *1.* To start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application). 
 
+*2.* To start adding pictures to the database click on the button pictured
 
 [http://stripespotter.googlecode.com/svn/wiki/homescreen.PNG]
