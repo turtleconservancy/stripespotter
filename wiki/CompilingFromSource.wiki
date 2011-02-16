@@ -35,7 +35,7 @@ Now with both Visual C++ 2008 Express Edition and wxWidget installed we can begi
 open the folder “msw”. In the folder “msw” locate and open the file *“wx.dsw”* (file type: VC++ 6 Workspace).
 
 
-(C:\wxWidgets-2.8.11\build\msw\wx.dsw )
+( C:\ wxWidgets-2.8.11 \ build \ msw \ wx.dsw )
 
 *4.* Under the main toolbar there is a green “Start” button and next to it a “Solution Configuration” drop-down list box, make certain that this box reads *“Unicode Release”*. Pictured below.
 [http://stripespotter.googlecode.com/svn/wiki/solutionConfiguration.PNG]
@@ -46,7 +46,7 @@ open the folder “msw”. In the folder “msw” locate and open the file *“
 
 *7.* From this browser window locate the directory of the Project source, start with the folder *"project"*, there will be a folder located in this directory named “MSVC” open this folder. There will then be a folder named “StripeSpotterProject” open this folder, now locate and open the file *“StripeSpotterProject.sln”* (file type: Microsoft Visual Studio Solution).
 
-(projects\MSVC\StripeSpotterProject\StripeSpotterProject.sln)
+( projects \ MSVC \ StripeSpotterProject \ StripeSpotterProject.sln )
 
 *8.* Just like in step 4 , change the drop-down list box to *“Release”* this time.
 [http://stripespotter.googlecode.com/svn/wiki/release.PNG]
