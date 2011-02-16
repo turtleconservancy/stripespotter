@@ -17,9 +17,17 @@ Having completed the [DownloadAndInstall] guide, you are now ready to start usin
 [http://stripespotter.googlecode.com/svn/wiki/zoomBody.PNG]
 [http://stripespotter.googlecode.com/svn/wiki/info.PNG]
 [http://stripespotter.googlecode.com/svn/wiki/identifyAnimal.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/algor.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/flank.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/results.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/choosen.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/save.PNG]
+
 
 Consistent / avoid the inclusion of areas that are not a part of the animal such as the ground
 
 Flank importance
 
 Graffias use the CO algorithm,
+
+choosen pic: allows you to compare the photos side by side
