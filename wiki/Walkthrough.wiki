@@ -7,6 +7,19 @@ Having completed the [DownloadAndInstall] guide, you are now ready to start usin
 = Details =
 *1.* To start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application). 
 
-*2.* To start adding pictures to the database click on the button pictured
+*2.* To start adding pictures to the database click on the button pictured.This will open the *Add pictures to database* window.
 
 [http://stripespotter.googlecode.com/svn/wiki/homescreen.PNG]
+
+*3.*
+[http://stripespotter.googlecode.com/svn/wiki/browse.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/zoomFull.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/zoomBody.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/info.PNG]
+[http://stripespotter.googlecode.com/svn/wiki/identifyAnimal.PNG]
+
+Consistent / avoid the inclusion of areas that are not a part of the animal such as the ground
+
+Flank importance
+
+Graffias use the CO algorithm,
