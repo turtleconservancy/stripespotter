@@ -2,7 +2,7 @@
 
 =Programs that must be installed prior:=
 
-==Visual C++ 2008 Express Edition installed:==
+==Visual C++ 2008 Express Edition installed: (Now Located in the Downloads section)==
 Free to download from http://www.microsoft.com/express/
 
 *1.* Listed under the tab *Downloads*.
@@ -15,7 +15,7 @@ Free to download from http://www.microsoft.com/express/
 
 *5.* Run the downloaded install file.
 
-==wxWidget 2.8.1 installed:==
+==wxWidget 2.8.1 installed: (Now Located in the Downloads section)==
 Downloaded from http://www.wxwidgets.org/downloads/
 
 The name of the file to download:  *wxMSW-2.8.11-Setup.exe* or *wxMSW-2.8.11-Setup.zip*
