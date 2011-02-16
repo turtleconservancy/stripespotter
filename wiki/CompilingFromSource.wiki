@@ -34,7 +34,9 @@ Now with both Visual C++ 2008 Express Edition and wxWidget installed we can begi
 *3.* From this browser Select your main hard drive (typically C:), there will be a folder located in this directory named “wxMSW-2.8.11” open this folder. There will then be folder named “build” open this folder, now 
 open the folder “msw”. In the folder “msw” locate and open the file *“wx.dsw”* (file type: VC++ 6 Workspace). ( C:\wxWidgets-2.8.11\build\msw\wx.dsw )
 
-*4.* Under the main toolbar there is a green “Start” button and next to it a “Solution Configuration” drop-down list box, make certain that this box reads *“Unicode Release”*. 
+*4.* Under the main toolbar there is a green “Start” button and next to it a “Solution Configuration” drop-down list box, make certain that this box reads *“Unicode Release”*. Pictured below.
+
+[http://stripespotter.googlecode.com/svn/wiki/solutionConfiguration.PNG]
 
 *5.* Select “Build” from the main toolbar and then “Build Solution”. After Build is complete proceed to next step.
 
