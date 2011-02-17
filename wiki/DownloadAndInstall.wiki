@@ -1,6 +1,6 @@
 #summary How to download and install StripeSpotter
 
-*1.* From the Downloads page, download the zip file located in StripeSpotter (Windows, ZIP file).
+*1.* From the Downloads page, download the zip file listed under StripeSpotter (Windows, ZIP file).
 
 
 *2.* Locate and open the zip file *StripeSpotter-v2.0.zip*
