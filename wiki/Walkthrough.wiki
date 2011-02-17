@@ -4,7 +4,8 @@
 Having completed the [DownloadAndInstall] guide, you are now ready to start using the *StripeSpotter Program*.
 
 
-= Details =
+=Adding=
+
 *1.* To start the program open the folder *"StripeSpotter"* and run the file *StripeSpotter.exe* (Type: Application). 
 
 *2.* To start adding pictures to the database click this button:
@@ -54,25 +55,32 @@ When you are complete with entering information for the particular animal click 
 [http://stripespotter.googlecode.com/svn/wiki/flank.PNG]
 
 
+*8.* To save the entered data to file, close the *Add pictures to database* window. From the main StripeSpotter menu select *File* and click *Save data spreedsheet...*.
+
+
+[http://stripespotter.googlecode.com/svn/wiki/save.png]
+
+
+=Identifying=
+
+*1.* Select a photo and proceed to crop the portion of the animal that is to be identified.
+
 
 [http://stripespotter.googlecode.com/svn/wiki/identifyAnimal.PNG]
 
 
-
-Graffias use the CO algorithm,
-
-choosen pic: allows you to compare the photos side by side
-
-
+*2.* Choose the appropriate identifying algorithm, StripeCode is used for zebras and CO-1 is better for giraffes.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/algor.PNG]
+
+*3.* Clicking *IDENTIFY ANIMAL* creates a list of potential matches in the middle column.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/results.PNG]
 
 
+*4.* Clicking a potential match displays that animal underneath the animal that is to be identified to ease comparing.
+
+
 [http://stripespotter.googlecode.com/svn/wiki/choosen.PNG]
-
-
-[http://stripespotter.googlecode.com/svn/wiki/save.png]
