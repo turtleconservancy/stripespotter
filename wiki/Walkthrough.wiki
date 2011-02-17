@@ -47,7 +47,7 @@ Avoid the inclusion of areas that are not the animals body such as grass.
 [http://stripespotter.googlecode.com/svn/wiki/info.PNG]
 
 
-*7.* The Flank entry should be kept in mind when photos switch from right to left focus often. 
+*7.* The *Flank* entry should be kept in mind when photos switch from right to left focus often. 
 
 When you are complete with entering information for the particular animal click *Save*.
 
@@ -69,7 +69,8 @@ When you are complete with entering information for the particular animal click 
 [http://stripespotter.googlecode.com/svn/wiki/identifyAnimal.PNG]
 
 
-*2.* Choose the appropriate identifying algorithm, StripeCode is used for zebras and CO-1 is better for giraffes.
+*2.* Choose the appropriate identifying algorithm, 
+*StripeCode is used for zebras and *CO-1* is better for giraffes.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/algor.PNG]
@@ -80,7 +81,9 @@ When you are complete with entering information for the particular animal click 
 [http://stripespotter.googlecode.com/svn/wiki/results.PNG]
 
 
-*4.* Clicking a potential match displays that animal underneath the animal that is to be identified to ease comparing.
+*4.* Clicking a potential match displays that match underneath the animal that is to be identified.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/choosen.PNG]
+
+*5.* You can either accept the match by clicking *Accept match* or create a new entry for the animal. 
