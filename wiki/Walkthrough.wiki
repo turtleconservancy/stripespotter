@@ -22,7 +22,9 @@ This will open the *Add pictures to database* window.
 [http://stripespotter.googlecode.com/svn/wiki/browse.PNG]
 
 
-*4.* Select a photo listed in the left column, the photo is now displayed in the right window. Clicking on the image starts a cropping tool, select the entire body of the animal. 
+*4.* Select a photo listed in the left column, the photo is now displayed in the right window. 
+
+Clicking on the image starts a cropping tool, select the entire body of the animal. 
 
 
 [http://stripespotter.googlecode.com/svn/wiki/zoomFull.PNG]
@@ -30,7 +32,9 @@ This will open the *Add pictures to database* window.
 
 Now click *Zoom In*.
 
-*5.* Now select the portion of the animal that is to be identified, this selection must be kept consistent across all photo selections. Avoid the inclusion of areas that are not the animals body such as grass.
+*5.* Now select the portion of the animal that is to be identified, this selection must be kept consistent across all photo selections. 
+
+Avoid the inclusion of areas that are not the animals body such as grass.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/zoomBody.PNG]
@@ -42,7 +46,9 @@ Now click *Zoom In*.
 [http://stripespotter.googlecode.com/svn/wiki/info.PNG]
 
 
-*7.* The Flank entry should be kept in mind when photos switch from right to left often. When you are complete with entering information for the particular animal click *Save*.
+*7.* The Flank entry should be kept in mind when photos switch from right to left focus often. 
+
+When you are complete with entering information for the particular animal click *Save*.
 
 
 [http://stripespotter.googlecode.com/svn/wiki/flank.PNG]
