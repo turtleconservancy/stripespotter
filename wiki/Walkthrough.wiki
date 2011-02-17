@@ -86,4 +86,4 @@ When you are complete with entering information for the particular animal click 
 
 [http://stripespotter.googlecode.com/svn/wiki/choosen.PNG]
 
-*5.* You can either accept the match by clicking *Accept match* or create a new entry for the animal. 
+*5.* You can either accept the match by clicking *Accept match* or create a new entry by clicking *Save as a new animal*.
