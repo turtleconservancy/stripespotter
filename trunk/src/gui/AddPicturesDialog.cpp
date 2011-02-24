@@ -327,6 +327,7 @@ void DLGAddPictures::OnScan(wxCommandEvent &event) {
     wxArrayString allFiles;
     int filesFound = wxDir::GetAllFiles(selectedPath, &allFiles, wxEmptyString, wxDIR_FILES);
     int imagesFound = 0;
+    long itemIndex = -1;
     for(int i = 0; i < filesFound; i++) {
         wxString &filePath = allFiles[i];
         if(filePath.EndsWith((const wxChar*)wxT("jpg")) || filePath.EndsWith((const wxChar*)wxT("JPG"))) {
@@ -339,7 +340,7 @@ void DLGAddPictures::OnScan(wxCommandEvent &event) {
 #else
 			wxString fileNameFinal = fileNameUnix;
 #endif
-            long itemIndex = lctrlFileList->InsertItem(0, fileNameFinal);
+            lctrlFileList->InsertItem(++itemIndex, fileNameFinal);
             lctrlFileList->SetItem(itemIndex, 1, wxEmptyString);
             lctrlFileList->SetItem(itemIndex, 2, filePath);
 			lctrlFileList->SetItemData(itemIndex, (long) sortKeys.size());

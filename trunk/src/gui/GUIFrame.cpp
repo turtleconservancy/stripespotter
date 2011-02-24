@@ -33,14 +33,18 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_separator1 = fileMenu->AppendSeparator();
 	
 	wxMenuItem* menuFileQuit;
-	menuFileQuit = new wxMenuItem( fileMenu, idMenuQuit, wxString( wxT("&Quit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Quit the application"), wxITEM_NORMAL );
+#ifdef __WXMAC__
+	menuFileQuit = new wxMenuItem( fileMenu, wxID_EXIT, wxString( wxT("&Quit") ) + wxT('\t') + wxT("Ctrl+Q"), wxT("Quit the application"), wxITEM_NORMAL );
+#else
+	menuFileQuit = new wxMenuItem( fileMenu, wxID_EXIT, wxString( wxT("&Quit") ) + wxT('\t') + wxT("Alt+F4"), wxT("Quit the application"), wxITEM_NORMAL );
+#endif
 	fileMenu->Append( menuFileQuit );
 	
 	mbar->Append( fileMenu, wxT("&File") ); 
 	
 	helpMenu = new wxMenu();
 	wxMenuItem* menuHelpAbout;
-	menuHelpAbout = new wxMenuItem( helpMenu, idMenuAbout, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
+	menuHelpAbout = new wxMenuItem( helpMenu, wxID_ABOUT, wxString( wxT("&About") ) + wxT('\t') + wxT("F1"), wxT("Show info about this application"), wxITEM_NORMAL );
 	helpMenu->Append( menuHelpAbout );
 	
 	mbar->Append( helpMenu, wxT("&Help") ); 
@@ -56,8 +60,14 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	wxBoxSizer* bToolAreaSizer;
 	bToolAreaSizer = new wxBoxSizer( wxHORIZONTAL );
+
+#ifdef __WXMAC__
+    wxString bmp_file = wxGetCwd() + wxT("/StripeSpotter.app/Contents/Resources/icon-zebra.bmp");
+#else
+    wxString bmp_file = wxT("icon-zebra.bmp");
+#endif
 	
-	btnAddNewPictures = new wxBitmapButton( this, wxID_ANY, wxBitmap( wxT("icon-zebra.bmp"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
+	btnAddNewPictures = new wxBitmapButton( this, wxID_ANY, wxBitmap(bmp_file, wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, wxBU_AUTODRAW );
 	bToolAreaSizer->Add( btnAddNewPictures, 0, wxALL, 5 );
 	
 	wxBoxSizer* bSizer12;
@@ -98,8 +108,8 @@ GUIFrame::~GUIFrame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( GUIFrame::OnClose ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnFileSaveCSV ) );
-	this->Disconnect( idMenuQuit, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
-	this->Disconnect( idMenuAbout, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
+	this->Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnQuit ) );
+	this->Disconnect( wxID_ABOUT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( GUIFrame::OnAbout ) );
 	btnAddNewPictures->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( GUIFrame::OnAddPictures ), NULL, this );
 	lctrlMainDisplay->Disconnect( wxEVT_COMMAND_LIST_ITEM_SELECTED, wxListEventHandler( GUIFrame::OnListItemSelected ), NULL, this );
 	
