@@ -10,9 +10,23 @@
 #include "StripeSpotterApp.h"
 #include "StripeSpotterMain.h"
 
+// Uncomment the following line to run the app from Terminal
+// #define __MAC_TERMINAL_APP__
+
+#if defined(__WXMAC__) && defined(__MAC_TERMINAL_APP__)
+#include <ApplicationServices/ApplicationServices.h>
+#endif
+
 IMPLEMENT_APP(StripeSpotterApp);
 
 bool StripeSpotterApp::OnInit() {
+
+#if defined(__WXMAC__) && defined(__MAC_TERMINAL_APP__)
+    ProcessSerialNumber PSN;
+    GetCurrentProcess(&PSN);
+    TransformProcessType(&PSN,kProcessTransformToForegroundApplication);
+#endif
+
     wxInitAllImageHandlers();
     StripeSpotterFrame* frame = new StripeSpotterFrame(0L);
     frame->Show();
