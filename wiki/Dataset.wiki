@@ -9,23 +9,8 @@ We collected our dataset over a period of seven days at the Ol'Pejeta Conservanc
 
 We collected as many pictures as possible of each flank of an animal in different positions in its natural walking gait. As a result, a number of pictures are quite similar. A professionally trained field assistant identified the images based on a database of prior sightings stretching back almost ten years. Almost every zebra we observed in the wild was therefore reliably identified. The manual identification method involves assigning each zebra an ad-hoc code based on the pattern of stripes along its shoulder. These (textual) codes are then fed into a photo organizing program that searches metadata for a similar code string. The final match is made by direct visual observation by a professional. We determined after manual identification that several animals were observed on multiple days, which makes our dataset more representative of intended usage.
 
-== Installation Guide ==
-
-After completing the DownloadAndInstall guide the StripeSpotter program is now ready to accept a Dataset. One is located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
-
-*1.* Locate the main directory that contains the *StripeSpotterProgram.exe* program file.
-
-*2.* If there is already a folder named "data", the contents of that directory *might be modified or replaced*. Create a *backup* of this directory if necessary before continuing to further steps. 
-
-*3.* Now open *"data.zip"* from the directory that has all three zip files (*data.zip, data.z01, data.z02*).
-
-*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. If there is a folder already named "data", See step *2.*.
-
-*5.* The dataset is now ready to be viewed in the `StripeSpotter` Program!
 
 == Citing ==
-
-
 
 For more details on the `StripeCode` algorithm, please refer to the [http://compbio.cs.uic.edu/~mayank/papers/LahiriEtal_ZebraID11.pdf ACM ICMR 2011 conference paper]. *If you use `StripeCode` or our dataset in academic research, please cite the following paper*:
 
@@ -42,3 +27,23 @@ Bibtex:
   publisher={ACM Press}
 }
 }}}
+
+== Installation Guide ==
+
+After completing the DownloadAndInstall guide the StripeSpotter program is now ready to accept a Dataset. One is located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
+
+*1.* Locate the main directory that contains the *StripeSpotterProgram.exe* program file.
+
+*2.* If there is already a folder named "data", the contents of that directory *might be modified or replaced*. Create a *backup* of this directory if necessary before continuing to further steps. 
+
+*3.* Now open *"data.zip"* from the directory that has all three zip files (*data.zip, data.z01, data.z02*).
+
+*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. If there is a folder already named "data", See step *2.*.
+
+*5.* The dataset is now ready to be viewed in the `StripeSpotter` Program!
+
+== Using the dataset without StripeSpotter ==
+
+We welcome the use of our dataset in further academic research, but request that you cite our ICMR 2011 paper if you publish your results. We also welcome updates and patches to the StripeSpotter source.
+
+After unzipping the dataset as described in the previous section, you will find a `data` folder, with an `images` subfolder. Each image is in standard JPEG format with an associated thumbnail, and all image metadata is in the `SightingData.csv` file, which can be opened with Excel or Openoffice.
