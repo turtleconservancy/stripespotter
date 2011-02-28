@@ -13,3 +13,23 @@ After completing the DownloadAndInstall guide the StripeSpotter program is now r
 *4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. If there is a folder already named "data", See step *2.*.
 
 *5.* The dataset is now ready to be viewed in the StripeSpotter Program!
+
+== Citing ==
+
+
+
+For more details on the `StripeCode` algorithm, please refer to the [http://compbio.cs.uic.edu/~mayank/papers/LahiriEtal_ZebraID11.pdf ACM ICMR 2011 conference paper]. *If you use `StripeCode` or our dataset in academic research, please cite the following paper*:
+
+  * M. Lahiri, C. Tantipathananandh, R. Warungu, D.I. Rubenstein, T.Y. Berger-Wolf. _Biometric Animal Databases from Field Photographs: Identification of Individual Zebra in the Wild._ Proceedings of the ACM International Conference on Multimedia Retrieval (ICMR 2011), Trento, Italy, 2011.
+
+Bibtex:
+
+{{{
+@InProceedings{lahiri11_biometric,
+  title={Biometric Animal Databases from Field Photographs: Identification of Individual Zebra in the Wild},
+  author={M. Lahiri and C. Tantipathananandh and R. Warungu and D.I. Rubenstein and T.Y. Berger-Wolf},
+  year={2011}
+  booktitle={Proceedings of the ACM International Conference on Multimedia Retrieval (ICMR 2011)},
+  publisher={ACM Press}
+}
+}}}
