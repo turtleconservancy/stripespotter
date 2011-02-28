@@ -1,4 +1,5 @@
 #summary How to download and install StripeSpotter
+#labels Featured
 
 *1.* From the Downloads page, download the zip file listed under `StripeSpotter` (Windows, ZIP file).
 
