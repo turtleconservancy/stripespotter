@@ -30,9 +30,9 @@ Bibtex:
 
 == Installation Guide ==
 
-After completing the DownloadAndInstall guide the StripeSpotter program is now ready to accept a Dataset. One is located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
+After completing the DownloadAndInstall guide the `StripeSpotter` program is now ready to accept a Dataset. One is located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
 
-*1.* Locate the main directory that contains the *StripeSpotterProgram.exe* program file.
+*1.* Locate the main directory that contains the *`StripeSpotterProgram`.exe* program file.
 
 *2.* If there is already a folder named "data", the contents of that directory *might be modified or replaced*. Create a *backup* of this directory if necessary before continuing to further steps. 
 
@@ -42,7 +42,7 @@ After completing the DownloadAndInstall guide the StripeSpotter program is now r
 
 *5.* The dataset is now ready to be viewed in the `StripeSpotter` Program!
 
-== Using the dataset without StripeSpotter ==
+== Using the dataset without the GUI ==
 
 We welcome the use of our dataset in further academic research, but request that you cite our ICMR 2011 paper if you publish your results. We also welcome updates and patches to the StripeSpotter source.
 
