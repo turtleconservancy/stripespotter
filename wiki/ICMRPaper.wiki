@@ -1,9 +1,11 @@
 #summary How to reproduce results in the ACM ICMR 2011 research paper.
 #labels Featured
 
+==Overview==
+
 The dataset used in the paper is available in the Downloads section of this site. The procedure is described in more detail on the [Dataset] page. As part of the source package also available on this site, we include two programs meant to benchmark the performance of the `StripeCode` algorithm relative to the CO-1 algorithm and a random ranking baseline. These programs may be found in the `util` source directory, and projects for the free [http://www.codeblocks.org/ Code::Blocks development environment] may be found in the `projects` directory.
 
-We provide pre-processed image feature files for our dataset, also available in the downloads section. These files may be used directly with the `Benchmarker` program to measure retrieval performance.
+We provide pre-processed image feature files for our dataset, also available in the downloads section. These files may be used directly with the `Benchmarker` program to measure retrieval performance. *The files may be found in the [http://code.google.com/p/stripespotter/source/browse/trunk icmr branch of the repository].
 
   * StripeCodes.txt
   * MRHistograms.txt
@@ -11,3 +13,5 @@ We provide pre-processed image feature files for our dataset, also available in 
 The full set of command line options for the Benchmarker program can be obtained by running it with the `--help` flag. 
 
 We also provide four scripts for the free [http://www.r-project.org/ R statistical package] that generates the plots in our ACM ICMR paper from the output of the `Benchmarker` program. 
+
+== Running benchmarks ==
