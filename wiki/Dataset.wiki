@@ -1,6 +1,8 @@
 #summary How to add the Dataset to the StripeSpotter Program
 #labels Featured
 
+In the interest of reproducible research and advancing the state of the art, we have released our dataset under a [http://creativecommons.org/licenses/by-sa/3.0/ Creative Commons BY-SA] license. Please make sure you understand the terms of the license before using our dataset for any purpose. In general, academic research is always allowed, and almost any use with attribution, except commercial use.
+
 == About this dataset ==
 
 (excerpted from the paper at the bottom of this page)
