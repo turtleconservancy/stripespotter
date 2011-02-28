@@ -30,4 +30,4 @@ The three commands above run a series of randomized retrieval experiments (using
 R --no-save -f plot-MRR.R
 }}}
 
-An image file called `fig-MRR.eps` can now be found in the same directory.
+An image file called `fig-MRR.eps` can now be found in the same directory. Open this file with Ghostscript on Windows or evince on Linux, or include it directly in your Latex source.
