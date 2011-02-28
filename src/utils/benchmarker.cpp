@@ -1,5 +1,5 @@
 #include "pch.h"
-#define GLOBALS			// global variables for image filters are to be declared in this file
+//#define GLOBALS			// global variables for image filters are to be declared in this file
  						// (and extern'd elsewhere)
 #include "StripeCode.h"
 using namespace std;
@@ -199,7 +199,6 @@ void sample_db_query_pair(int dbsize) {
 	}
 
 	// choose query image
-	shuffle(remainder);
 	QUERY = remainder[RNG.genrand_real2()*remainder.size()];
 
     // sanity check to make sure DB does not contain query
