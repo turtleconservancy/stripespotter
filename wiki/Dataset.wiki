@@ -30,7 +30,7 @@ Bibtex:
 
 == Installation Guide ==
 
-After completing the DownloadAndInstall guide the `StripeSpotter` program is now ready to accept a Dataset. One is located under [Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
+After completing the DownloadAndInstall guide the `StripeSpotter` program is now ready to accept a Dataset. One is located under [http://code.google.com/p/stripespotter/downloads/list Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
 
 *1.* Locate the main directory that contains the *`StripeSpotterProgram`.exe* program file.
 
@@ -38,12 +38,12 @@ After completing the DownloadAndInstall guide the `StripeSpotter` program is now
 
 *3.* Now open *"data.zip"* from the directory that has all three zip files (*data.zip, data.z01, data.z02*).
 
-*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *StripeSpotterProgram.exe*. If there is a folder already named "data", See step *2.*.
+*4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *`StripeSpotterProgram`.exe*. If there is a folder already named "data", See step *2.*.
 
 *5.* The dataset is now ready to be viewed in the `StripeSpotter` Program!
 
 == Using the dataset without the GUI ==
 
-We welcome the use of our dataset in further academic research, but request that you cite our ICMR 2011 paper if you publish your results. We also welcome updates and patches to the StripeSpotter source.
+We welcome the use of our dataset in further academic research, but request that you cite our ICMR 2011 paper if you publish your results. We also welcome updates and patches to the `StripeSpotter` source.
 
 After unzipping the dataset as described in the previous section, you will find a `data` folder, with an `images` subfolder. Each image is in standard JPEG format with an associated thumbnail, and all image metadata is in the `SightingData.csv` file, which can be opened with Excel or Openoffice.
