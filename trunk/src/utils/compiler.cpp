@@ -14,10 +14,12 @@
  *    [S.Ravela and L.R. Gamble, 2004]. Scales start from the original
  *    image size and decrease in one-octave steps.
  *
+ * USAGE:
+ *
+ * DataCompiler DATA_DIRECTORY > stripecodes.txt
+ *
  **********************************************************************/
 #include "pch.h"
-#define GLOBALS			// global variables for image filters are to be declared in this file
- 						// (and extern'd elsewhere)
 #include "StripeCode.h"
 using namespace std;
 
@@ -25,7 +27,7 @@ map<string, vector<int> > animal_to_photos;
 
 int main(int argc, char *argv[]) {
 	if(argc < 2)
-		return printf("Usage: compiler <data directory>\n");
+		return printf("Usage: compiler <StripeSpotter data directory>\nOutput: StripeCodes.txt and MRHistograms.txt\n");
 	if(chdir(argv[1]))
 		return printf("Cannot access directory '%s'\n", argv[1]);
 	wxInitAllImageHandlers();
@@ -34,10 +36,11 @@ int main(int argc, char *argv[]) {
 	// read and parse metadata file
 	FILE *fp = fopen("SightingData.csv", "r");
 	if(!fp)
-		return printf("Cannot open 'SightingData.csv\n");
+		return printf("Cannot open 'SightingData.csv'\n");
 	char buf[4096];
 	while(fgets(buf, 4096, fp)) {
-		if(buf[0]=='#') continue;
+		if(buf[0]=='#')
+            continue;
 		int photoID = atoi(buf);
 		if(photoID > 0) {
 			char *p = buf;
@@ -58,8 +61,16 @@ int main(int argc, char *argv[]) {
 	}
 	fclose(fp);
 
+	// create output file
+	FILE *fpStripeCode = fopen("StripeCodes.txt", "w+");
+	FILE *fpMRHistograms = fopen("MRHistograms.txt", "w+");
+	if(!fpStripeCode || !fpMRHistograms) {
+        printf("Cannot create output files!\n");
+        return 1;
+	}
+
 	// read and StripeCode all images
-	double runAvgTime = 0, numTime=0;
+	double runAvgTimeSC = 0, numTime=0, runAvgTimeMRH = 0;
 	for(map<string, vector<int> >::iterator a = animal_to_photos.begin();
 											a != animal_to_photos.end(); a++)
 		for(vector<int>::iterator photo = a->second.begin(); photo != a->second.end(); photo++) {
@@ -73,17 +84,28 @@ int main(int argc, char *argv[]) {
 			// TODO: random crop support for experiments
 
 			// read StripeCode features from image
-			//StripeCode features;
-			MultiScaleHistogram features;
+			StripeCode featuresSC;
 			startClocks();
-			if(!features.read(&img, *photo))
+			if(!featuresSC.read(&img))
                 return fprintf(stderr, "Error: cannot extract features from 'images/roi-%07d.jpg' for animal '%s'\n", *photo, a->first.c_str());
-            runAvgTime += stopClocks();
+            runAvgTimeSC += stopClocks();
+
+            // read multi-scale histograms from image
+            MultiScaleHistogram featuresMRH;
+			startClocks();
+			if(!featuresMRH.read(&img))
+                return fprintf(stderr, "Error: cannot extract features from 'images/roi-%07d.jpg' for animal '%s'\n", *photo, a->first.c_str());
+            runAvgTimeMRH += stopClocks();
+
+            // done
             numTime++;
-            fprintf(stderr, "Extraction time (running average): %f sec\n", runAvgTime/numTime);
-            printf("ANIMAL %s %d\n%s\n", a->first.c_str(), *photo, features.toString().c_str());
-            fflush(stdout);
+            fprintf(stderr, "Extraction time (running average): STRIPECODE %f sec MRHISTOGRAMS %f sec\n", runAvgTimeSC/numTime, runAvgTimeMRH/numTime);
+            fprintf(fpStripeCode, "ANIMAL %s %d\n%s\n", a->first.c_str(), *photo, featuresSC.toString().c_str());
+            fprintf(fpMRHistograms, "ANIMAL %s %d\n%s\n", a->first.c_str(), *photo, featuresMRH.toString().c_str());
 		}
+
+    fclose(fpStripeCode);
+    fclose(fpMRHistograms);
 
 	return 0;
 }
