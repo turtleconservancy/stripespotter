@@ -7,8 +7,8 @@ The dataset used in the paper is available in the Downloads section of this site
 
 We provide pre-processed image feature files for our dataset, also available in the downloads section. These files may be used directly with the `Benchmarker` program to measure retrieval performance. 
 
-  * StripeCodes.txt
-  * MRHistograms.txt
+  * `StripeCodes`.txt
+  * `MRHistograms`.txt
 
 The full set of command line options for the Benchmarker program can be obtained by running it with the `--help` flag. 
 
