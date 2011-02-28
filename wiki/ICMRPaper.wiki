@@ -1,4 +1,4 @@
 #summary How to reproduce results in the ACM ICMR 2011 research paper.
 #labels Featured
 
-= Introduction =
+The dataset used in the paper is available in the Downloads section of this site. The procedure is described in more detail on the [Dataset] page. As part of the source package also available on this site, we include two programs meant to benchmark the performance of the `StripeCode` algorithm relative to the CO-1 algorithm and a random ranking baseline. These programs may be found in the `util` source directory, and projects for the free [http://www.codeblocks.org/ Code::Blocks development environment] may be found in the `projects` directory.
