@@ -1,4 +1,5 @@
 #summary Automatic animal ID walkthrough
+#labels Featured
 
 = Introduction =
 Having completed the [DownloadAndInstall] guide, you are now ready to start using the *StripeSpotter Program*.
