@@ -24,7 +24,7 @@ Bibtex:
 @InProceedings{lahiri11_biometric,
   title={Biometric Animal Databases from Field Photographs: Identification of Individual Zebra in the Wild},
   author={M. Lahiri and C. Tantipathananandh and R. Warungu and D.I. Rubenstein and T.Y. Berger-Wolf},
-  year={2011}
+  year={2011},
   booktitle={Proceedings of the ACM International Conference on Multimedia Retrieval (ICMR 2011)},
   publisher={ACM Press}
 }
