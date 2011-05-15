@@ -125,8 +125,10 @@ void StripeSpotterFrame::RefreshImageList() {
     lctrlMainDisplay->SetImageList(imgList, wxIMAGE_LIST_SMALL);
     lctrlMainDisplay->InsertColumn(0, _("Best Image"));
     lctrlMainDisplay->InsertColumn(1, _("Animal ID"));
+    int next_item_index=0;
     for(int x = 0; x < imgList->GetImageCount(); x++) {
         wxListItem li;
+        li.SetId(next_item_index++);
         li.SetColumn(0);
         li.SetImage(x);
         li.m_mask = wxLIST_MASK_IMAGE;
