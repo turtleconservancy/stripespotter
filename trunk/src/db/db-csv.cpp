@@ -256,8 +256,10 @@ bool PhotoDatabase::open(wxProgressDialog *wxPD) {
 //
 bool PhotoDatabase::dumpDatabase() {
 	FILE *fp;
-	if(!(fp = fopen("SightingData.csv", "w+")))
+	if(!(fp = fopen("SightingData.csv", "w+"))) {
+        fprintf(stderr, "Error at %s:%d Cannot open SightingData.csv for writing\n", __FILE__, __LINE__);
 		return false;
+    }
 	fprintf(fp, "%s", userCSVHeader.c_str());
 //	fprintf(fp, "#imgindex,original_filepath,roi,animal_name,sighting_id,flank,notes,photo_quality,sighting_date,sighting_time,exposure_time,focal_length,aperture_Fnumber,camera_info,sex,age,sighting_location,group_size,gps_lat,gps_lon,reproductive_status\n");
 	for(map<int,PhotoInfo*>::iterator it=photo_to_info.begin();it!=photo_to_info.end();it++)
@@ -289,22 +291,24 @@ int PhotoDatabase::addPicture(PhotoInfo *pi) {
 #include <iostream>
 bool PhotoDatabase::writeStripeCodes() {
 
-    // begin chayant
-	for(map<int,StripeCode>::iterator it=stripeCodes.begin();it!=stripeCodes.end();it++) {
-        printf("photoid %d\n", it->first);
-    }
-    printf("END\n\n");
-
-    for (map<int, PhotoInfo*>::iterator it=photo_to_info.begin();it!=photo_to_info.end();it++) {
-        printf("photo id %d name %s\n", it->first, it->second->animal_name.c_str());
-    }
-    printf("END\n\n");
-    return false;
-    // end chayant
+//    // begin chayant
+//	for(map<int,StripeCode>::iterator it=stripeCodes.begin();it!=stripeCodes.end();it++) {
+//        printf("photoid %d\n", it->first);
+//    }
+//    printf("END\n\n");
+//
+//    for (map<int, PhotoInfo*>::iterator it=photo_to_info.begin();it!=photo_to_info.end();it++) {
+//        printf("photo id %d name %s\n", it->first, it->second->animal_name.c_str());
+//    }
+//    printf("END\n\n");
+//    return false;
+//    // end chayant
 
 	FILE *fp;
-	if(!(fp = fopen("StripeCodes.txt", "w+")))
+	if(!(fp = fopen("StripeCodes.txt", "w+"))){
+        fprintf(stderr, "Error at %s:%d Cannot open StripeCodes.txt for writing", __FILE__, __LINE__);
 		return false;
+    }
 
 	for(map<int,StripeCode>::iterator it=stripeCodes.begin();it!=stripeCodes.end();it++) {
 		fprintf(fp, "ANIMAL %s %d\n", photo_to_info.at(it->first)->animal_name.c_str(), it->first);
@@ -314,8 +318,10 @@ bool PhotoDatabase::writeStripeCodes() {
 	fclose(fp);
 
 	// write multi-resolution histograms
-	if(!(fp = fopen("MRHistograms.txt", "w+")))
+	if(!(fp = fopen("MRHistograms.txt", "w+"))) {
+        fprintf(stderr, "Error at %s:%d Cannot open MRHistograms.txt for writing", __FILE__, __LINE__);
 		return false;
+    }
 	for(map<int,MultiScaleHistogram>::iterator it=MRHistograms.begin();it!=MRHistograms.end();it++) {
 		fprintf(fp, "ANIMAL %d\n", it->first);
 		fprintf(fp, "%s\n", it->second.toString().c_str());
