@@ -16,7 +16,7 @@ tester_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
 	 FloatImage.o utils.o MultiScaleHistogram.o
 
 # first rule = default rule
-all: tester #mac_app
+all: $(BUILDDIR)/$(APP)
 
 tester: $(BUILDDIR)/$(TESTER)
 
