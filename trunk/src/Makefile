@@ -1,9 +1,15 @@
 .PHONY: mac_zip mac_app tester
 
+OS_NAME:=$(shell uname)
 VPATH:=core db exif gui utils
 BUILDDIR:=build
 CXXFLAGS:=-g $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
 LDFLAGS:=-g $(shell wx-config --libs)
+
+ifeq ($(OS_NAME),Darwin)
+	CXXFLAGS:=$(CXXFLAGS) -arch i386
+	LDFLAGS:=$(CXXFLAGS) -arch i386
+endif
 
 APP:=StripeSpotter
 VERSION:=2.0
