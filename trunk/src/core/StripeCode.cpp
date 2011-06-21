@@ -70,7 +70,7 @@ bool StripeCode::read(const wxImage *imgPar) {
 }
 
 // inherited from image feature interface 'ImageFeatures'
-double StripeCode::compare(ImageFeatures *par_img2, void *arg) {
+double StripeCode::compare(ImageFeatures *par_img2, void *arg) const {
     StripeCode &img2 = *((StripeCode*)par_img2);
     assert(stripes.size() == img2.stripes.size());
 
@@ -91,7 +91,7 @@ double StripeCode::compare(ImageFeatures *par_img2, void *arg) {
     return RETMINCOST?mincost:avgcost;
 }
 
-double StripeCode::compare(StripeString &s1, StripeString &s2, DPMatrix *dpmat) {
+double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMatrix *dpmat) {
     // create DP matrix or set up the one user provided
     DPMatrix *loc;
     if(dpmat) {
@@ -126,8 +126,12 @@ double StripeCode::compare(StripeString &s1, StripeString &s2, DPMatrix *dpmat) 
         double fac = (double)s1[0].abslen / (double)s2[0].abslen;
 
         // start filling in the DP matrix
-        for(int r = 1; r < dpmatrix.nrows; r++)
-            for(int c = 1; c < dpmatrix.ncols; c++) {
+        for(int d = 1; d <= dpmatrix.nrows+dpmatrix.ncols; d++) {
+        	const int max_i = (d<=dpmatrix.nrows?d:dpmatrix.ncol+dpmatrix.nrows-d);
+#			pragma omp parallel for shared(dpmatrix) schedule(guided)
+            for(int i = 1; i <= max_i; i++) {
+
+            	const int r, c;
                 double a1,a2;
                 if(USERATIOS) {
                     a1 = s1[r].ratio;
@@ -163,6 +167,8 @@ double StripeCode::compare(StripeString &s1, StripeString &s2, DPMatrix *dpmat) 
                     }
                 }
             }
+        }
+
 
         // backtrace to compute edit path length and non-NED cost
         int r = dpmatrix.nrows-1; int c = dpmatrix.ncols-1;

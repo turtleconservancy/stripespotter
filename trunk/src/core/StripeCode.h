@@ -45,7 +45,7 @@ class ImageFeatures {
     public:
 		virtual bool read(const wxImage *img) = 0;              // read from image
 		virtual bool read(FILE *fp) = 0;                                    // read serialized version from file
-        virtual double compare(ImageFeatures *img2, void *arg) = 0;
+        virtual double compare(ImageFeatures *img2, void *arg) const = 0;
         virtual string toString() = 0;
         virtual ImageFeatures *clone() = 0;
 };
@@ -57,7 +57,7 @@ class MultiScaleHistogram : public ImageFeatures {
 		bool read(const wxImage *img);              // read from image
 		bool read(FILE *fp);                                    // read serialized version from file
 		string toString();                                      // serialize this object
-		double compare(ImageFeatures *img2, void *arg);   // distance function
+		double compare(ImageFeatures *img2, void *arg) const;   // distance function
         MultiScaleHistogram *clone() { return new MultiScaleHistogram; }
 
     protected:
@@ -72,7 +72,7 @@ class StripeCode : public ImageFeatures {
 		bool read(const wxImage *img);              // read from image
 		bool read(FILE *fp);                                    // read serialized version from file
 		string toString();                                      // serialize this object
-		double compare(ImageFeatures *img2, void *arg);   // distance function
+		double compare(ImageFeatures *img2, void *arg) const;   // distance function
         StripeCode *clone() { return new StripeCode; }
 
         // public but specific to StripeCodes (for now)
@@ -88,7 +88,7 @@ class StripeCode : public ImageFeatures {
     protected:
         vector<StripeString> stripes;
 
-        static double compare(StripeString &s1, StripeString &s2, DPMatrix *dpmat=NULL);
+        static double compare(const StripeString &s1, const StripeString &s2, DPMatrix *dpmat=NULL);
 
         // feature extraction from various sources
 		StripeString read(unsigned char *row, int len);     // reads Stripestring from a single line of 'len' pixels
