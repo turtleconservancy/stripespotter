@@ -13,7 +13,7 @@
 //
 class FloatImage {
     public:
-        FloatImage(wxImage *, bool mono=false);
+        FloatImage(wxImage *img, bool mono=false);
         FloatImage(int w, int h, bool mono=false);
         FloatImage(FloatImage *o);
         ~FloatImage();

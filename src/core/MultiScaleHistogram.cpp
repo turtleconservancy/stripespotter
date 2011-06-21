@@ -223,11 +223,12 @@ bool MultiScaleHistogram::read(const wxImage *imgPar) {
     return true;
 }
 
-double MultiScaleHistogram::compare(ImageFeatures *par_img2, void *arg) {
+double MultiScaleHistogram::compare(ImageFeatures *par_img2, void *arg) const {
     MultiScaleHistogram &img = *((MultiScaleHistogram*)par_img2);
     assert(histogram.size() == img.histogram.size());
 
     double innerprod  = 0;
+#	pragma omp parallel for reduction(+:innerprod) schedule(guided)
     for(int b = (int)histogram.size(); --b >= 0; ) {
         double vi = histogram[b] - mean;
         double vj = img.histogram[b] - img.mean;
@@ -274,7 +275,8 @@ bool MultiScaleHistogram::read(FILE *fp) {
             histogram.push_back(val);
         }
 
-    assert((int)histogram.size() == bins*scales*2);      // factor 2 because we measure two image features (C and P)
+    // This gives error on databases from kenya
+    //assert((int)histogram.size() == bins*scales*2);      // factor 2 because we measure two image features (C and P)
 
     // compute mean value
     mean = 0;

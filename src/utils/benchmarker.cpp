@@ -2,6 +2,8 @@
 //#define GLOBALS			// global variables for image filters are to be declared in this file
  						// (and extern'd elsewhere)
 #include "StripeCode.h"
+#include "stdio.h"
+
 using namespace std;
 
 // global objects
@@ -63,7 +65,7 @@ vector<string>			  animals;			// list of all animalIDs
 map<int, ImageFeatures*>   photo_to_features;
 vector<string> animal;		// unique animals in no particular order -- i.e., keys(animal_to_photos)
 
-
+map<int, string> photoid_to_animalname; // read from SightingData.txt
 
 // General purpose exploratory mode
 // -- animal, photographs, stripes/photograph are all loaded
@@ -114,49 +116,133 @@ void shuffle (std::vector<T> & deck) {
     }
 }
 
+int read_sighting_data() {
+	const int FILENAME_MAXLEN=255;
+	char filename[FILENAME_MAXLEN+1];	// input dataset (output file of dataset compiler)
+	strncpy(filename, ARG_input, FILENAME_MAXLEN);
+
+	// try to find file SightingData.txt in the same directory as ARG_input
+	char *p = filename;
+	while (*p!=0 && p<filename+FILENAME_MAXLEN) p++;
+	assert(p<filename+FILENAME_MAXLEN);
+	while (*p!='/' && *p!='\\' && p>filename) p--;
+	assert(p>=filename);
+	p++;
+	strncpy(p, "SightingData.csv", FILENAME_MAXLEN-(p-filename));
+	FILE *fp = fopen(filename, "r");
+	if (fp==NULL) return 0;
+
+	// read line by line
+	const int buf_size=1024;
+	char buf[buf_size];
+	while (fgets(buf, buf_size, fp)!=NULL) {
+		if (buf[0]=='#') continue;
+
+		char *p=buf;
+		char *photo_id_str=buf; 	// column 1 = photo id
+		while (*p!=',' && p<buf+buf_size) p++;
+		assert (p<buf+buf_size);
+		*p++=0;
+		while (*p!=',' && p<buf+buf_size) p++;
+		assert (p<buf+buf_size);
+		*p++=0;
+		while (*p!=',' && p<buf+buf_size) p++;
+		assert (p<buf+buf_size);
+		*p++=0;
+		char *animal_name=p;	//column 4 = animal name
+		while (*p!=',' && p<buf+buf_size) p++;
+		assert (p<buf+buf_size);
+		*p=0;
+
+		int photo_id =  atoi(photo_id_str);
+		photoid_to_animalname[photo_id] = animal_name;
+	}
+	fclose(fp);
+	return 1;
+}
+
 // reads the input file specified on the command line (in global 'ARG_input')
 int read_dataset() {
 	// read and parse image features
 	FILE *fp = fopen(ARG_input, "r");
 	if(!fp)
 		return printf("Cannot open '%s'\n", ARG_input);
-	char buf[4096]; int line = 0;
-	while(fgets(buf, 4096, fp) && ++line)
+	const int buf_size = 4096;
+	char buf[buf_size+1]; int line = 0;
+	int no_animal_name_error_count=0;
+	int pic_count=0;
+	while(fgets(buf, buf_size, fp) && ++line) {
 		if(strncmp(buf, "ANIMAL ", 7)==0) {
 		    // get animal name and photo id
 			char *p;
-			for(p=buf+7; *p && (*p!=' ' || (*p++=0) ); p++);    // fixed-format matching
+			for(p=buf+7; *p && p<buf+buf_size; p++) {    // fixed-format matching
+				if (*p==' ') {
+					*p++ = NULL;
+					break;
+				}
+			}
+			int photoid;
+			string aname;
 			if(*(buf+7) && *p) {
-				string aname(buf+7);
-				int photoid = atoi(p);
-				if(photoid < 1) {
-					fprintf(stderr, "Error: photoID must be greater than 1 (line %d)\n", line);
-					return 0;
+				aname = buf+7;
+				photoid = atoi(p);
+			} else if (*p==0 && *(buf+7)!=0) {
+				//aname = buf+7; // get from SightingData.csv
+				photoid = atoi(buf+7);
+				if (photoid_to_animalname.empty() && no_animal_name_error_count==0) {
+					fprintf(stderr, "WARNING Cannot load animal names from SightingData.csv\n");
 				}
-
-                // save photo pointer and read image features
-				if(!imgFeatures->read(fp)) {
-				    fprintf(stderr, "Error: malformed image feature set (line %d)\n", line);
-				    return 0;
+				if (photoid_to_animalname.find(photoid)==photoid_to_animalname.end()) {
+					if (++no_animal_name_error_count<=0) {
+						fprintf(stderr, "WARNING Cannot find animal name. Photo id %d does not exists in SightingData.csv\n", photoid);
+					}
+					continue;
 				}
-				animal_to_photos[aname].push_back(photoid);
-				photo_to_features[photoid] = imgFeatures;
-				imgFeatures = imgFeatures->clone();
+				aname = photoid_to_animalname.at(photoid);
 			} else {
 			    fprintf(stderr, "Invalid line in file: line %d\n", line);
+			    fprintf(stderr, "buf+7: \"%s\"\n", buf+7);
+			    fprintf(stderr, "p: \"%s\"\n", p);
 			    fclose(fp);
 			    return 0;
 			}
+
+			if(photoid < 1) {
+				fprintf(stderr, "Error: photoID must be greater than 1 (line %d)\n", line);
+				return 0;
+			}
+
+            // save photo pointer and read image features
+			if(!imgFeatures->read(fp)) {
+			    fprintf(stderr, "Error: malformed image feature set (line %d)\n", line);
+			    return 0;
+			}
+			animal_to_photos[aname].push_back(photoid);
+			photo_to_features[photoid] = imgFeatures;
+			imgFeatures = imgFeatures->clone();
+			pic_count++;
 		}
+	}
+	if (no_animal_name_error_count) {
+		fprintf(stderr, "WARNING Cannot find animal name in %d from %d picture(s). ",
+				no_animal_name_error_count, pic_count);
+		fprintf(stderr, "Perhaps the input file is in the old format.\n");
+	}
 	fclose(fp);
 
     // delete any animals with less than ipa+1 pictures
-    for(map<string,vector<int> >::iterator itr = animal_to_photos.begin(); itr != animal_to_photos.end(); )
+    int warning_count=0;
+	for(map<string,vector<int> >::iterator itr = animal_to_photos.begin(); itr != animal_to_photos.end(); itr++) {
         if(itr->second.size() < (unsigned)ARG_ipa+1) {
-            fprintf(stderr, "Warning: animal '%s' has less than %d pictures, ignoring it.\n", itr->first.c_str(), ARG_ipa+1);
-            animal_to_photos.erase(itr++);
-        } else
-            itr++;
+        	warning_count++;
+            animal_to_photos.erase(itr);
+        }
+	}
+	if (warning_count>0) {
+		fprintf(stderr, "WARNING %d/%lu animal(s) has less than %d pictures, ignoring them.\n",
+				warning_count, animal_to_photos.size()+warning_count, ARG_ipa+1);
+	}
+
 
     // BUILD INDICES
 	// list of animals = keys of the set of animal names
@@ -190,6 +276,7 @@ void sample_db_query_pair(int dbsize) {
 	vector<int> remainder;
 	for(int a = 0; a < dbsize; a++) {
 		string animalID = animals[a];
+		assert(animal_to_photos.find(animalID)!=animal_to_photos.end());
 		vector<int> &photolist = animal_to_photos[animalID];
 		shuffle(photolist);
 		for(int i = 0; i < ARG_ipa; i++)
@@ -282,6 +369,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+	// read SightingData.csv if the file exists
+	if (!read_sighting_data()) {
+		return 1;
+	}
+
 	// read and parse dataset file (stored in ARG_input)
 	if(!read_dataset())
 		return 1;
@@ -307,6 +399,8 @@ int main(int argc, char *argv[]) {
 
 		// random trials (uniformly sample from space of databases and queries)
 		for(int trial = 0; trial < ARG_trials; trial++) {
+			assert(dbsize<=animals.size());
+
 			sample_db_query_pair(dbsize);
 
 			int correctrank   = 0;

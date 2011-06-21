@@ -8,10 +8,17 @@
 #include <unistd.h>
 #endif
 
+#ifdef __WXMAC__
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <mach/vm_statistics.h>
+#include <mach/mach_types.h>
+#include <mach/mach_init.h>
+#include <mach/mach_host.h>
+#endif
 
 /* Returns total sys memory in kb */
 int getSystemMemory()	{
-	int musage = 0;
 #ifdef LINUX
 	FILE *fp;
 	char buf[100];
@@ -24,19 +31,29 @@ int getSystemMemory()	{
 				while(*p == ' ' || *p == '\t')
 					p++;
 				musage = atoi(p);
-				break;
 			}
 		}
 		fclose(fp);
-	} 
+		return musage;
+	} else {
+		fprintf(stderr, "ERROR cannot get memory statistics\n");
+		exit(255);
+	}
+#elif defined(__WXMAC__)
+	int64_t physical_memory;
+	int mib[] = { CTL_HW,  HW_MEMSIZE };
+	size_t length = sizeof(int64_t);
+	sysctl(mib, 2, &physical_memory, &length, NULL, 0);
+	return physical_memory;
+#else
+#	warning No code for getting memory stats from OS
 #endif
-	return musage;
 }
 
 /* Returns free sys memory in kb */
 int getSystemFreeMemory()	{
-	int musage = 0;
 #ifdef LINUX
+	int musage = 0;
 	FILE *fp;
 	char buf[100];
 	char *p;
@@ -52,11 +69,31 @@ int getSystemFreeMemory()	{
 			}
 		}
 		fclose(fp);
+		return musage;
+	} else {
+		fprintf(stderr, "ERROR cannot get memory statistics\n");
+		exit(255);
 	} 
+#elif defined(__WXMAC__)
+	vm_size_t page_size;
+	mach_port_t mach_port;
+	mach_msg_type_number_t count;
+	vm_statistics_data_t vm_stats;
+
+	mach_port = mach_host_self();
+	count = sizeof(vm_stats) / sizeof(natural_t);
+	if (KERN_SUCCESS == host_page_size(mach_port, &page_size) &&
+	    KERN_SUCCESS == host_statistics(mach_port, HOST_VM_INFO,
+	                                    (host_info_t)&vm_stats, &count))
+	{
+	    return (int64_t)vm_stats.free_count * (int64_t)page_size;
+	} else {
+		fprintf(stderr, "ERROR cannot get memory statistics.");
+		exit(255);
+	}
 #else
-#warning No timing code included because LINUX not defined
+#	warning No code for getting memory stats from OS
 #endif
-	return musage;
 }
 
 

@@ -2,8 +2,8 @@
 
 VPATH:=core db exif gui utils
 BUILDDIR:=build
-CXXFLAGS:=-arch i386 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
-LDFLAGS:=-arch i386 $(shell wx-config --libs)
+CXXFLAGS:=-O3 -arch i386 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
+LDFLAGS:=-O3 -arch i386 $(shell wx-config --libs)
 
 APP:=StripeSpotter
 VERSION:=2.0
@@ -15,10 +15,13 @@ TESTER:=benchmarker
 tester_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
 	 FloatImage.o utils.o MultiScaleHistogram.o
 
-mac_zip: $(APP)-v$(VERSION)-mac.zip
-mac_app: $(APP).app
+# first rule = default rule
+all: tester #mac_app
 
 tester: $(BUILDDIR)/$(TESTER)
+
+mac_zip: $(APP)-v$(VERSION)-mac.zip
+mac_app: $(APP).app
 
 $(APP)-v%.zip: $(BUILDDIR)/$(APP) $(APP).app Info.plist AppIcon.icns
 	zip -r $@ $(APP).app
