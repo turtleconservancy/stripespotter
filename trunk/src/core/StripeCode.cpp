@@ -126,8 +126,8 @@ double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMat
         double fac = (double)s1[0].abslen / (double)s2[0].abslen;
 
         // start filling in the DP matrix
-        for(int r = 1; r <= dpmatrix.nrows; r++) {
-            for(int c = 1; c <= dpmatrix.ncols; c++) {
+        for(int r = 1; r < dpmatrix.nrows; r++) {
+            for(int c = 1; c < dpmatrix.ncols; c++) {
 
                 double a1,a2;
                 if(USERATIOS) {
