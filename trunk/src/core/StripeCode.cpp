@@ -126,12 +126,9 @@ double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMat
         double fac = (double)s1[0].abslen / (double)s2[0].abslen;
 
         // start filling in the DP matrix
-        for(int d = 1; d <= dpmatrix.nrows+dpmatrix.ncols; d++) {
-        	const int max_i = (d<=dpmatrix.nrows?d:dpmatrix.ncol+dpmatrix.nrows-d);
-#			pragma omp parallel for shared(dpmatrix) schedule(guided)
-            for(int i = 1; i <= max_i; i++) {
+        for(int r = 1; r <= dpmatrix.nrows; r++) {
+            for(int c = 1; c <= dpmatrix.ncols; c++) {
 
-            	const int r, c;
                 double a1,a2;
                 if(USERATIOS) {
                     a1 = s1[r].ratio;

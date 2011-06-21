@@ -2,8 +2,8 @@
 
 VPATH:=core db exif gui utils
 BUILDDIR:=build
-CXXFLAGS:=-O3 -arch i386 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
-LDFLAGS:=-O3 -arch i386 $(shell wx-config --libs)
+CXXFLAGS:=-O3 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
+LDFLAGS:=-O3 $(shell wx-config --libs)
 
 APP:=StripeSpotter
 VERSION:=2.0

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
-#ifdef LINUX
+#ifdef __WXGTK__
 #include <sys/resource.h>
 #include <sys/time.h>
 #include <unistd.h>
@@ -19,7 +19,7 @@
 
 /* Returns total sys memory in kb */
 int getSystemMemory()	{
-#ifdef LINUX
+#ifdef __WXGTK__
 	FILE *fp;
 	char buf[100];
 	char *p; 
@@ -30,11 +30,10 @@ int getSystemMemory()	{
 				p = strchr(buf, ':')+1;
 				while(*p == ' ' || *p == '\t')
 					p++;
-				musage = atoi(p);
+                return atoi(p);
 			}
 		}
 		fclose(fp);
-		return musage;
 	} else {
 		fprintf(stderr, "ERROR cannot get memory statistics\n");
 		exit(255);
@@ -48,12 +47,12 @@ int getSystemMemory()	{
 #else
 #	warning No code for getting memory stats from OS
 #endif
+    return 0;
 }
 
 /* Returns free sys memory in kb */
 int getSystemFreeMemory()	{
-#ifdef LINUX
-	int musage = 0;
+#ifdef __WXGTK__
 	FILE *fp;
 	char buf[100];
 	char *p;
@@ -64,12 +63,10 @@ int getSystemFreeMemory()	{
 				p = strchr(buf, ':')+1;
 				while(*p == ' ' || *p == '\t')
 					p++;
-				musage = atoi(p);
-				break;
+                return atoi(p);
 			}
 		}
 		fclose(fp);
-		return musage;
 	} else {
 		fprintf(stderr, "ERROR cannot get memory statistics\n");
 		exit(255);
@@ -94,12 +91,13 @@ int getSystemFreeMemory()	{
 #else
 #	warning No code for getting memory stats from OS
 #endif
+    return 0;
 }
 
 
 int getMemoryPeak()	{
 	int musage = 0;
-#ifdef LINUX
+#ifdef __WXGTK__
 	FILE *fp;
 	char buf[100];
 	char *p;
@@ -124,7 +122,7 @@ int getMemoryPeak()	{
 int getMemoryCurrent()	{
 	int musage = 0;
 
-#ifdef LINUX
+#ifdef __WXGTK__
 	FILE *fp;
 	char buf[100];
 	char *p;
@@ -154,14 +152,14 @@ static double user_clock_start = 0;
 static double kernel_clock_start = 0;
 
 void startUserClock()	{
-#ifdef LINUX
+#ifdef __WXGTK__
 	struct rusage rbf;
 	getrusage(RUSAGE_SELF, &rbf);
 	user_clock_start = ((double)rbf.ru_utime.tv_sec * 1e6) +  rbf.ru_utime.tv_usec;
 #endif
 }
 double stopUserClock()	{
-#ifdef LINUX
+#ifdef __WXGTK__
 	struct rusage rbf;
 	double clock_stop;
 	getrusage(RUSAGE_SELF, &rbf);
@@ -172,14 +170,14 @@ double stopUserClock()	{
 #endif
 }
 void startKernelClock()	{
-#ifdef LINUX
+#ifdef __WXGTK__
 	struct rusage rbf;
 	getrusage(RUSAGE_SELF, &rbf);
 	kernel_clock_start = ((double)rbf.ru_stime.tv_sec * 1e6) +  rbf.ru_stime.tv_usec;
 #endif
 }
 double stopKernelClock()	{
-#ifdef LINUX
+#ifdef __WXGTK__
 	struct rusage rbf;
 	double clock_stop;
 	getrusage(RUSAGE_SELF, &rbf);
