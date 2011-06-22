@@ -311,7 +311,7 @@ bool PhotoDatabase::writeStripeCodes() {
     }
 
 	for(map<int,StripeCode>::iterator it=stripeCodes.begin();it!=stripeCodes.end();it++) {
-		fprintf(fp, "ANIMAL %s %d\n", photo_to_info.at(it->first)->animal_name.c_str(), it->first);
+		fprintf(fp, "ANIMAL %d\n", it->first);// Dont touch this line of code	
 		fprintf(fp, "%s\n", it->second.toString().c_str());
 	}
 
