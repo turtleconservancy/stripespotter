@@ -8,7 +8,7 @@ LDFLAGS:=-g $(shell wx-config --libs)
 
 ifeq ($(OS_NAME),Darwin)
 	CXXFLAGS:=$(CXXFLAGS) -arch i386
-	LDFLAGS:=$(CXXFLAGS) -arch i386
+	LDFLAGS:=$(LDFLAGS) -arch i386
 endif
 
 APP:=StripeSpotter

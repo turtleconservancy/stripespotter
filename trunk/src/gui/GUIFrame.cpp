@@ -63,6 +63,9 @@ GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 #ifdef __WXMAC__
     wxString bmp_file = wxGetCwd() + wxT("/StripeSpotter.app/Contents/Resources/icon-zebra.bmp");
+    if (!wxFileExists(bmp_file)) {
+        bmp_file = wxGetCwd() + wxT("/icon-zebra.bmp");
+    }
 #else
     wxString bmp_file = wxT("icon-zebra.bmp");
 #endif
