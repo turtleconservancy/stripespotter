@@ -3,8 +3,8 @@
 OS_NAME:=$(shell uname)
 VPATH:=core db exif gui utils
 BUILDDIR:=build
-CXXFLAGS:=-g $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
-LDFLAGS:=-g $(shell wx-config --libs)
+CXXFLAGS:=-O3 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
+LDFLAGS:=-O3 $(shell wx-config --libs)
 
 ifeq ($(OS_NAME),Darwin)
 	CXXFLAGS:=$(CXXFLAGS) -arch i386
@@ -22,7 +22,7 @@ tester_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
 	 FloatImage.o utils.o MultiScaleHistogram.o
 
 # first rule = default rule
-all: $(BUILDDIR)/$(APP)
+all: $(BUILDDIR)/$(APP) $(BUILDDIR)/$(TESTER)
 
 tester: $(BUILDDIR)/$(TESTER)
 

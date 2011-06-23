@@ -173,6 +173,7 @@ int read_dataset() {
 	int pic_count=0;
 	while(fgets(buf, buf_size, fp) && ++line) {
 		if(strncmp(buf, "ANIMAL ", 7)==0) {
+            pic_count++;
 		    // get animal name and photo id
 			char *p;
 			for(p=buf+7; *p && p<buf+buf_size; p++) {    // fixed-format matching
@@ -220,7 +221,6 @@ int read_dataset() {
 			animal_to_photos[aname].push_back(photoid);
 			photo_to_features[photoid] = imgFeatures;
 			imgFeatures = imgFeatures->clone();
-			pic_count++;
 		}
 	}
 	if (no_animal_name_error_count) {
@@ -229,6 +229,11 @@ int read_dataset() {
 		fprintf(stderr, "Perhaps the input file is in the old format.\n");
 	}
 	fclose(fp);
+
+    if (animal_to_photos.empty()) {
+        fprintf(stderr, "ERROR no animal in the database\n");
+        exit(255);
+    }
 
     // delete any animals with less than ipa+1 pictures
     int warning_count=0;
@@ -239,7 +244,7 @@ int read_dataset() {
         }
 	}
 	if (warning_count>0) {
-		fprintf(stderr, "WARNING %d/%lu animal(s) has less than %d pictures, ignoring them.\n",
+		fprintf(stderr, "WARNING %d/%lu animal(s) have < %d pictures, ignoring them.\n",
 				warning_count, animal_to_photos.size()+warning_count, ARG_ipa+1);
 	}
 
