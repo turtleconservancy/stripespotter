@@ -17,14 +17,16 @@ app_obj = FloatImage.o MultiScaleHistogram.o StripeCode.o wxImageUtils.o \
 	db-csv.o exif.o AddPicturesDialog.o GUIFrame.o ImageFrame.o \
 	SavePictureDialog.o StripeSpotterApp.o StripeSpotterMain.o
 
-TESTER:=benchmarker
-tester_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
+benchmarker_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
+	 FloatImage.o utils.o MultiScaleHistogram.o
+
+allpairs_distance_obj = allpairs_distance.o StripeCode.o wxImageUtils.o mt19937ar.o \
 	 FloatImage.o utils.o MultiScaleHistogram.o
 
 # first rule = default rule
-all: $(BUILDDIR)/$(APP) $(BUILDDIR)/$(TESTER)
+all: $(BUILDDIR)/$(APP) tester
 
-tester: $(BUILDDIR)/$(TESTER)
+tester: $(BUILDDIR)/benchmarker $(BUILDDIR)/allpairs_distance
 
 mac_zip: $(APP)-v$(VERSION)-mac.zip
 mac_app: $(APP).app
@@ -43,7 +45,10 @@ $(APP).app: $(BUILDDIR)/$(APP) Info.plist AppIcon.icns
 $(BUILDDIR)/$(APP): $(addprefix $(BUILDDIR)/,$(app_obj))
 	$(CXX) $(LDFLAGS) $^ -o $@
 
-$(BUILDDIR)/$(TESTER): $(addprefix $(BUILDDIR)/,$(tester_obj))
+$(BUILDDIR)/benchmarker: $(addprefix $(BUILDDIR)/,$(benchmarker_obj))
+	$(CXX) $(LDFLAGS) $^ -o $@
+
+$(BUILDDIR)/allpairs_distance: $(addprefix $(BUILDDIR)/,$(allpairs_distance_obj))
 	$(CXX) $(LDFLAGS) $^ -o $@
 
 $(BUILDDIR)/%.o: %.cpp | $(BUILDDIR)
