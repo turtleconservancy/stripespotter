@@ -55,11 +55,8 @@ for(i in c( 1:nDatasets ) ) {
 # Set up output
 #
 postscript("fig-MRR.eps", horizontal=FALSE, width=4, height=3, paper="special", onefile=FALSE)
-par(oma=c(0,0,0,0))
-par(mgp=c(1.9,0.5,0))
-par(mar=c(3,2.9,0.7,0.6))
-par(mai=c(.6,.6,.2,.2))
-#png("fig-MRR.png")
+par(oma=c(0,0,0,0)); par(mgp=c(1.9,0.5,0)); par(mar=c(3,2.9,0.7,0.6)); par(mai=c(.6,.6,.2,.2))
+#png("fig-MRR.png", width=500, height=500, pointsize=18)
 
 #
 # Plot 
