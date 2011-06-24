@@ -227,7 +227,6 @@ int read_dataset() {
 	if (no_animal_name_error_count) {
 		fprintf(stderr, "WARNING Cannot find animal name in %d from %d picture(s). ",
 				no_animal_name_error_count, pic_count);
-		fprintf(stderr, "Perhaps the input file is in the old format.\n");
 	}
 	fclose(fp);
 
@@ -399,7 +398,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// print header for R
-	printf("distance same_animal\n");
+//	printf("distance same_animal\n");
 //	printf("photoid1 animal1 photoid2 animal2 distance same_animal\n");
 
 	// run discrimination test
@@ -408,32 +407,79 @@ int main(int argc, char *argv[]) {
     time_t t0, t1;
     t0 = time(NULL);
 
+    map<string,double> same_animal_sum, same_animal_num, same_animal_worst;
+    map<string,double> diff_animal_sum, diff_animal_num, diff_animal_worst;
     for (int i=0;i<photos.size();i++) {
         const int photoid1 = photos[i];
-        const string animal1 = photo_to_animal[photoid1];
+        const string& animal1 = photo_to_animal[photoid1];
         ImageFeatures *img1 = photo_to_features[photoid1];
         for (int j=i+1;j<photos.size();j++) {
             const int photoid2 = photos[j];
-            const string animal2 = photo_to_animal[photoid2];
+            const string& animal2 = photo_to_animal[photoid2];
             ImageFeatures *img2 = photo_to_features[photoid2];
 
             double dist = img1->compare(img2, NULL);
+            assert(isfinite(dist));
             int same = (animal1 == animal2);
-//            cout << photoid1 << " ";
-//            cout << photoid2 << " ";
-//            cout << animal1 << " ";
-//            cout << animal2 << " ";
-            cout << dist << " " << same << endl;
+
+            if (same) {
+                same_animal_sum[animal1] += dist;
+                same_animal_sum[animal2] += dist;
+                same_animal_num[animal1]++;
+                same_animal_num[animal2]++;
+                if (same_animal_worst[animal1]<dist) {
+                    same_animal_worst[animal1] = dist;
+                }
+                if (same_animal_worst[animal2]<dist) {
+                    same_animal_worst[animal2] = dist;
+                }
+            } else {
+                diff_animal_sum[animal1] += dist;
+                diff_animal_sum[animal2] += dist;
+                diff_animal_num[animal1]++;
+                diff_animal_num[animal2]++;
+                if (diff_animal_worst.find(animal1)==diff_animal_worst.end() ||
+                        diff_animal_worst[animal1]>dist) {
+                    diff_animal_worst[animal1] = dist;
+                }
+                if (diff_animal_worst.find(animal2)==diff_animal_worst.end() ||
+                        diff_animal_worst[animal2]>dist) {
+                    diff_animal_worst[animal2] = dist;
+                }
+            }
+
+            //cout << photoid1 << " ";
+            //cout << photoid2 << " ";
+            //cout << animal1 << " ";
+            //cout << animal2 << " ";
+            //
+            //cout << dist << " " << same << endl;
 
             count++;
             t1 = time(NULL);
             if (t1-t0>5) {
-                cerr << "progress " << 100.*count/nc2 << "%" << endl;
+                cerr << "progress " << (10000*count/nc2)/100. << "%" << endl;
                 t0 = t1;
             }
         }
     }
 
+    cout << "animal avg_differece worst_difference" << endl;
+    for (int i=0;i<animals.size();i++) {
+        string& animal = animals[i];
+        if (same_animal_num.find(animal)==same_animal_num.end()) continue;
+        if (diff_animal_num.find(animal)==diff_animal_num.end()) continue;
+        assert(isfinite(diff_animal_sum[animal]));
+        assert(isfinite(same_animal_sum[animal]));
+        assert(diff_animal_num[animal]>0);
+        assert(same_animal_num[animal]>0);
+        double diff_avg = diff_animal_sum[animal]/diff_animal_num[animal];
+        double same_avg = same_animal_sum[animal]/same_animal_num[animal];
+        assert(isfinite(diff_avg));
+        assert(isfinite(same_avg));
+        cout << animal << " " << diff_avg - same_avg << " ";
+        cout << diff_animal_worst[animal] - same_animal_worst[animal] << endl;
+    }
 	return 0;
 }
 
