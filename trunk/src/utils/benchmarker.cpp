@@ -226,7 +226,6 @@ int read_dataset() {
 	if (no_animal_name_error_count) {
 		fprintf(stderr, "WARNING Cannot find animal name in %d from %d picture(s). ",
 				no_animal_name_error_count, pic_count);
-		fprintf(stderr, "Perhaps the input file is in the old format.\n");
 	}
 	fclose(fp);
 
