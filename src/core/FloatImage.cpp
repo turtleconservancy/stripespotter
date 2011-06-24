@@ -484,20 +484,111 @@ void FloatImage::clear()    {
 // threshold the image based on the median pixel value in
 // each channel
 //
-void FloatImage::median_threshold() {
+//void FloatImage::median_threshold() {
+//    vector<unsigned char> pixel_values;
+//
+//    for(int i = bpp*width*height-3; i >= 0; i-=bpp)
+//        pixel_values.push_back(data[i]);
+//    sort(pixel_values.begin(), pixel_values.end());
+//    unsigned s = pixel_values.size();
+//    unsigned char median = (s%2==0) ? (pixel_values[s/2]+pixel_values[s/2+1])/2 : pixel_values[s/2];
+//
+//    for(int i = bpp*width*height-3; i >= 0; i-=bpp)   {
+//        data[i] = (data[i]<median) ? 0 : 0xFF;
+//        if(bpp == 3)
+//            data[i+1] = data[i+2] = data[i];
+//    }
+//}
+
+//
+// threshold the image based on the median pixel value in
+// each channel
+//
+
+void FloatImage::median_threshold() {    
+
     vector<unsigned char> pixel_values;
 
-    for(int i = bpp*width*height-3; i >= 0; i-=bpp)
-        pixel_values.push_back(data[i]);
-    sort(pixel_values.begin(), pixel_values.end());
-    unsigned s = pixel_values.size();
-    unsigned char median = (s%2==0) ? (pixel_values[s/2]+pixel_values[s/2+1])/2 : pixel_values[s/2];
+    //------------------------------------------------------------------
 
-    for(int i = bpp*width*height-3; i >= 0; i-=bpp)   {
-        data[i] = (data[i]<median) ? 0 : 0xFF;
-        if(bpp == 3)
-            data[i+1] = data[i+2] = data[i];
+    int cW= (width/3);        // chunk divisions
+    int cH= (height/3);
+
+    int cPixels = (cW * 3);        // pixels per chunk width
+    int pSkip = (cPixels *3);    // area to skip when doing passes on each portion
+
+    int cHlimit = cH; // used as a iterator counter below
+
+    int pStart = 0;        // starting pixel, iterate in loop for each chunk
+    int pBin = 0;    // used during the binarazation of the image   
+
+    unsigned s;
+    unsigned char median;
+
+    /*---------------------------------------------------------------
+
+      Moudelis Even Width and Length for edge checking
+      if %W !=0, then add new rule for final iteration of Â 
+
+*/
+
+    bool mW; // remainder? yes/no
+
+    // width edge concern check, if true then one extra row is added to 3,6,9
+    if (width % 3 == 0){
+        mW=0;
     }
-}
+    else if (width % 3 != 0) {
+        mW=1;
+    }
 
+    // if true on chunks 7-9 throw one extra row of pixel iteration  
+    else if (height % 3 != 0) {
+        cHlimit++;
+    }
+
+    //------------------------------------------------------------------
+    // this section is used to push the value of each pixel to an array
+    // j<9 because 9 chunks
+    for (int j=0; j < 9; j++){    
+
+        // will iterate for as many rows of pixel hight
+
+        for(int i = 0; i < cHlimit; i++){ 
+
+            if(mW==1) {
+                cPixels= (cPixels + 3);   // add an aditonal RGB pixel to the row if remainder left(mW==1)
+            }
+            // will iterate over the set of pixels in chunk       
+            for (int j = pStart; j < (pStart +cPixels ); j++){ // minus 3 from orginal code
+                pixel_values.push_back(data[j]); // add color value to vector
+            }// done adding pixel value
+
+            pStart = (pStart + pSkip); // jump to next row of pixels, proceded to next row
+        }// done incrementing rows
+
+        // sort values in the vector
+        sort(pixel_values.begin(), pixel_values.end());  // sort all entryies by value       
+        s = pixel_values.size(); // number of entryies
+        median = (s%2==0) ? (pixel_values[s/2]+pixel_values[s/2+1])/2 : pixel_values[s/2]; // define the median of the set       
+
+        // will iterate for as many rows of pixel hight   
+        for(int i = 0; i < cHlimit; i++){ 
+
+            // will iterate over the set of pixels in chunk                   
+            for (int j = pBin; j < (pBin + cPixels); j++){ // minus 3 from orginal code
+                data[i] = (data[i]<median) ? 0 : 0xFF;          
+            }// done adding pixels 
+
+            // same as last assignment in the first nested for loop above, pStart = (pStart + pSkip)             
+            pBin = (pBin + pSkip);
+        }// done incrementing rows
+        pixel_values.erase(pixel_values.begin(), pixel_values.end()); 
+        median = 0;
+        s = 0;
+        pBin = pStart;
+    }// done passing all chunks 
+    pStart = 0;
+    pBin = 0;
+} // done with median_threshold
 
