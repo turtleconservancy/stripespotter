@@ -34,6 +34,7 @@ bool StripeCode::read(const wxImage *imgPar) {
     stripes.clear();
 
     // save original image to plot difference
+//    FloatImage orig(&img);
 #ifdef DEBUG
    	img.SaveFile(_("processing-1.jpg"), wxBITMAP_TYPE_JPEG);
 #endif
@@ -50,15 +51,14 @@ bool StripeCode::read(const wxImage *imgPar) {
 #endif
 
     // plot the difference from the original
-#ifdef DEBUG
-    FloatImage final(&img);
+/*    FloatImage final(&img);
     orig.subtract(&final);
     wxImage *diff = Image::CloneImage(copy);
     orig.blit(diff, 0, 0, true);
 	fname.Printf(_("processing/StripeCode-%07d-4.jpg"), imgTag);
     diff->SaveFile(fname, wxBITMAP_TYPE_JPEG);
     delete diff;
-#endif
+*/
 
     // read a set of stripestrings
     int chunkHt = ceil(Image::filt_average_rowchunk * img.GetHeight());
@@ -109,13 +109,13 @@ double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMat
     for(int ned_iter = 0; ned_iter < 4; ned_iter++) {
         // fill in row and column 0
         for(int r = 0; r < dpmatrix.nrows; r++) {
-            cost = INDELCOST - ned_constant  ;
+            cost = INDELCOST-ned_constant  ;
             dpmatrix(r,0) = cost*r;
             dpmatrix.costAt(r,0) = cost;
             dpmatrix.back(r,0) = BACKTRACE_UP;
         }
         for(int c = 0; c < dpmatrix.ncols; c++) {
-            cost = INDELCOST - ned_constant  ;
+            cost = INDELCOST-ned_constant  ;
             //assert(cost >= 0);
             dpmatrix(0,c) = cost*c;
             dpmatrix.costAt(0,c) = cost;
@@ -143,11 +143,10 @@ double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMat
                 double leftcost = dpmatrix(r,c-1) + INDELCOST       -ned_constant ;
                 double upcost   = dpmatrix(r-1,c) + INDELCOST       -ned_constant ;
                 double diagcost = dpmatrix(r-1,c-1) + matchcost     -ned_constant ;
-#ifdef DEBUG
-                assert(leftcost >= 0);
-                assert(upcost >= 0);
-                assert(diagcost >= 0);
-#endif
+                //assert(leftcost >= 0);
+                //assert(upcost >= 0);
+                //assert(diagcost >= 0);
+
                 // find optimal edit path
                 if(leftcost < upcost && leftcost < diagcost) {
                     dpmatrix.back(r,c)  = BACKTRACE_LEFT;
@@ -203,9 +202,7 @@ double StripeCode::compare(const StripeString &s1, const StripeString &s2, DPMat
         // compute NED ratios
         cost = dpmatrix(dpmatrix.nrows-1, dpmatrix.ncols-1);
         double lam_star = true_cost / (double)editlen;
-#ifdef DEBUG
-        printf("NED_ITER %d: cost %f (true %f) oldcost %f edit_len %d ned_constant %f lam_star %f diff %f\n", ned_iter, cost, true_cost, oldcost, editlen, ned_constant, lam_star, fabs(lam_star-oldcost));
-#endif
+       // printf("NED_ITER %d: cost %f (true %f) oldcost %f edit_len %d ned_constant %f lam_star %f diff %f\n", ned_iter, cost, true_cost, oldcost, editlen, ned_constant, lam_star, fabs(lam_star-oldcost));
         if(!NED || fabs(oldcost-lam_star)<1e-5) {
             // fractional programming has converged to the solution
             cost = lam_star;
@@ -280,23 +277,22 @@ StripeString StripeCode::read(unsigned char *row, int len) {
 
 void StripeCode::plotStripeString(wxImage &img, StripeString &code, int x, int y, int w, int h, bool grad) {
 	unsigned char *data = img.GetData();
-	int imgW
+	int imgW = img.GetWidth();
+
+    // get scaling factor
+	double sc_w = code[0].abslen; double lastabs = sc_w;
+	for(unsigned j = 1; j < code.size(); j++)
 		sc_w += (lastabs *= code[j].ratio);
 	double scale = w / sc_w;
-#ifdef DEBUG
-	printf("w %f sc_w %f scale %f\n", (double)w, sc_w, scale);
-#endif
+//	printf("w %f sc_w %f scale %f\n", (double)w, sc_w, scale);
+
 	// plot
 	int c = 0;
 	for(unsigned s = 0; s < code.size(); s++) {
 		const Stripe &stripe = code[s];
-#ifdef DEBUG
-		int len = scale* ((s==0)?stripe.abslen: stripe.ratio*code[s-1].abslen);
-#endif
+//		int len = scale* ((s==0)?stripe.abslen: stripe.ratio*code[s-1].abslen);
 		int len = scale * stripe.abslen;
-#ifdef DEBUG
-		printf("replot strip %u abslen %f ratio %f --> len %d\n", s, stripe.abslen, stripe.ratio, len);
-#endif
+//		printf("replot strip %u abslen %f ratio %f --> len %d\n", s, stripe.abslen, stripe.ratio, len);
 		for(int i = 0; i < len; i++) {
 			for(int r = 0; r < h; r++) {
                 if(!grad)
@@ -313,10 +309,10 @@ void StripeCode::plotStripeString(wxImage &img, StripeString &code, int x, int y
 			if(i == 0) {
 			    // draw border
 			    for(int r = 0; r < h; r++)
-                    		data[3*((y+r)*imgW + c+i+x)]
-                    			= data[3*((y+r)*imgW + c+i+x) + 1]
-                    			= data[3*((y+r)*imgW + c+i+x) + 2]
-                    			= 0;
+                    data[3*((y+r)*imgW + c+i+x)]
+                    = data[3*((y+r)*imgW + c+i+x) + 1]
+                    = data[3*((y+r)*imgW + c+i+x) + 2]
+                    = 0;
 			}
 		}
 
@@ -324,9 +320,19 @@ void StripeCode::plotStripeString(wxImage &img, StripeString &code, int x, int y
 	}
 }
 
+int StripeCode::totalWidth() {
+//    if(stripes.size() < 1)
+//        return 0;
+//	int wid = stripes[0].abslen; double sum = wid;
+//	for(int w = 1; w < (int)stripes.size(); w++)
+//		wid += (sum *= stripes[w].ratio);
+//	return wid;
+    return 0;
+}
 
 #define INDELCOST 0
 
+//double StripeCode::compare(StripeCode &s2, void* dpmat) {
 
 
 bool StripeCode::read(FILE *fp) {
@@ -376,10 +382,8 @@ wxImage* StripeCode::plotComparison(StripeCode &sc2) {
     memset(ret->GetData(), 0x40, 3*640*20*nStripes);
 
     for(int s = 0; s < nStripes; s++) {
-#ifdef DEBUG
-        double cost = compare(stripes[s], sc2.stripes[s], &dpmat);
-        assert(cost == dpmat(dpmat.nrows-1, dpmat.ncols-1));
-#endif
+        //double cost = compare(stripes[s], sc2.stripes[s], &dpmat);
+        //assert(cost == dpmat(dpmat.nrows-1, dpmat.ncols-1));
         StripeString recolored = stripes[s];
 
         int r = dpmat.nrows-1;
@@ -418,9 +422,7 @@ wxImage* StripeCode::plotComparison(StripeCode &sc2) {
                 }
 
                 recolored[r].col = col;//+bwmod;
-#ifdef DEBUG
-                printf("--- cost %f col %d\n", dpmat.costAt(r,c), recolored[r].col);
-#endif
+                //printf("--- cost %f col %d\n", dpmat.costAt(r,c), recolored[r].col);
                 if(recolored[r].col==0) recolored[r].col++;
                 if(recolored[r].col==0xFF) recolored[r].col--;
                 r--;
@@ -429,6 +431,7 @@ wxImage* StripeCode::plotComparison(StripeCode &sc2) {
                 if(dpmat.back(r,c)==BACKTRACE_LEFT) {
                     c--;
                 } else {
+                    //recolored[r].col=0xEE;
                     r--;
                 }
             }
@@ -655,6 +658,7 @@ wxImage* StripeCode::plotEditPath(StripeString &s1, StripeString &s2, DPMatrix &
     // create image and clear it to a grayish color
     ret = new wxImage(imgW, imgH);
     memset(ret->GetData(), 0xDD, ret->GetWidth()*ret->GetHeight()*3);
+//    unsigned char *dat = ret->GetData();
 
     // draw stripestring along left
     for(unsigned i = 0; i < s1.size(); i++) {
