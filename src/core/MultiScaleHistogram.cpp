@@ -41,7 +41,9 @@ bool MultiScaleHistogram::read(const wxImage *imgPar) {
         // build filters
         double scale = (n+1) * sqrt((double)2);
         int halfwin = ceil(scale * 3);
-        //printf("halfwin %d scale %f\n", halfwin, scale);
+#ifdef DEBUG
+        printf("halfwin %d scale %f\n", halfwin, scale);
+#endif
         double *G1dx = new double[2*halfwin+1];
         double *G2dx = new double[2*halfwin+1];
 
@@ -148,7 +150,9 @@ bool MultiScaleHistogram::read(const wxImage *imgPar) {
             histogram[fb+bin]++;
         }
         for(int i = 0; i < Image::multiscale_hist_bins; i++) {
-            //printf("histo %i -> %f  (sum %f) == %f \n", i, histogram[fb+i], sum, histogram[fb+i]/sum);
+#ifdef DEBUG
+            printf("histo %i -> %f  (sum %f) == %f \n", i, histogram[fb+i], sum, histogram[fb+i]/sum);
+#endif
             histogram[fb+i] /= sum;
 //            Image::DrawBox(scaled, i*imgW/Image::multiscale_hist_bins, imgH-imgH*histogram[fb+i]-1, imgW/Image::multiscale_hist_bins-1, imgH*histogram[fb+i], 80, 0, 0, true);
         }
@@ -181,7 +185,9 @@ bool MultiScaleHistogram::read(const wxImage *imgPar) {
             histogram[fb+bin]++;
         }
         for(int i = 0; i < Image::multiscale_hist_bins; i++) {
-            //printf("histo %i -> %f  (sum %f) == %f \n", i, histogram[fb+i], sum, histogram[fb+i]/sum);
+#ifdef DEBUG
+            printf("histo %i -> %f  (sum %f) == %f \n", i, histogram[fb+i], sum, histogram[fb+i]/sum);
+#endif
             histogram[fb+i] /= sum;
 //            Image::DrawBox(scaled, i*imgW/Image::multiscale_hist_bins, imgH-imgH*histogram[fb+i]-1, imgW/Image::multiscale_hist_bins-1, imgH*histogram[fb+i], 80, 0, 0, true);
         }
@@ -228,7 +234,7 @@ double MultiScaleHistogram::compare(ImageFeatures *par_img2, void *arg) const {
     assert(histogram.size() == img.histogram.size());
 
     double innerprod  = 0;
-#	pragma omp parallel for reduction(+:innerprod) schedule(guided)
+    #pragma omp parallel for reduction(+:innerprod) schedule(guided)
     for(int b = (int)histogram.size(); --b >= 0; ) {
         double vi = histogram[b] - mean;
         double vj = img.histogram[b] - img.mean;
