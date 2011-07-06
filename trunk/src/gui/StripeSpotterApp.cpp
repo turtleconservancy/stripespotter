@@ -18,7 +18,7 @@
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 
-//IMPLEMENT_APP(StripeSpotterApp);
+IMPLEMENT_APP(StripeSpotterApp);
 
 bool StripeSpotterApp::OnInit() {
 
