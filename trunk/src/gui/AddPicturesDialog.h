@@ -1,6 +1,7 @@
 #ifndef ADDPICTURESDIALOG_H_INCLUDED
 #define ADDPICTURESDIALOG_H_INCLUDED
 #include "GUIFrame.h"
+#include "EditDistanceCostVisualizer.h"
 using namespace std;
 
 class DLGAddPictures : public AddPicturesDialog {
@@ -22,7 +23,7 @@ class DLGAddPictures : public AddPicturesDialog {
         virtual void OnIdentifyAnimal( wxCommandEvent& event );
 		virtual void OnSearchResultSelected( wxListEvent &event );
 		virtual void OnAcceptMatch(wxCommandEvent &event);
-        virtual void EditDistanceVisualizer( wxCommandEvent& event );
+        virtual void EditDistanceCostVisualizer( wxCommandEvent& event );
 
     public:
         DLGAddPictures(wxWindow* parent);
