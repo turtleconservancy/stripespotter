@@ -90,6 +90,7 @@ class AddPicturesDialog : public wxDialog
 		wxListCtrl* lctrlIDResults;
 		wxButton* btnZoomIn;
 		wxButton* btnZoomOut;
+		wxButton* btnEditDistanceVisualizer;
 		InteractiveImageFrame *iifImageSlicer;
 		wxStaticText* txtMatchInfo;
 		wxButton* btnSaveAsNewAnimal;

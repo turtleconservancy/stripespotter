@@ -15,7 +15,7 @@ APP:=StripeSpotter
 VERSION:=2.0
 app_obj = FloatImage.o MultiScaleHistogram.o StripeCode.o wxImageUtils.o \
 	db-csv.o exif.o AddPicturesDialog.o GUIFrame.o ImageFrame.o \
-	SavePictureDialog.o StripeSpotterApp.o StripeSpotterMain.o EditDistanceVisualizer.o
+	SavePictureDialog.o StripeSpotterApp.o StripeSpotterMain.o EditDistanceCostVisualizer.o
 
 benchmarker_obj = benchmarker.o StripeCode.o wxImageUtils.o mt19937ar.o \
 	 FloatImage.o utils.o MultiScaleHistogram.o

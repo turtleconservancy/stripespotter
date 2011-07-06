@@ -15,7 +15,8 @@
 #include <exif.h>
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
-#include "EditDistanceVisualizer.h"
+//#include "EditDistanceCostVisualizer.h"
+
 extern PhotoDatabase db;
 
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
@@ -226,7 +227,7 @@ void DLGAddPictures::OnZoomIn(wxCommandEvent& event) {
 void DLGAddPictures::OnZoomOut(wxCommandEvent& event) {
     iifImageSlicer->zoomOut();
 }
-void DLGAddPictures::EditDistanceVisualizer(wxCommandEvent &event)
+void DLGAddPictures::EditDistanceCostVisualizer(wxCommandEvent &event)
 {    
     wxInitAllImageHandlers();
     wxFrame *frame2;

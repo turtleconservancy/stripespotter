@@ -16,7 +16,7 @@
 #endif //WX_PRECOMP
 
 #include "GUIFrame.h"
-#include "EditDistanceVisualizer.h"
+#include "EditDistanceCostVisualizer.h"
 ///////////////////////////////////////////////////////////////////////////
 
 GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
@@ -254,7 +254,7 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	btnZoomOut->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
-	btnEditDistanceVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::EditDistanceVisualizer ), NULL, this );
+	btnEditDistanceVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddPicturesDialog::OnAcceptMatch ), NULL, this );
 }
 
 AddPicturesDialog::~AddPicturesDialog()
@@ -270,6 +270,7 @@ AddPicturesDialog::~AddPicturesDialog()
 	btnSaveAsOldAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
 	
 }
+
 SaveImageDialog::SaveImageDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxSize( 640,338 ), wxDefaultSize );
