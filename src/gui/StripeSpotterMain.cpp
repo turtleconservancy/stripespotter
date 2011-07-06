@@ -154,6 +154,6 @@ void StripeSpotterFrame::OnQuit(wxCommandEvent &event) {
 
 void StripeSpotterFrame::OnAbout(wxCommandEvent &event) {
     char statusMsg[1024];
-	sprintf(statusMsg, "StripeSpotter Copyright (c) 2010 Mayank Lahiri\nmlahiri@gmail.com\nReleased under the terms of the GNU General Public License (GPL).\n\nDeveloped at the Laboratory for Computational Population Biology\nDepartment of Computer Science\nUniversity of Illinois at Chicago\n\nThis program is free software! If you paid for this program, ask for your money back!\n\nThis version was built on %s.", __DATE__);
+	sprintf(statusMsg, "StripeSpotter Copyright (c) 2010 Mayank Lahiri, Brian Herman, Chyant Tanti\nmlahiri@gmail.com\nReleased under the terms of the GNU General Public License (GPL).\n\nDeveloped at the Laboratory for Computational Population Biology\nDepartment of Computer Science\nUniversity of Illinois at Chicago\n\nThis program is free software! If you paid for this program, ask for your money back!\n\nThis version was built on %s.", __DATE__);
     wxMessageBox(wxString::FromAscii(statusMsg), _("StripeSpotter"));
 }
