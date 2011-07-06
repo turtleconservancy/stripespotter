@@ -16,7 +16,7 @@
 #endif //WX_PRECOMP
 
 #include "GUIFrame.h"
-#include "EditDistanceCostVisualizer.h"
+
 ///////////////////////////////////////////////////////////////////////////
 
 GUIFrame::GUIFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
@@ -232,10 +232,6 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	bSizer201->Add( btnSaveAsOldAnimal, 1, wxALL|wxEXPAND, 5 );
 	
 	rightPane->Add( bSizer201, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
-	btnEditDistanceVisualizer = new wxButton( this, wxID_ANY, wxT("Edit Distance Visualizer"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer201->Add( btnEditDistanceVisualizer, 1, wxALL|wxEXPAND, 5 );
-	
-	rightPane->Add( bSizer201, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	ifMatchDisplay = new ImageFrame(this);
 	rightPane->Add( ifMatchDisplay, 1, wxALL|wxEXPAND, 5 );
@@ -254,7 +250,6 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	btnZoomOut->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
-	btnEditDistanceVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AddPicturesDialog::OnAcceptMatch ), NULL, this );
 }
 
 AddPicturesDialog::~AddPicturesDialog()
@@ -268,6 +263,7 @@ AddPicturesDialog::~AddPicturesDialog()
 	btnZoomOut->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
+	btnEditDistanceVisualizer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
 	
 }
 
