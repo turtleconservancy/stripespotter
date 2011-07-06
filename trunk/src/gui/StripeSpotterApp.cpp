@@ -9,8 +9,7 @@
 #include "wx_pch.h"
 #include "StripeSpotterApp.h"
 #include "StripeSpotterMain.h"
-#include <wx/wx.h>
-#include <wx/sizer.h>
+
 // Uncomment the following line to run the app from Terminal
 #define __MAC_TERMINAL_APP__
 
@@ -31,4 +30,5 @@ bool StripeSpotterApp::OnInit() {
     wxInitAllImageHandlers();
     StripeSpotterFrame* frame = new StripeSpotterFrame(0L);
     frame->Show();
+    return true;
 }
