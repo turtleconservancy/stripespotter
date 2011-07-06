@@ -9,7 +9,9 @@
 #include "wx_pch.h"
 #include "StripeSpotterApp.h"
 #include "StripeSpotterMain.h"
-
+#include "EditDistanceVisualizer.h"
+#include <wx/wx.h>
+#include <wx/sizer.h>
 // Uncomment the following line to run the app from Terminal
 #define __MAC_TERMINAL_APP__
 
@@ -30,5 +32,18 @@ bool StripeSpotterApp::OnInit() {
     wxInitAllImageHandlers();
     StripeSpotterFrame* frame = new StripeSpotterFrame(0L);
     frame->Show();
-    return true;
+/*    wxInitAllImageHandlers();
+    wxFrame *frame2;
+    wxImagePanel * drawPane;
+        
+    wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+    frame2 = new wxFrame(NULL, wxID_ANY, wxT("Hello wxDC"), wxPoint(50,50), wxSize(800,600));
+            
+    // then simply create like this
+    drawPane = new wxImagePanel( frame, wxT("image.jpg"), wxBITMAP_TYPE_JPEG);
+    sizer->Add(drawPane, 1, wxEXPAND);
+            
+    frame2->SetSizer(sizer);
+            
+    frame2->Show();*/
 }

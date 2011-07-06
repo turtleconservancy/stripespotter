@@ -15,6 +15,7 @@
 #include <exif.h>
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
+#include "EditDistanceVisualizer.h"
 extern PhotoDatabase db;
 
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
@@ -109,7 +110,7 @@ void DLGAddPictures::OnIdentifyAnimal( wxCommandEvent& event ) {
 	if(rbAlgCO1->GetValue())
 		alg = CO1;
 
-    //
+        //
 	// extract Stripecode from ROI
 	//
 	wxImage *img = iifImageSlicer->extractSelectionImage();
@@ -224,6 +225,23 @@ void DLGAddPictures::OnZoomIn(wxCommandEvent& event) {
 }
 void DLGAddPictures::OnZoomOut(wxCommandEvent& event) {
     iifImageSlicer->zoomOut();
+}
+void DLGAddPictures::EditDistanceVisualizer(wxCommandEvent &event)
+{    
+    wxInitAllImageHandlers();
+    wxFrame *frame2;
+    wxImagePanel * drawPane;
+        
+    wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
+    frame2 = new wxFrame(NULL, wxID_ANY, wxT("Hello wxDC"), wxPoint(50,50), wxSize(800,600));
+            
+    // then simply create like this
+    drawPane = new wxImagePanel( frame2, wxT("image.jpg"), wxBITMAP_TYPE_JPEG);
+    sizer->Add(drawPane, 1, wxEXPAND);
+            
+    frame2->SetSizer(sizer);
+            
+    frame2->Show();
 }
 
 //
