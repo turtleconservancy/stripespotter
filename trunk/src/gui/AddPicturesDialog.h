@@ -22,7 +22,7 @@ class DLGAddPictures : public AddPicturesDialog {
         virtual void OnIdentifyAnimal( wxCommandEvent& event );
 		virtual void OnSearchResultSelected( wxListEvent &event );
 		virtual void OnAcceptMatch(wxCommandEvent &event);
-		virtual void EditDistanceCostVisualizer(wxCommandEvent &event);
+		virtual void onEditDistanceCostVisualizer(wxCommandEvent &event);
 
     public:
         DLGAddPictures(wxWindow* parent);

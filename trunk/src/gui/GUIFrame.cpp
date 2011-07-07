@@ -253,7 +253,7 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	btnZoomOut->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
-	btnEditDistanceCostVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::EditDistanceCostVisualizer ), NULL, this );
+	btnEditDistanceCostVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::onEditDistanceCostVisualizer ), NULL, this );
 }
 
 AddPicturesDialog::~AddPicturesDialog()
@@ -267,7 +267,7 @@ AddPicturesDialog::~AddPicturesDialog()
 	btnZoomOut->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
-	btnEditDistanceCostVisualizer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::EditDistanceCostVisualizer ), NULL, this );
+	btnEditDistanceCostVisualizer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::onEditDistanceCostVisualizer ), NULL, this );
 	
 }
 

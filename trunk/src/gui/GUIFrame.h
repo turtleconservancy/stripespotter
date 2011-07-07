@@ -31,7 +31,6 @@
 #include <wx/textctrl.h>
 #include <wx/calctrl.h>
 #include <wx/spinctrl.h>
-
 ///////////////////////////////////////////////////////////////////////////
 
 #define idMenuQuit 1000
@@ -107,7 +106,7 @@ class AddPicturesDialog : public wxDialog
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveImage( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAcceptMatch( wxCommandEvent& event ) { event.Skip(); }
-		virtual void EditDistanceCostVisualizer( wxCommandEvent& event ) { event.Skip(); }
+		virtual void onEditDistanceCostVisualizer( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

@@ -1,6 +1,6 @@
-#include "wx_pcx.h"
+#include "wx_pch.h"
+#include "ImageFrame.h"
 #include "EditDistanceCostVisualizer.h"
-
 #ifndef WX_PRECOMP
 	//(*InternalHeadersPCH(EditDistanceCostVisualizer)
 	#include <wx/string.h>
@@ -25,7 +25,7 @@ EditDistanceCostVisualizer::EditDistanceCostVisualizer(wxWindow* parent,wxWindow
 	Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE, _T("id"));
 	SetClientSize(wxDefaultSize);
 	Move(wxDefaultPosition);
-	Panel1 = new wxPanel(this, ID_PANEL1, wxPoint(56,48), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+	IF = new ImageFrame(this);
 	//*)
 }
 
