@@ -231,6 +231,9 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	btnSaveAsOldAnimal = new wxButton( this, wxID_ANY, wxT("Accept match"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer201->Add( btnSaveAsOldAnimal, 1, wxALL|wxEXPAND, 5 );
 	
+	btnEditDistanceCostVisualizer = new wxButton( this, wxID_ANY, wxT("EditDistanceCostVisualizer"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer201->Add( btnEditDistanceCostVisualizer, 1, wxALL|wxEXPAND, 5 );
+
 	rightPane->Add( bSizer201, 0, wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	ifMatchDisplay = new ImageFrame(this);
@@ -250,6 +253,7 @@ AddPicturesDialog::AddPicturesDialog( wxWindow* parent, wxWindowID id, const wxS
 	btnZoomOut->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
+	btnEditDistanceCostVisualizer->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::EditDistanceCostVisualizer ), NULL, this );
 }
 
 AddPicturesDialog::~AddPicturesDialog()
@@ -263,7 +267,7 @@ AddPicturesDialog::~AddPicturesDialog()
 	btnZoomOut->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnZoomOut ), NULL, this );
 	btnSaveAsNewAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnSaveImage ), NULL, this );
 	btnSaveAsOldAnimal->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
-	btnEditDistanceVisualizer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::OnAcceptMatch ), NULL, this );
+	btnEditDistanceCostVisualizer->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AddPicturesDialog::EditDistanceCostVisualizer ), NULL, this );
 	
 }
 
