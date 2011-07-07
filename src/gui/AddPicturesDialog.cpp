@@ -15,6 +15,7 @@
 #include <exif.h>
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
+#include "EditDistanceCostVisualizer.h"
 extern PhotoDatabase db;
 
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
@@ -217,6 +218,11 @@ void DLGAddPictures::OnSearchResultSelected( wxListEvent &event ) {
 	ifMatchDisplay->loadImage(fname);
 	btnSaveAsOldAnimal->Enable();
 	event.Skip();
+}
+
+void DLGAddPictures::EditDistanceCostVisualizer(wxCommandEvent& event) {
+    EditDistanceCostVisualizer *EDCV = new EditDistanceCostVisualizer();
+    EDCV->Show(true);
 }
 
 void DLGAddPictures::OnZoomIn(wxCommandEvent& event) {

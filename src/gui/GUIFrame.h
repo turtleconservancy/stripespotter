@@ -90,10 +90,12 @@ class AddPicturesDialog : public wxDialog
 		wxListCtrl* lctrlIDResults;
 		wxButton* btnZoomIn;
 		wxButton* btnZoomOut;
+		wxButton* btnEditCostDistanceVisualizer;
 		InteractiveImageFrame *iifImageSlicer;
 		wxStaticText* txtMatchInfo;
 		wxButton* btnSaveAsNewAnimal;
 		wxButton* btnSaveAsOldAnimal;
+		wxButton* btnEditDistanceCostVisualizer;
 		ImageFrame *ifMatchDisplay;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -105,6 +107,7 @@ class AddPicturesDialog : public wxDialog
 		virtual void OnZoomOut( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveImage( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAcceptMatch( wxCommandEvent& event ) { event.Skip(); }
+		virtual void EditDistanceCostVisualizer( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
