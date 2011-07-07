@@ -18,7 +18,7 @@ class EditDistanceCostVisualizer: public wxDialog
 		virtual ~EditDistanceCostVisualizer();
 
 		//(*Declarations(EditDistanceCostVisualizer)
-		wxPanel* Panel1;
+		ImageFrame* IF;
 		//*)
 
 	protected:

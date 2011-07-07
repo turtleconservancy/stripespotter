@@ -220,8 +220,8 @@ void DLGAddPictures::OnSearchResultSelected( wxListEvent &event ) {
 	event.Skip();
 }
 
-void DLGAddPictures::EditDistanceCostVisualizer(wxCommandEvent& event) {
-    EditDistanceCostVisualizer *EDCV = new EditDistanceCostVisualizer();
+void DLGAddPictures::onEditDistanceCostVisualizer(wxCommandEvent& event) {
+    EditDistanceCostVisualizer *EDCV = new EditDistanceCostVisualizer(0L);
     EDCV->Show(true);
 }
 
