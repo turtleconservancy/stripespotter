@@ -23,6 +23,7 @@ class DLGAddPictures : public AddPicturesDialog {
 		virtual void OnSearchResultSelected( wxListEvent &event );
 		virtual void OnAcceptMatch(wxCommandEvent &event);
 		virtual void onEditDistanceCostVisualizer(wxCommandEvent &event);
+		static  string TrimFileName(string& path);
 
     public:
         DLGAddPictures(wxWindow* parent);
