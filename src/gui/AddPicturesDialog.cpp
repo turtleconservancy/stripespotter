@@ -15,9 +15,8 @@
 #include <exif.h>
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
-#include "EditDistanceCostVisualizer.h"
 extern PhotoDatabase db;
-
+string selectedItem;
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
 	imgList = new wxImageList(THUMB_W, THUMB_H, false);
 	lctrlIDResults->SetImageList(imgList, wxIMAGE_LIST_NORMAL);
@@ -51,6 +50,9 @@ void DLGAddPictures::OnListItemSelected(wxListEvent& event) {
         return;
     }
     wxString filePath = item.GetText();
+    char buf[100];
+    strcpy(buf, (const char*) item.GetText().mb_str(wxConvUTF8) );
+    selectedItem = buf;
 
     // See if the thing has a damn timestamp
     item.SetColumn(1);
@@ -219,11 +221,28 @@ void DLGAddPictures::OnSearchResultSelected( wxListEvent &event ) {
 	btnSaveAsOldAnimal->Enable();
 	event.Skip();
 }
-
-void DLGAddPictures::onEditDistanceCostVisualizer(wxCommandEvent& event) {
-    EditDistanceCostVisualizer *EDCV = new EditDistanceCostVisualizer(0L);
-    EDCV->Show(true);
+string DLGAddPictures::TrimFileName(string& path){
+          string filename;
+          size_t pos = path.find_last_of("\\");
+          if(pos != string::npos)
+            filename.assign(path.begin() + pos + 1, path.end());
+          else
+            filename = path;
+          return filename;
 }
+void DLGAddPictures::onEditDistanceCostVisualizer(wxCommandEvent& event) {
+for(map<int,PhotoInfo*>::iterator it=db.photo_to_info.begin();it!=db.photo_to_info.end();it++) {
+
+          string path = it->second->original_filename;
+          path = TrimFileName(path);
+          selectedItem = TrimFileName(selectedItem);
+          if(path.compare(selectedItem) == 0){
+            cout << path;
+            cout << it->second->roi;
+          }
+    }
+}
+
 
 void DLGAddPictures::OnZoomIn(wxCommandEvent& event) {
     iifImageSlicer->zoomIn();
