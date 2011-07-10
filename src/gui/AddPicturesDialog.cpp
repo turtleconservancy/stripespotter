@@ -16,7 +16,7 @@
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
 extern PhotoDatabase db;
-string selectedItem;
+wxString selectedItem;
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
 	imgList = new wxImageList(THUMB_W, THUMB_H, false);
 	lctrlIDResults->SetImageList(imgList, wxIMAGE_LIST_NORMAL);
@@ -50,10 +50,10 @@ void DLGAddPictures::OnListItemSelected(wxListEvent& event) {
         return;
     }
     wxString filePath = item.GetText();
-    char buf[100];
-    strcpy(buf, (const char*) item.GetText().mb_str(wxConvUTF8) );
-    selectedItem = buf;
-
+    
+    
+    selectedItem = item.GetText();
+    
     // See if the thing has a damn timestamp
     item.SetColumn(1);
     if(!lctrlFileList->GetItem(item)) {
@@ -221,23 +221,30 @@ void DLGAddPictures::OnSearchResultSelected( wxListEvent &event ) {
 	btnSaveAsOldAnimal->Enable();
 	event.Skip();
 }
-string DLGAddPictures::TrimFileName(string& path){
-          string filename;
-          size_t pos = path.find_last_of("\\");
-          if(pos != string::npos)
-            filename.assign(path.begin() + pos + 1, path.end());
-          else
-            filename = path;
-          return filename;
+wxString DLGAddPictures::TrimFileName(wxString& path){
+          wxString fileNameUnix = path.AfterLast((wxChar)'/');
+          wxString fileNameWin = path.AfterLast((wxChar)'\\');
+#ifdef WIN32
+            return fileNameWin;
+#else
+			return fileNameUnix;
+#endif
+}
+wxString DLGAddPictures::TrimFileNameW(wxString& path){
+          wxString fileNameUnix = path.AfterLast((wxChar)'/');
+          wxString fileNameWin = path.AfterLast((wxChar)'\\');
+          return fileNameWin;
 }
 void DLGAddPictures::onEditDistanceCostVisualizer(wxCommandEvent& event) {
 for(map<int,PhotoInfo*>::iterator it=db.photo_to_info.begin();it!=db.photo_to_info.end();it++) {
 
-          string path = it->second->original_filename;
-          path = TrimFileName(path);
+          wxString path = wxString::From8BitData(it->second->original_filename.c_str());
+          path = TrimFileNameW(path);
           selectedItem = TrimFileName(selectedItem);
-          if(path.compare(selectedItem) == 0){
-            cout << path;
+//          wxPrintf(path);
+//          wxPrintf(selectedItem);  
+          if(path.CompareTo(selectedItem) == 0){
+            
             cout << it->second->roi;
           }
     }
