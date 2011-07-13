@@ -7,6 +7,7 @@
  * License:
  **************************************************************/
 #include "wx_pch.h"
+#include "wx/msgdlg.h"
 #include <wx/progdlg.h>
 #include "parameters.h"
 #include "StripeCode.h"
@@ -241,10 +242,10 @@ for(map<int,PhotoInfo*>::iterator it=db.photo_to_info.begin();it!=db.photo_to_in
           wxString path = wxString::From8BitData(it->second->original_filename.c_str());
           path = TrimFileNameW(path);
           selectedItem = TrimFileName(selectedItem);
-//          wxPrintf(path);
-//          wxPrintf(selectedItem);  
           if(path.CompareTo(selectedItem) == 0){
-            
+	  wxString roi = wxString::FromAscii(it->second->roi.c_str());
+           wxMessageDialog *dialog = new wxMessageDialog( NULL, roi,roi, wxOK| wxICON_ERROR); 
+          dialog->ShowModal();
             cout << it->second->roi;
           }
     }
