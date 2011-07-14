@@ -17,7 +17,8 @@
 #include "AddPicturesDialog.h"
 #include "SavePictureDialog.h"
 extern PhotoDatabase db;
-wxString selectedItem;
+wxString selectedResult;
+
 DLGAddPictures::DLGAddPictures(wxWindow* parent) : AddPicturesDialog(parent) {
 	imgList = new wxImageList(THUMB_W, THUMB_H, false);
 	lctrlIDResults->SetImageList(imgList, wxIMAGE_LIST_NORMAL);
@@ -53,7 +54,6 @@ void DLGAddPictures::OnListItemSelected(wxListEvent& event) {
     wxString filePath = item.GetText();
     
     
-    selectedItem = item.GetText();
     
     // See if the thing has a damn timestamp
     item.SetColumn(1);
@@ -178,6 +178,7 @@ void DLGAddPictures::OnIdentifyAnimal( wxCommandEvent& event ) {
 	for(vector<pair<double,int> >::iterator it=searchResults.begin();it!=searchResults.end();it++) {
 		wxString fname;
 		fname.Printf(_("thumb-%07d.jpg"), it->second);
+
 		wxImage *img = new wxImage(fname);
 		if(!img || !img->IsOk())
 			wxMessageBox(fname, _("Cannot load result image."));
@@ -188,6 +189,7 @@ void DLGAddPictures::OnIdentifyAnimal( wxCommandEvent& event ) {
 		}
 		if(img)
 			delete img;
+        
 	}
 
 	lctrlIDResults->SetImageList(imgList, wxIMAGE_LIST_SMALL);
@@ -213,10 +215,11 @@ void DLGAddPictures::OnSearchResultSelected( wxListEvent &event ) {
     char status[1024];
     sprintf(status, "Rank %d: '%s' photo %d cost %f", idx+1, ptmp->animal_name.c_str(), result.second, result.first);
 	txtMatchInfo->SetLabel(wxString::FromAscii(status));
-
+    selectedResult = wxString::FromAscii(ptmp->original_filename.c_str());
     // Load the thumbnail
     wxString fname;
 	fname.Printf(_("img-%07d.jpg"), result.second);
+    
 	ifMatchDisplay->reset();
 	ifMatchDisplay->loadImage(fname);
 	btnSaveAsOldAnimal->Enable();
@@ -237,17 +240,28 @@ wxString DLGAddPictures::TrimFileNameW(wxString& path){
           return fileNameWin;
 }
 void DLGAddPictures::onEditDistanceCostVisualizer(wxCommandEvent& event) {
-for(map<int,PhotoInfo*>::iterator it=db.photo_to_info.begin();it!=db.photo_to_info.end();it++) {
-
-          wxString path = wxString::From8BitData(it->second->original_filename.c_str());
-          path = TrimFileNameW(path);
-          selectedItem = TrimFileName(selectedItem);
-          if(path.CompareTo(selectedItem) == 0){
-	  wxString roi = wxString::FromAscii(it->second->roi.c_str());
-           wxMessageDialog *dialog = new wxMessageDialog( NULL, roi,roi, wxOK| wxICON_ERROR); 
-          dialog->ShowModal();
-            cout << it->second->roi;
-          }
+    wxMessageDialog *dialogs = new wxMessageDialog( NULL, selectedResult,selectedResult, wxOK| wxICON_ERROR); 
+    dialogs->ShowModal();
+    selectedResult = TrimFileName(selectedResult);
+    selectedResult = TrimFileNameW(selectedResult);
+	for(map<int,PhotoInfo*>::iterator it=db.photo_to_info.begin();it!=db.photo_to_info.end();it++) {
+         wxString path = wxString::FromAscii(it->second->original_filename.c_str());
+         path = TrimFileNameW(path);
+         path = TrimFileName(path);
+         //wxMessageDialog *dialogs = new wxMessageDialog( NULL, path,path, wxOK| wxICON_ERROR); 
+         //dialogs->ShowModal();
+         if(path.Cmp(selectedResult)==0){
+           wxMessageDialog *dialog2s = new wxMessageDialog( NULL, path,path, wxOK| wxICON_ERROR); 
+           dialog2s->ShowModal();
+           wxMessageDialog *dialog3s = new wxMessageDialog( NULL, selectedResult,selectedResult, wxOK| wxICON_ERROR); 
+           dialog3s->ShowModal();
+            int x,y,w,h;
+            x=y=w=h=0;
+            wxString roi = wxString::FromAscii(it->second->roi.c_str());
+            wxMessageDialog *dialogs = new wxMessageDialog( NULL, roi,roi, wxOK| wxICON_ERROR); 
+            dialogs->ShowModal();
+            ifMatchDisplay->setSelectionBox(new wxRect(0,0,100,1000)); 
+         }
     }
 }
 
