@@ -32,13 +32,13 @@ Bibtex:
 
 == Installation Guide ==
 
-After completing the DownloadAndInstall guide the `StripeSpotter` program is now ready to accept a Dataset. One is located under [http://code.google.com/p/stripespotter/downloads/list Downloads], download all three files of the archive (*data.zip, data.z01, data.z02*) place them in the same directory.
+After completing the DownloadAndInstall guide the `StripeSpotter` program is now ready to accept a Dataset. One is located under [http://code.google.com/p/stripespotter/downloads/list Downloads], download all three files of the archive (*data-20110513.zip, data-20110513.z01, data-20110513.z02*) place them in the same directory.
 
 *1.* Locate the main directory that contains the *`StripeSpotterProgram`.exe* program file.
 
 *2.* If there is already a folder named "data", the contents of that directory *might be modified or replaced*. Create a *backup* of this directory if necessary before continuing to further steps. 
 
-*3.* Now open *"data.zip"* from the directory that has all three zip files (*data.zip, data.z01, data.z02*).
+*3.* Now open *"data-20110513.zip"*.
 
 *4.* You can directly unzip or "drag and drop" the zipped folder named "data" to the location of the *`StripeSpotterProgram`.exe*. If there is a folder already named "data", See step *2.*.
 
