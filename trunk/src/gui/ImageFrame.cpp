@@ -152,6 +152,7 @@ void ImageFrame::setSelectionBox(const wxRect *rct) {
     Refresh(true);
 }
 
+
 //
 // Returns the rectangle of the highlight box relative to the current viewport
 //
@@ -188,8 +189,6 @@ wxImage *ImageFrame::CloneImage(wxImage *src)   {
     wxImage *ret = new wxImage(w, h, data);
     return ret;
 }
-
-
 void InteractiveImageFrame::render(wxDC &dc) {
     wxCoord width, height;
     dc.GetSize(&width, &height);

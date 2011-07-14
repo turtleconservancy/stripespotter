@@ -53,7 +53,7 @@ class InteractiveImageFrame : public ImageFrame {
         wxImage *extractViewportImage();
 		wxImage *extractSelectionImage();	// cuts out and deep-copies the selection box
         wxRect *getSelectionBox();
-
+       
         void zoomIn();
         void zoomOut();
 
