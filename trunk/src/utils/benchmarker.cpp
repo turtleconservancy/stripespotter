@@ -117,7 +117,7 @@ void shuffle (std::vector<T> & deck) {
 }
 
 int read_sighting_data() {
-	const int FILENAME_MAXLEN=255;
+	const size_t FILENAME_MAXLEN=255;
 	char filename[FILENAME_MAXLEN+1];	// input dataset (output file of dataset compiler)
 	strncpy(filename, ARG_input, FILENAME_MAXLEN);
 
@@ -126,11 +126,18 @@ int read_sighting_data() {
 	while (*p!=0 && p<filename+FILENAME_MAXLEN) p++;
 	assert(p<filename+FILENAME_MAXLEN);
 	while (*p!='/' && *p!='\\' && p>filename) p--;
-	assert(p>=filename);
-	p++;
-	strncpy(p, "SightingData.csv", FILENAME_MAXLEN-(p-filename));
+    assert(p>=filename);
+    if (p==filename) {
+        strncpy(filename, "SightingData.csv", FILENAME_MAXLEN);
+    } else {
+        p++;
+        strncpy(p, "SightingData.csv", FILENAME_MAXLEN-(p-filename));
+    }
 	FILE *fp = fopen(filename, "r");
-	if (fp==NULL) return 0;
+	if (fp==NULL) {
+        printf("Cannot open file %s\n", filename);
+        return 0;
+    }
 
 	// read line by line
 	const int buf_size=1024;
@@ -165,8 +172,10 @@ int read_sighting_data() {
 int read_dataset() {
 	// read and parse image features
 	FILE *fp = fopen(ARG_input, "r");
-	if(!fp)
-		return printf("Cannot open '%s'\n", ARG_input);
+    if(!fp) {
+        fprintf(stderr, "Cannot open '%s'\n", ARG_input);
+        return 0;
+    }
 	const int buf_size = 4096;
 	char buf[buf_size+1]; int line = 0;
 	int no_animal_name_error_count=0;
@@ -221,7 +230,7 @@ int read_dataset() {
 			animal_to_photos[aname].push_back(photoid);
 			photo_to_features[photoid] = imgFeatures;
 			imgFeatures = imgFeatures->clone();
-		}
+        }
 	}
 	if (no_animal_name_error_count) {
 		fprintf(stderr, "WARNING Cannot find animal name in %d from %d picture(s). ",
