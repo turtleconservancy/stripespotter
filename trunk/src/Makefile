@@ -3,6 +3,12 @@
 OS_NAME:=$(shell uname)
 VPATH:=core db exif gui utils
 BUILDDIR:=build
+
+# debugging build. The thing is Magick++-config produces the -O2 flag
+#CXXFLAGS:=-g $(addprefix -I,$(VPATH)) -pipe -D_THREAD_SAFE -pthread -I/usr/lib/wx/include/mac-unicode-debug-2.8 -I/usr/include/wx-2.8 -D_FILE_OFFSET_BITS=64 -D_LARGE_FILES -D__WXDEBUG__ -D__WXMAC__
+#LDFLAGS:=-g -L/opt/local/lib -lMagick++ -lMagickWand -lMagickCore -llcms -ltiff -lfreetype -ljpeg -L/opt/local/lib -lfontconfig -lXext -lSM -lICE -lX11 -lXt -llzma -lbz2 -lz -lm -lgomp -lclparser -Wl,-framework,OpenCL -L/System/Library/Frameworks/OpenCL.framework/Versions/A/Libraries -lm -lpthread -lltdl -framework IOKit -framework Carbon -framework Cocoa -framework System -framework QuickTime -framework OpenGL -framework AGL  -lwx_macud-2.8 
+
+# production build
 CXXFLAGS:=-O3 $(addprefix -I,$(VPATH)) $(shell Magick++-config --cxxflags; wx-config --cxxflags)
 LDFLAGS:=-O3 $(shell Magick++-config --libs; wx-config --libs)
 
