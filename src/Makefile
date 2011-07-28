@@ -3,8 +3,8 @@
 OS_NAME:=$(shell uname)
 VPATH:=core db exif gui utils
 BUILDDIR:=build
-CXXFLAGS:=-O3 $(addprefix -I,$(VPATH)) $(shell wx-config --cxxflags)
-LDFLAGS:=-O3 $(shell wx-config --libs)
+CXXFLAGS:=-O3 $(addprefix -I,$(VPATH)) $(shell Magick++-config --cxxflags; wx-config --cxxflags)
+LDFLAGS:=-O3 $(shell Magick++-config --libs; wx-config --libs)
 
 ifeq ($(OS_NAME),Darwin)
 	CXXFLAGS:=$(CXXFLAGS) -arch i386
