@@ -297,10 +297,10 @@ void sample_db_query_pair(int dbsize) {
 		for(int i = ARG_ipa; i < (int)photolist.size(); i++)
 			remainder.push_back(photolist[i]);
 	}
-
 	// choose query image
-	QUERY = remainder[RNG.genrand_real2()*remainder.size()];
-
+    while( QUERY >= dbsize){
+	    QUERY = remainder[RNG.genrand_real2()*remainder.size()];
+    }
     // sanity check to make sure DB does not contain query
     for(unsigned i = 0; i < DB.size(); i++)
         assert(DB[i] != QUERY);
