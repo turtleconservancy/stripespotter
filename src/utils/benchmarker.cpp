@@ -281,6 +281,7 @@ int read_dataset() {
 //   QUERY   - query image (global)
 //   DB      - database of photo IDs(global)
 void sample_db_query_pair(int dbsize) {
+    assert(dbsize>0);
 	QUERY = -1;
 	DB.clear();
 
@@ -298,9 +299,10 @@ void sample_db_query_pair(int dbsize) {
 			remainder.push_back(photolist[i]);
 	}
 	// choose query image
-    while( QUERY >= dbsize){
-	    QUERY = remainder[RNG.genrand_real2()*remainder.size()];
-    }
+    int index = RNG.genrand_real2()*remainder.size();
+    assert(index>=0);
+    assert(index<remainder.size());
+    QUERY = remainder[index];
     // sanity check to make sure DB does not contain query
     for(unsigned i = 0; i < DB.size(); i++)
         assert(DB[i] != QUERY);
@@ -409,6 +411,8 @@ int main(int argc, char *argv[]) {
 	for(float dbfrac = 0.2; dbfrac <= 1.01; dbfrac += 0.2) {
 		// database size (number of animals)
 		int dbsize = dbfrac * (float)animal_to_photos.size();
+        if (dbsize==0) continue;
+        assert(dbsize>0);
 
 		// random trials (uniformly sample from space of databases and queries)
 		for(int trial = 0; trial < ARG_trials; trial++) {
