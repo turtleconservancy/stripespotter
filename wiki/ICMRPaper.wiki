@@ -19,9 +19,9 @@ We also provide four scripts for the free [http://www.r-project.org/ R statistic
 The data files used to generate the figures in the ACM ICMR paper may be found in the [http://code.google.com/p/stripespotter/source/browse/trunk icmr branch of the repository]. The following command sequence will generate figures similar to ones in the paper (run `Benchmarker --help` to get the full range of options, including the INDEL cost):
 
 {{{
-Benchmarker  --input StripeCodes.txt  --ipa 1 --method stripecode  --trials 500 > result-StripeCodes.txt
-Benchmarker  --input StripeCodes.txt  --ipa 1 --method random  --trials 5000 > result-random.txt
-Benchmarker  --input MRHistograms.txt  --ipa 1 --method mrhisto  --trials 5000 > result-MRHistograms.txt
+benchmarker  --input StripeCodes.txt  --ipa 1 --method stripecode  --trials 500 > result-StripeCodes.txt
+benchmarker  --input StripeCodes.txt  --ipa 1 --method random  --trials 5000 > result-random.txt
+benchmarker  --input MRHistograms.txt  --ipa 1 --method mrhisto  --trials 5000 > result-MRHistograms.txt
 }}}
 
 The three commands above run a series of randomized retrieval experiments (using a time-based numeric seed), storing the correct ranks of the query animal in the `result-XXX` files. These files can be analyzed using the `plot-MRR.R` and `plot-MeanRank.R` R scripts in the same directory.
