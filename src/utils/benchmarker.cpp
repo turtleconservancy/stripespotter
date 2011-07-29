@@ -38,20 +38,20 @@ CMDLINE_PARAMETERS cmd[] = {
 	    "algorithm ('random', 'stripecode', 'mrhisto')" },
 	{ "--trials", CMDLINE_INTEGER, &ARG_trials, 5, 50000, 0,
 	    "number of random trials" },
-	{ "--quiet", CMDLINE_BINARY, &ARG_quiet, 0, 1, 0,
+	{ "--quiet", CMDLINE_TRUE, &ARG_quiet, 0, 1, 0,
 		"non-interactive mode" },
 	{ "--seed", CMDLINE_INTEGER, &ARG_randseed, 0, 100000, 0,
 		"random seed" },
-    { "--sc:avg", CMDLINE_BINARY, &ARG_sc_avg_cost, 0, 1, 0,
-        "StripeCode: distance = average cost over StripeStrings (as opposed to min cost)" },
+    { "--sc:avg", CMDLINE_TRUE, &ARG_sc_avg_cost, 0, 1, 0,
+        "StripeCode: distance = average cost over StripeStrings (default)" },
+    { "--sc:min", CMDLINE_FALSE, &ARG_sc_avg_cost, 0, 1, 0,
+        "StripeCode: distance = min cost over StripeStrings" },
     { "--sc:INDELCOST", CMDLINE_DOUBLE, &ARG_sc_del_cost, 0, 10, 0,
         "StripeCode: delete cost (usually a real in [0,1])" },
-    { "--explore", CMDLINE_BINARY, &ARG_exploratory, 0, 1, 0,
+    { "--explore", CMDLINE_TRUE, &ARG_exploratory, 0, 1, 0,
         "exploratory mode (no experiments)"   },
-    {
-      "--sc:abslen", CMDLINE_BINARY, &ARG_sc_use_abslen, 0, 1, 0,
-         "StripeCode: use normalized absolute lengths, not ratios"
-    },
+    { "--sc:abslen", CMDLINE_TRUE, &ARG_sc_use_abslen, 0, 1, 0,
+         "StripeCode: use normalized absolute lengths, not ratios" },
 	{ "--help", CMDLINE_HELP, NULL, 0, 0, 0, "" },
 	{ NULL, 0, NULL, 0, 0, 0, NULL }
 };

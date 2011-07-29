@@ -209,7 +209,8 @@ static void showUsage(CMDLINE_PARAMETERS *parameters, char *argv0)	{
 			case CMDLINE_DOUBLE:  printf("<real>              "); break;
 			case CMDLINE_STRING:  printf("<string>            "); break;
 			case CMDLINE_HELP:
-			case CMDLINE_BINARY:  printf("                    "); break;
+			case CMDLINE_TRUE:
+			case CMDLINE_FALSE:   printf("                    "); break;
 		}
 		printf("(required: %s) %s\n", p->required?"yes":"no", p->description);
 	}
@@ -230,10 +231,12 @@ int ParseCommandLine(int argc, char **argv, CMDLINE_PARAMETERS *parameters)	{
 			return 0;
 		}
 
-		/* type CMDLINE_BINARY has no argument */
-		if(p->arg_type == CMDLINE_BINARY || p->arg_type == CMDLINE_HELP)	{
-			if(p->arg_type == CMDLINE_BINARY)
+		/* type CMDLINE_TRUE and CMDLINE_FALSE have no argument */
+		if(p->arg_type == CMDLINE_TRUE || p->arg_type == CMDLINE_TRUE || p->arg_type == CMDLINE_HELP)	{
+			if(p->arg_type == CMDLINE_TRUE)
 				*((int *)p->where_to) = 1;
+            else if(p->arg_type == CMDLINE_FALSE)
+				*((int *)p->where_to) = 0;
 			else	{
 				showUsage(parameters, argv[0]);
 				return 0;
