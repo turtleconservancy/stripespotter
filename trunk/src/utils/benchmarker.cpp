@@ -367,8 +367,7 @@ int main(int argc, char *argv[]) {
 	if(!strcmp(ARG_algorithm, "stripecode")) {
 		db_query  = db_query_generic;
 		imgFeatures= new StripeCode();
-		if(ARG_sc_avg_cost)
-            StripeCode::RETMINCOST = false;
+        StripeCode::RETMINCOST = !ARG_sc_avg_cost;
         StripeCode::INDELCOST = ARG_sc_del_cost;
         StripeCode::USERATIOS = !ARG_sc_use_abslen;
 	} else {
